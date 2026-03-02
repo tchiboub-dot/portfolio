@@ -57,16 +57,16 @@ export default function Certifications() {
           align="center"
         />
         
-        {/* Grid uniforme 2-3 colonnes */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Grid uniforme desktop 2 colonnes, mobile 1 colonne */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {certificationsData.map((cert, index) => (
             <Card 
               key={index} 
               className="flex flex-col h-full"
             >
-              {/* IMAGE ZONE - FIXE 16:9 RATIO */}
+              {/* IMAGE ZONE - FIXE 16:9 RATIO, PLUS GRANDE */}
               <div
-                className="relative w-full aspect-video bg-white rounded-lg overflow-hidden mb-4 cursor-pointer group border border-border/50 shadow-sm"
+                className="relative w-full aspect-video bg-white rounded-lg overflow-hidden mb-6 cursor-pointer group border border-border-light shadow-sm hover:shadow-md transition-all duration-normal"
                 onClick={() => setSelectedImage(cert.image)}
               >
                 {/* Image - object-fit contain */}

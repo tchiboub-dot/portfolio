@@ -17,40 +17,40 @@ export default function Button({
   ...props
 }) {
   const baseStyles = `
-    font-semibold transition-all 
-    border rounded-button 
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary
+    font-semibold transition-all ease-out
+    border rounded-[12px] 
+    focus-visible:outline-offset-2
     disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
     inline-flex items-center justify-center gap-2
-    active:scale-95
+    active:scale-95 active:duration-75
+    min-h-[44px]
   `
 
   const variants = {
     primary: `
       bg-primary text-white hover:bg-primary-hover 
-      border-primary shadow-medium hover:shadow-default
-      focus-visible:ring-2 focus-visible:ring-primary-soft
+      border-primary shadow-sm hover:shadow-md
+      focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
     secondary: `
-      bg-surface text-primary border-primary
-      hover:bg-primary-soft hover:border-primary
-      focus-visible:ring-2 focus-visible:ring-primary-soft
+      bg-surface text-primary border-border-light
+      hover:bg-primary-soft hover:border-primary/50
+      focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
     soft: `
       bg-primary-soft text-primary border-transparent
-      hover:bg-primary hover:text-white
-      focus-visible:ring-2 focus-visible:ring-primary
+      hover:bg-primary/20 hover:border-primary/40
+      focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary
     `,
     danger: `
-      bg-danger text-white hover:bg-red-700
-      border-danger shadow-medium hover:shadow-default
-      focus-visible:ring-2 focus-visible:ring-danger
+      bg-danger text-white hover:bg-red-700 
+      border-danger shadow-sm hover:shadow-md
+      focus-visible:outline-2 focus-visible:outline-danger focus-visible:ring-2 focus-visible:ring-danger/20
     `,
     outline: `
-      bg-transparent text-text border-border
-      hover:border-primary hover:text-primary
-      hover:bg-primary-soft
-      focus-visible:ring-2 focus-visible:ring-primary-soft
+      bg-transparent text-text border-border-light
+      hover:border-primary hover:bg-primary-soft hover:text-primary
+      focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
   }
 

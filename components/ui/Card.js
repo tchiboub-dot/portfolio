@@ -1,18 +1,20 @@
 'use client'
 
-/*
- * MODERN CARD COMPONENT
- * Dark theme cohesive styling with proper contrast
- * Uses CSS variables for surface colors
+/**
+ * PREMIUM CARD COMPONENT
+ * - Refined borders with light accent color
+ * - Softer shadows with subtle hover elevation
+ * - Smooth transitions respecting motion preferences
+ * - Maintains design consistency across portfolio
  */
 export default function Card({ children, className = '', hover = true, ...props }) {
   return (
     <div
       className={`
-        bg-surface border border-border
-        rounded-card shadow-medium
-        p-6 transition-all duration-normal
-        ${hover ? 'hover:shadow-default hover:scale-105' : ''}
+        bg-surface border border-border-light
+        rounded-lg shadow-sm
+        p-6 md:p-8 transition-all ease-out duration-normal
+        ${hover ? 'hover:border-primary/40 hover:shadow-md hover:-translate-y-1' : ''}
         ${className}
       `}
       {...props}
