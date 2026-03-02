@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { FaCertificate, FaEye } from 'react-icons/fa'
+import { FaCertificate, FaEye, FaTimes } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
@@ -56,93 +56,125 @@ export default function Certifications() {
           subtitle="Certifications professionnelles et formations complétées"
           align="center"
         />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        {/* Grid uniforme 2-3 colonnes */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {certificationsData.map((cert, index) => (
-            <Card key={index} className="flex flex-col h-full overflow-hidden">
-              {/* Thumbnail image */}
-              <div 
-                className="relative w-full h-48 cursor-pointer group overflow-hidden rounded-lg mb-4"
+            <Card 
+              key={index} 
+              className="flex flex-col h-full"
+            >
+              {/* IMAGE ZONE - FIXE 16:9 RATIO */}
+              <div
+                className="relative w-full aspect-video bg-surface-2 rounded-lg overflow-hidden mb-4 cursor-pointer group border border-border/50"
                 onClick={() => setSelectedImage(cert.image)}
               >
+                {/* Fond pour les images blanches */}
+                <div className="absolute inset-0 bg-white" />
+                
+                {/* Image - object-fit contain pour ne pas couper */}
                 <Image
                   src={cert.image}
-                  alt={cert.title}
-                  width={400}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  alt={`Certificat - ${cert.title}`}
+                  width={600}
+                  height={337}
+                  className="w-full h-full object-contain p-2"
                   quality={85}
                 />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white font-medium">
-                    <FaEye className="w-4 h-4" />
-                    Voir
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white font-medium text-sm">
+                      <FaEye className="w-4 h-4" />
+                      Voir en grand
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Certification info */}
-              <div className="flex-1 flex flex-col">
-                <h3 className="text-lg font-bold text-heading mb-1 line-clamp-2">
-                  {cert.title}
-                </h3>
-                <p className="text-sm text-primary font-medium mb-3">
-                  {cert.organization}
-                </p>
+              {/* CONTENU - STRUCTURE FIXE */}
+              <div className="flex-1 flex flex-col gap-4">
+                {/* TITRE - Zone dédiée, clamp 2 lignes */}
+                <div className="min-h-16">
+                  <h3 className="text-lg font-bold text-heading leading-tight line-clamp-2">
+                    {cert.title}
+                  </h3>
+                </div>
 
-                {/* Date and ID */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">📅</span>
-                    <div>
-                      <p className="text-xs text-muted">Date d'obtention</p>
-                      <p className="text-sm font-medium text-heading">
-                        {cert.date}
-                      </p>
-                    </div>
-                  </div>
+                {/* ORGANISATION - Secondaire */}
+                <div className="pb-2 border-b border-border/30">
+                  <p className="text-sm font-medium text-primary hover:text-primary-hover transition-colors">
+                    {cert.organization}
+                  </p>
+                </div>
 
-                  <div className="bg-primary-soft p-3 rounded-lg">
-                    <p className="text-xs text-muted mb-1">ID Certification</p>
-                    <p className="text-sm font-mono font-medium text-heading break-all">
-                      {cert.certificateId}
+                {/* DATE - Compact */}
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-base">📅</span>
+                  <div className="flex-1">
+                    <p className="text-xs text-muted">Date d'obtention</p>
+                    <p className="text-sm font-medium text-heading">
+                      {cert.date}
                     </p>
                   </div>
                 </div>
 
-                {/* Verified badge */}
-                <Badge variant="success" className="justify-center w-full mt-3">
-                  <FaCertificate className="w-3 h-3 mr-1" />
-                  Vérifiée
-                </Badge>
+                {/* ID CERTIFICATION - Encadré */}
+                <div className="bg-primary-soft border border-primary/20 p-3 rounded-lg">
+                  <p className="text-xs text-muted mb-1 font-medium">ID Certification</p>
+                  <p className="text-sm font-mono text-heading font-semibold break-all">
+                    {cert.certificateId}
+                  </p>
+                </div>
+
+                {/* BADGE - Sticky en bas */}
+                <div className="mt-auto pt-2">
+                  <Badge variant="success" className="w-full justify-center">
+                    <FaCertificate className="w-3.5 h-3.5 mr-2" />
+                    Vérifiée
+                  </Badge>
+                </div>
               </div>
             </Card>
           ))}
         </div>
       </div>
 
-      {/* Modal para ver certificado completo */}
+      {/* MODAL FULLSCREEN */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="relative max-w-4xl max-h-[90vh] w-full h-auto">
+          <div className="relative w-full max-w-5xl max-h-[90vh]">
+            {/* Bouton Fermer */}
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-10 right-0 text-white text-2xl font-bold hover:text-primary transition-colors"
+              className="absolute -top-12 right-0 text-white hover:text-primary transition-colors text-xl font-bold z-10 flex items-center gap-2"
+              aria-label="Fermer le modal"
             >
-              ✕ Fermer
+              <FaTimes className="w-5 h-5" />
+              <span className="text-sm">Fermer</span>
             </button>
-            <Image
-              src={selectedImage}
-              alt="Certificat agrandit"
-              width={1200}
-              height={800}
-              className="w-full h-auto rounded-lg shadow-lg"
-              quality={95}
-              priority
-            />
+
+            {/* Image Agrandie */}
+            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+              <Image
+                src={selectedImage}
+                alt="Certificat à plein écran"
+                width={1600}
+                height={1000}
+                className="w-full h-auto"
+                quality={95}
+                priority
+              />
+            </div>
+
+            {/* Info supplémentaire */}
+            <div className="text-center mt-4 text-white text-sm">
+              <p>Cliquez en arrière-plan pour fermer</p>
+            </div>
           </div>
         </div>
       )}
