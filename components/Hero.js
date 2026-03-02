@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
 
 /**
@@ -10,13 +11,14 @@ import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
 export default function Hero() {
   // DONNÉES DE LA SECTION HERO - MODIFIEZ ICI
   const heroData = {
-    name: 'T.A.C',
+    name: 'Chiboub Taha Adnane',
     title: 'Étudiant en Informatique (1ère année) — ESISA Fes',
     subtitle: 'Développeur Web Junior | Passionné par la Cybersécurité & l\'IA',
     description: 'Je crée des applications web modernes, responsives et centrées sur l\'expérience utilisateur. Ouvert aux opportunités de stage et missions freelance.',
     email: 'taha.adnane.chiboub@gmail.com',
     github: 'https://github.com/tchiboub-dot',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
+    photo: '/photo-profil.jpg', // Remplacez par le chemin de votre photo
   }
 
   return (
@@ -26,6 +28,17 @@ export default function Hero() {
     >
       <div className="container mx-auto px-4 text-center">
         <div className="animate-fade-in-up">
+          {/* Photo de profil */}
+          <div className="mb-8">
+            <Image
+              src={heroData.photo}
+              alt={heroData.name}
+              width={200}
+              height={200}
+              className="w-48 h-48 rounded-full mx-auto object-cover shadow-xl border-4 border-primary"
+            />
+          </div>
+
           {/* Nom */}
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-4">
             {heroData.name}
