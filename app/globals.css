@@ -397,25 +397,45 @@ textarea::placeholder {
 .glass-card::before {
   content: '';
   position: absolute;
-  inset: -14px;
+  inset: -5px;
   border-radius: inherit;
-  background: radial-gradient(
-    circle,
-    rgba(59, 130, 246, 0) 58%,
-    rgba(59, 130, 246, 0.16) 68%,
-    rgba(34, 211, 238, 0.14) 75%,
-    rgba(34, 211, 238, 0) 84%
-  );
-  filter: blur(10px);
-  opacity: 0.18;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.38) 0%, rgba(34, 211, 238, 0.34) 50%, rgba(59, 130, 246, 0.38) 100%);
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(1px);
+  opacity: 0.16;
   z-index: -1;
   pointer-events: none;
+  animation: halo-gradient-shift 9s ease-in-out infinite;
+  transition: opacity var(--duration-normal), filter var(--duration-normal), transform var(--duration-normal);
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, rgba(34, 211, 238, 0.16) 50%, transparent 75%);
+  filter: blur(12px);
+  opacity: 0.1;
+  z-index: -2;
+  pointer-events: none;
+  animation: halo-glow-pulse 6s ease-in-out infinite;
   transition: opacity var(--duration-normal), filter var(--duration-normal), transform var(--duration-normal);
 }
 
 .glass-card:hover::before {
-  opacity: 0.28;
-  filter: blur(12px);
+  opacity: 0.24;
+  filter: blur(2px);
+  transform: scale(1.005);
+}
+
+.glass-card:hover::after {
+  opacity: 0.18;
+  filter: blur(14px);
   transform: scale(1.01);
 }
 
@@ -615,11 +635,22 @@ textarea::placeholder {
 
 /* Respecter les préférences de mouvement de l'utilisateur */
 @media (prefers-reduced-motion: reduce) {
+  .glass-card::before,
+  .glass-card::after,
   .avatar-glow-ring {
     animation: none;
+  }
+
+  .glass-card::after {
+    filter: blur(10px);
+  }
+
+  .avatar-glow-ring {
     filter: blur(12px);
   }
   
+  .glass-card:hover::before,
+  .glass-card:hover::after,
   .avatar-container:hover .avatar-glow-ring {
     animation: none;
   }
