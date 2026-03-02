@@ -34,22 +34,25 @@
   --warning: #F59E0B;
   
   /* Shadows - Softer, more refined */
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow: 0 14px 34px rgba(2, 8, 23, 0.32);
+  --shadow-md: 0 8px 22px rgba(2, 8, 23, 0.24);
+  --shadow-sm: 0 3px 10px rgba(2, 8, 23, 0.18);
   --shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 22px;
+  --radius-sm: 16px;
+  --radius-input: 14px;
   --radius-lg: 20px;
   
-  --duration-fast: 150ms;
-  --duration-normal: 200ms;
+  --duration-fast: 200ms;
+  --duration-normal: 240ms;
   --duration-slow: 300ms;
   
   /* Borders */
   --border: #1E293B;
   --border-light: #334155;
+  --border-glass: rgba(248, 250, 252, 0.1);
+  --surface-glass: rgba(16, 23, 43, 0.72);
   
   /* Typography */
   --line-height-tight: 1.4;
@@ -104,6 +107,7 @@ html {
 
 body {
   background-color: var(--bg);
+  background-image: radial-gradient(1200px 600px at 15% 0%, rgba(59, 130, 246, 0.1), transparent 55%), radial-gradient(1000px 520px at 85% 10%, rgba(34, 211, 238, 0.06), transparent 58%);
   color: var(--text);
   transition: background-color var(--duration-normal), color var(--duration-normal);
   -webkit-font-smoothing: antialiased;
@@ -240,12 +244,13 @@ button:focus, [role="button"]:focus {
 input, textarea, select {
   font-family: inherit;
   font-size: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-input);
   padding: 12px 14px;
-  background-color: var(--surface);
+  background-color: rgba(16, 23, 43, 0.68);
+  backdrop-filter: blur(10px);
   color: var(--text);
-  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  transition: border-color var(--duration-normal), box-shadow var(--duration-normal), background-color var(--duration-normal);
 }
 
 input:focus, textarea:focus, select:focus {
@@ -342,18 +347,25 @@ textarea::placeholder {
 
 /* ================= CARD BASE STYLES ================= */
 .card-base {
-  background: var(--surface);
-  border: 1px solid var(--border-light);
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
   border-radius: var(--radius);
-  padding: 24px;
+  backdrop-filter: blur(10px);
+  padding: 28px;
   transition: all var(--duration-normal);
   position: relative;
 }
 
 .card-base:hover {
-  border-color: var(--primary);
+  border-color: rgba(59, 130, 246, 0.28);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow);
+}
+
+.glass-card {
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(10px);
 }
 
 /* ================= GRADIENT BACKGROUND ================= */

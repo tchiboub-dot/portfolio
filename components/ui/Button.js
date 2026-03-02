@@ -18,7 +18,7 @@ export default function Button({
 }) {
   const baseStyles = `
     font-semibold transition-all ease-out
-    border rounded-[12px] 
+    border rounded-[16px] 
     focus-visible:outline-offset-2
     disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
     inline-flex items-center justify-center gap-2
@@ -29,7 +29,7 @@ export default function Button({
   const variants = {
     primary: `
       bg-primary text-white hover:bg-primary-hover 
-      border-primary shadow-sm hover:shadow-md
+      border-primary shadow-sm hover:shadow-md hover:brightness-105
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
     secondary: `
@@ -49,7 +49,7 @@ export default function Button({
     `,
     outline: `
       bg-transparent text-text border-border-light
-      hover:border-primary hover:bg-primary-soft hover:text-primary
+      hover:border-primary hover:bg-primary-soft hover:text-primary hover:shadow-sm
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
   }
@@ -68,7 +68,7 @@ export default function Button({
   `.replace(/\s+/g, ' ').trim()
 
   const style = {
-    transitionDuration: 'var(--duration-fast)',
+    transitionDuration: 'var(--duration-normal)',
   }
 
   if (href) {

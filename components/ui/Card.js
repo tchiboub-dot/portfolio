@@ -11,10 +11,10 @@ export default function Card({ children, className = '', hover = true, ...props 
   return (
     <div
       className={`
-        bg-surface border border-border-light
-        rounded-lg shadow-sm
-        p-6 md:p-8 transition-all ease-out duration-normal
-        ${hover ? 'hover:border-primary/40 hover:shadow-md hover:-translate-y-1' : ''}
+        glass-card
+        rounded-[22px] shadow-sm
+        p-7 md:p-8 transition-all ease-out duration-normal
+        ${hover ? 'hover:border-primary/30 hover:shadow-default hover:-translate-y-[3px]' : ''}
         ${className}
       `}
       {...props}

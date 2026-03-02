@@ -81,7 +81,7 @@ export default function Contact() {
               {/* Email */}
               <a
                 href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaEnvelope className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
@@ -95,7 +95,7 @@ export default function Contact() {
                 href={contactData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaLinkedin className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
@@ -109,7 +109,7 @@ export default function Contact() {
                 href={contactData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaGithub className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
@@ -164,7 +164,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-sm focus:border-primary focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-colors"
+                    className="w-full px-4 py-3 bg-surface/70 border border-white/10 rounded-[14px] focus:border-primary/60 focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-all duration-normal"
                     placeholder="Votre nom"
                   />
                 </div>
@@ -181,7 +181,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-sm focus:border-primary focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-colors"
+                    className="w-full px-4 py-3 bg-surface/70 border border-white/10 rounded-[14px] focus:border-primary/60 focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-all duration-normal"
                     placeholder="votre.email@exemple.com"
                   />
                 </div>
@@ -198,7 +198,7 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-sm focus:border-primary focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-colors"
+                    className="w-full px-4 py-3 bg-surface/70 border border-white/10 rounded-[14px] focus:border-primary/60 focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-all duration-normal"
                     placeholder="Sujet de votre message"
                   />
                 </div>
@@ -215,7 +215,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows="5"
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-sm focus:border-primary focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-surface/70 border border-white/10 rounded-[14px] focus:border-primary/60 focus:ring-2 focus:ring-primary-soft text-text placeholder-muted transition-all duration-normal resize-none"
                     placeholder="Votre message..."
                   ></textarea>
                 </div>
