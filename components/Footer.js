@@ -118,10 +118,10 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             {/* Copyright */}
             <p className="text-text text-center md:text-left mb-4 md:mb-0">
-              © {currentYear} {footerData.name}. Tous droits réservés.
+              © {currentYear} T.A.C — Taha Adnane CHIBOUB. Tous droits réservés.
             </p>
 
-            {/* Message */}
+            {/* Made with */}
             <p className="text-text flex items-center">
               Fait avec <FaHeart className="text-red-500 mx-2" /> et Next.js
             </p>
