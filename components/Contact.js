@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
 
 /**
- * COMPOSANT CONTACT
- * Section de contact avec formulaire et informations
- * Pour modifier les informations, changez les valeurs dans l'objet contactData ci-dessous
+ * COMPOSANT CONTACT SÉCURISÉ
+ * Section de contact avec formulaire protégé contre le spam et les abus
+ * Inclut : honeypot, rate limiting client, validation, sanitization
  */
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -17,8 +17,12 @@ export default function Contact() {
     email: '',
     subject: '',
     message: '',
+    website: '', // Honeypot field (caché)
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -27,34 +31,111 @@ export default function Contact() {
     availability: 'Ouvert aux opportunités de stage et missions freelance',
   }
 
+  // Validation côté client
+  const validateForm = () => {
+    const { name, email, subject, message } = formData
+
+    // Vérifier que tous les champs sont remplis
+    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
+      setErrorMessage('Tous les champs sont requis')
+      return false
+    }
+
+    // Validation de l'email
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Email invalide')
+      return false
+    }
+
+    // Vérifier les longueurs max
+    if (name.length > 100 || email.length > 150 || subject.length > 200 || message.length > 2000) {
+      setErrorMessage('Un ou plusieurs champs sont trop longs')
+      return false
+    }
+
+    // Détection basique de spam
+    const spamPatterns = /(viagra|cialis|casino|lottery)/i
+    if (spamPatterns.test(name + subject + message)) {
+      setErrorMessage('Contenu suspect détecté')
+      return false
+    }
+
+    return true
+  }
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
+    // Réinitialiser les erreurs quand l'utilisateur tape
+    if (isError) {
+      setIsError(false)
+      setErrorMessage('')
+    }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Construction de l'email avec les données du formulaire
-    const mailtoLink = `mailto:${contactData.email}?subject=${encodeURIComponent(
-      formData.subject
-    )}&body=${encodeURIComponent(
-      `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`
-    
-    // Ouvrir le client email
-    window.location.href = mailtoLink
-    
-    // Afficher le message de confirmation
-    setIsSubmitted(true)
-    
-    // Réinitialiser le formulaire après 3 secondes
-    setTimeout(() => {
-      setFormData({ name: '', email: '', subject: '', message: '' })
-      setIsSubmitted(false)
-    }, 3000)
+    // Reset states
+    setIsError(false)
+    setErrorMessage('')
+
+    // Validation côté client
+    if (!validateForm()) {
+      setIsError(true)
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Appel à l'API sécurisée
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          honeypot: formData.website, // Champ honeypot
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        // Succès
+        setIsSubmitted(true)
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          website: '',
+        })
+
+        // Réinitialiser après 5 secondes
+        setTimeout(() => {
+          setIsSubmitted(false)
+        }, 5000)
+      } else {
+        // Erreur serveur
+        setIsError(true)
+        setErrorMessage(data.message || 'Une erreur est survenue')
+      }
+    } catch (error) {
+      // Erreur réseau
+      setIsError(true)
+      setErrorMessage('Impossible de contacter le serveur')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -139,19 +220,47 @@ export default function Contact() {
               Envoyez-moi un message
             </h3>
 
-            {isSubmitted ? (
-              <Card hover={false} className="bg-success/10 border-success/30 text-center">
+            {/* Message de succès */}
+            {isSubmitted && (
+              <Card hover={false} className="bg-success/10 border-success/30 text-center mb-6">
                 <FaCheckCircle className="text-5xl text-success mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-success mb-2">
                   Message envoyé !
                 </h4>
                 <p className="text-text">
-                  Votre client email va s'ouvrir pour finaliser l'envoi.
+                  Merci pour votre message. Je vous répondrai rapidement.
                 </p>
               </Card>
-            ) : (
-              <Card hover={false}>
-                <form onSubmit={handleSubmit} className="space-y-4">
+            )}
+
+            {/* Message d'erreur */}
+            {isError && (
+              <Card hover={false} className="bg-danger/10 border-danger/30 text-center mb-6">
+                <FaExclamationTriangle className="text-4xl text-danger mx-auto mb-3" />
+                <h4 className="text-lg font-semibold text-danger mb-1">
+                  Erreur
+                </h4>
+                <p className="text-text text-sm">{errorMessage}</p>
+              </Card>
+            )}
+
+            {/* Formulaire */}
+            <Card hover={false}>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot field - CACHÉ pour piéger les bots */}
+                <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+                  <label htmlFor="website">Ne pas remplir ce champ</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex="-1"
+                    autoComplete="off"
+                  />
+                </div>
+
                 {/* Nom */}
                 <div>
                   <label htmlFor="name" className="block text-heading font-semibold mb-2">
@@ -164,7 +273,9 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal"
+                    maxLength={100}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Votre nom"
                   />
                 </div>
@@ -181,7 +292,9 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal"
+                    maxLength={150}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="votre.email@exemple.com"
                   />
                 </div>
@@ -198,7 +311,9 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal"
+                    maxLength={200}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Sujet de votre message"
                   />
                 </div>
@@ -206,7 +321,7 @@ export default function Contact() {
                 {/* Message */}
                 <div>
                   <label htmlFor="message" className="block text-heading font-semibold mb-2">
-                    Message *
+                    Message * <span className="text-muted text-sm font-normal">(max 2000 caractères)</span>
                   </label>
                   <textarea
                     id="message"
@@ -215,19 +330,41 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows="5"
-                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal resize-none"
+                    maxLength={2000}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Votre message..."
                   ></textarea>
+                  <div className="text-right text-xs text-muted mt-1">
+                    {formData.message.length} / 2000
+                  </div>
                 </div>
 
+                {/* Note de sécurité */}
+                <p className="text-xs text-muted">
+                  🔒 Vos données sont protégées et ne seront jamais partagées avec des tiers.
+                </p>
+
                 {/* Bouton d'envoi */}
-                <Button type="submit" className="w-full">
-                  <FaPaperPlane className="mr-2" />
-                  Envoyer le message
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="inline-block animate-spin mr-2">⏳</span>
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    <>
+                      <FaPaperPlane className="mr-2" />
+                      Envoyer le message
+                    </>
+                  )}
                 </Button>
-                </form>
-              </Card>
-            )}
+              </form>
+            </Card>
           </div>
         </div>
       </div>
