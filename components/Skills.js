@@ -13,13 +13,11 @@ import {
 } from 'react-icons/fa'
 import { SiNextdotjs, SiTailwindcss } from 'react-icons/si'
 
-/**
- * COMPOSANT SKILLS (COMPÉTENCES)
- * Section présentant les compétences techniques
- * Pour modifier les informations, changez les valeurs dans l'objet skillsData ci-dessous
- */
+
+import SectionTitle from './ui/SectionTitle'
+import Card from './ui/Card'
+
 export default function Skills() {
-  // DONNÉES DES COMPÉTENCES - MODIFIEZ ICI
   const skillsData = {
     frontend: [
       { name: 'HTML5', icon: <FaHtml5 />, level: 90, color: 'text-orange-600' },
@@ -49,88 +47,58 @@ export default function Skills() {
   }
 
   const SkillBar = ({ skill }) => (
-    <div className="mb-6">
+    <div className="mb-4">
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center">
-          <span className={`text-2xl mr-3 ${skill.color}`}>{skill.icon}</span>
-          <span className="font-semibold text-gray-800">{skill.name}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xl text-primary dark:text-accent">{skill.icon}</span>
+          <span className="font-medium text-text-primary dark:text-dark-text-primary">
+            {skill.name}
+          </span>
         </div>
-        <span className="text-sm font-semibold text-gray-600">{skill.level}%</span>
+        <span className="text-xs font-bold text-primary dark:text-accent bg-primary-soft dark:bg-dark-primary-soft px-2 py-1 rounded">
+          {skill.level}%
+        </span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="w-full bg-border dark:bg-dark-border rounded-full h-2">
         <div
-          className="bg-primary h-2.5 rounded-full transition-all duration-1000"
+          className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-700"
           style={{ width: `${skill.level}%` }}
-        ></div>
+        />
       </div>
     </div>
   )
 
+  const categories = [
+    { key: 'frontend', label: 'Front-end', icon: '🎨', color: 'text-primary' },
+    { key: 'backend', label: 'Back-end', icon: '⚙️', color: 'text-accent' },
+    { key: 'tools', label: 'Outils', icon: '🛠️', color: 'text-green-600' },
+    { key: 'other', label: 'Autres', icon: '🎯', color: 'text-purple-600' },
+  ]
+  
   return (
-    <section id="skills" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Titre de la section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Compétences
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">
-            Technologies et outils que je maîtrise
-          </p>
-        </div>
-
-        {/* Grille de compétences */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Front-end */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-primary">
-              Front-end Development
-            </h3>
-            {skillsData.frontend.map((skill, index) => (
-              <SkillBar key={index} skill={skill} />
-            ))}
-          </div>
-
-          {/* Back-end & Logique */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-primary">
-              Back-end & Logique
-            </h3>
-            {skillsData.backend.map((skill, index) => (
-              <SkillBar key={index} skill={skill} />
-            ))}
-          </div>
-
-          {/* Outils & Workflow */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-primary">
-              Outils & Workflow
-            </h3>
-            {skillsData.tools.map((skill, index) => (
-              <SkillBar key={index} skill={skill} />
-            ))}
-          </div>
-
-          {/* Autres compétences */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-primary">
-              Autres compétences
-            </h3>
-            {skillsData.other.map((skill, index) => (
-              <SkillBar key={index} skill={skill} />
-            ))}
-          </div>
-        </div>
-
-        {/* Note d'apprentissage */}
-        <div className="mt-12 text-center bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-6">
-          <p className="text-lg font-semibold mb-2">
-            🚀 Toujours en apprentissage !
-          </p>
-          <p className="text-sm">
-            Je continue à développer mes compétences et à explorer de nouvelles technologies
-          </p>
+    <section id="skills" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+      <div className="container-custom">
+        <SectionTitle 
+          title="Compétences"
+          subtitle="Technologies et outils que je maîtrise"
+          align="center"
+        />
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {categories.map((category) => (
+            <Card key={category.key} hover={false}>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-3xl">{category.icon}</span>
+                <h3 className={`text-xl font-bold ${category.color}`}>
+                  {category.label}
+                </h3>
+              </div>
+              <div className="space-y-0">
+                {skillsData[category.key].map((skill, idx) => (
+                  <SkillBar key={idx} skill={skill} />
+                ))}
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
