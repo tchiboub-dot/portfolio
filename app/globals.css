@@ -52,7 +52,7 @@
   --border: #1E293B;
   --border-light: #334155;
   --border-glass: rgba(248, 250, 252, 0.04);
-  --surface-glass: rgba(16, 23, 43, 0.5);
+  --surface-glass: rgba(16, 23, 43, 0.04);
   
   /* Typography */
   --line-height-tight: 1.4;
@@ -389,6 +389,34 @@ textarea::placeholder {
   background: var(--surface-glass);
   border: 1px solid var(--border-glass);
   backdrop-filter: blur(10px);
+  position: relative;
+  isolation: isolate;
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0) 58%,
+    rgba(59, 130, 246, 0.16) 68%,
+    rgba(34, 211, 238, 0.14) 75%,
+    rgba(34, 211, 238, 0) 84%
+  );
+  filter: blur(10px);
+  opacity: 0.18;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity var(--duration-normal), filter var(--duration-normal), transform var(--duration-normal);
+}
+
+.glass-card:hover::before {
+  opacity: 0.28;
+  filter: blur(12px);
+  transform: scale(1.01);
 }
 
 /* ================= GRADIENT BACKGROUND ================= */
