@@ -34,9 +34,9 @@
   --warning: #F59E0B;
   
   /* Shadows - Softer, more refined */
-  --shadow: 0 14px 34px rgba(2, 8, 23, 0.32);
-  --shadow-md: 0 8px 22px rgba(2, 8, 23, 0.24);
-  --shadow-sm: 0 3px 10px rgba(2, 8, 23, 0.18);
+  --shadow: 0 14px 30px rgba(2, 8, 23, 0.28);
+  --shadow-md: 0 8px 18px rgba(2, 8, 23, 0.2);
+  --shadow-sm: 0 2px 8px rgba(2, 8, 23, 0.14);
   --shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   
   --radius: 22px;
@@ -51,8 +51,8 @@
   /* Borders */
   --border: #1E293B;
   --border-light: #334155;
-  --border-glass: rgba(248, 250, 252, 0.1);
-  --surface-glass: rgba(16, 23, 43, 0.72);
+  --border-glass: rgba(248, 250, 252, 0.04);
+  --surface-glass: rgba(16, 23, 43, 0.5);
   
   /* Typography */
   --line-height-tight: 1.4;
@@ -113,6 +113,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -220px;
+  left: 50%;
+  width: 860px;
+  height: 860px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: radial-gradient(circle,
+    rgba(59, 130, 246, 0) 56%,
+    rgba(59, 130, 246, 0.16) 66%,
+    rgba(34, 211, 238, 0.12) 74%,
+    rgba(34, 211, 238, 0) 82%
+  );
+  filter: blur(14px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ============================================

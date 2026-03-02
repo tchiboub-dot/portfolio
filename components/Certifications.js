@@ -66,7 +66,7 @@ export default function Certifications() {
             >
               {/* IMAGE ZONE - FIXE 16:9 RATIO, PLUS GRANDE */}
               <div
-                className="relative w-full aspect-video bg-white rounded-[22px] overflow-hidden mb-6 cursor-pointer group border border-white/10 shadow-sm hover:shadow-default hover:-translate-y-[2px] transition-all duration-normal"
+                className="relative w-full aspect-video bg-white rounded-[22px] overflow-hidden mb-6 cursor-pointer group border border-white/5 shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-normal"
                 onClick={() => setSelectedImage(cert.image)}
               >
                 {/* Image - object-fit contain */}

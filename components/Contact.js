@@ -81,7 +81,7 @@ export default function Contact() {
               {/* Email */}
               <a
                 href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
+                className="flex items-center p-4 bg-primary-soft/40 rounded-[16px] border border-white/5 hover:border-white/10 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaEnvelope className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
@@ -95,7 +95,7 @@ export default function Contact() {
                 href={contactData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
+                className="flex items-center p-4 bg-primary-soft/40 rounded-[16px] border border-white/5 hover:border-white/10 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaLinkedin className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
@@ -109,7 +109,7 @@ export default function Contact() {
                 href={contactData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft/60 rounded-[16px] border border-white/10 hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
+                className="flex items-center p-4 bg-primary-soft/40 rounded-[16px] border border-white/5 hover:border-white/10 hover:shadow-sm transition-all duration-normal group"
               >
                 <FaGithub className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
