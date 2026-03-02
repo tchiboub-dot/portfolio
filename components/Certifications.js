@@ -19,18 +19,18 @@ export default function Certifications() {
       image: '/certificates/cert-c-programming.png',
     },
     {
-      title: 'AI Business',
-      organization: 'Simplilearn SkillUp',
-      date: '5 Février 2026',
-      certificateId: '9808496',
-      image: '/certificates/cert-prompt-engineering.jpeg',
-    },
-    {
       title: 'Cybersecurity',
       organization: 'HP LIFE / HP Foundation',
       date: '3 Février 2026',
       certificateId: 'HPF-AI-2026',
       image: '/certificates/cert-ai-business.jpeg',
+    },
+    {
+      title: 'AI Business',
+      organization: 'Simplilearn SkillUp',
+      date: '5 Février 2026',
+      certificateId: '9808496',
+      image: '/certificates/cert-prompt-engineering.jpeg',
     },
     {
       title: 'Prompt Engineering',
