@@ -26,14 +26,14 @@ export default function Certifications() {
       image: '/certificates/cert-prompt-engineering.jpeg',
     },
     {
-      title: 'AI for Business Professionals',
+      title: 'Introduction to Cybersecurity Awareness',
       organization: 'HP LIFE / HP Foundation',
       date: '3 Février 2026',
       certificateId: 'HPF-AI-2026',
       image: '/certificates/cert-ai-business.jpeg',
     },
     {
-      title: 'Cybersecurity Essentials',
+      title: 'Introduction to Cybersecurity Awareness',
       organization: 'HP LIFE / HP Foundation',
       date: 'Février 2026',
       certificateId: 'HPF-CS-2026',
