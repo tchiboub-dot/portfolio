@@ -18,7 +18,7 @@ export default function Hero() {
     email: 'taha.adnane.chiboub@gmail.com',
     github: 'https://github.com/tchiboub-dot',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
-    photo: '/photo-profil.jpg', // Remplacez par le chemin de votre photo
+    photo: '/photo-profil.jpg',
   }
 
   return (
