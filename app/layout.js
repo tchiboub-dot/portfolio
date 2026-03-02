@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,6 +26,28 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
+      <head>
+        {/* Prevent theme flash: Apply theme before React hydration */}
+        <Script
+          id="theme-script"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const savedTheme = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const shouldUseDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+                  
+                  if (!shouldUseDark) {
+                    document.documentElement.classList.add('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )

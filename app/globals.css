@@ -60,17 +60,20 @@
   --line-height-relaxed: 1.75;
 }
 
-/* ===== LIGHT MODE (OPTIONAL) ===== */
+/* ===== LIGHT MODE ===== */
 :root.light {
+  /* Backgrounds */
   --bg: #FAFBFD;
   --bg-2: #F3F7FF;
   --surface: #FFFFFF;
   --surface-2: #F8FAFC;
   
+  /* Text */
   --heading: #0F172A;
   --text: #1F2937;
   --muted: #6B7280;
   
+  /* Colors */
   --primary: #2563EB;
   --primary-hover: #1D4ED8;
   --primary-soft: rgba(37, 99, 235, 0.08);
@@ -82,12 +85,23 @@
   --danger: #DC2626;
   --warning: #D97706;
   
+  /* Shadows - lighter for light mode */
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.05);
   
+  /* Radius (same as dark mode) */
+  --radius: 22px;
+  --radius-sm: 16px;
+  --radius-input: 14px;
+  --radius-lg: 20px;
+  
+  /* Borders */
   --border: #E5E7EB;
   --border-light: #F3F4F6;
+  --border-glass: rgba(15, 23, 42, 0.06);
+  --surface-glass: rgba(255, 255, 255, 0.4);
 }
 
 /* ============================================
@@ -107,7 +121,6 @@ html {
 
 body {
   background-color: var(--bg);
-  background-image: radial-gradient(1200px 600px at 15% 0%, rgba(59, 130, 246, 0.1), transparent 55%), radial-gradient(1000px 520px at 85% 10%, rgba(34, 211, 238, 0.06), transparent 58%);
   color: var(--text);
   transition: background-color var(--duration-normal), color var(--duration-normal);
   -webkit-font-smoothing: antialiased;
@@ -115,6 +128,16 @@ body {
   line-height: 1.6;
   position: relative;
   isolation: isolate;
+}
+
+/* Dark mode background gradients */
+:root:not(.light) body {
+  background-image: radial-gradient(1200px 600px at 15% 0%, rgba(59, 130, 246, 0.1), transparent 55%), radial-gradient(1000px 520px at 85% 10%, rgba(34, 211, 238, 0.06), transparent 58%);
+}
+
+/* Light mode background gradients */
+:root.light body {
+  background-image: radial-gradient(1200px 600px at 15% 0%, rgba(37, 99, 235, 0.05), transparent 55%), radial-gradient(1000px 520px at 85% 10%, rgba(6, 182, 212, 0.03), transparent 58%);
 }
 
 body::before {
@@ -126,16 +149,31 @@ body::before {
   height: 860px;
   transform: translateX(-50%);
   border-radius: 9999px;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(14px);
+  opacity: 0.45;
+  transition: background var(--duration-normal);
+}
+
+/* Dark mode glow ring */
+:root:not(.light) body::before {
   background: radial-gradient(circle,
     rgba(59, 130, 246, 0) 56%,
     rgba(59, 130, 246, 0.16) 66%,
     rgba(34, 211, 238, 0.12) 74%,
     rgba(34, 211, 238, 0) 82%
   );
-  filter: blur(14px);
-  opacity: 0.45;
-  pointer-events: none;
-  z-index: -1;
+}
+
+/* Light mode glow ring */
+:root.light body::before {
+  background: radial-gradient(circle,
+    rgba(37, 99, 235, 0) 56%,
+    rgba(37, 99, 235, 0.1) 66%,
+    rgba(6, 182, 212, 0.08) 74%,
+    rgba(6, 182, 212, 0) 82%
+  );
 }
 
 /* ============================================
@@ -270,7 +308,7 @@ input, textarea, select {
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-input);
   padding: 12px 14px;
-  background-color: rgba(16, 23, 43, 0.68);
+  background-color: var(--surface-glass);
   backdrop-filter: blur(10px);
   color: var(--text);
   transition: border-color var(--duration-normal), box-shadow var(--duration-normal), background-color var(--duration-normal);
@@ -400,17 +438,27 @@ textarea::placeholder {
   inset: -5px;
   border-radius: inherit;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.38) 0%, rgba(34, 211, 238, 0.34) 50%, rgba(59, 130, 246, 0.38) 100%);
-  background-size: 200% 200%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  filter: blur(1px);
+  animation: halo-gradient-shift 9s ease-in-out infinite;
   opacity: 0.16;
   z-index: -1;
   pointer-events: none;
-  animation: halo-gradient-shift 9s ease-in-out infinite;
+  filter: blur(1px);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   transition: opacity var(--duration-normal), filter var(--duration-normal), transform var(--duration-normal);
+}
+
+/* Dark mode gradient for halo ring */
+:root:not(.light) .glass-card::before {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.38) 0%, rgba(34, 211, 238, 0.34) 50%, rgba(59, 130, 246, 0.38) 100%);
+  background-size: 200% 200%;
+}
+
+/* Light mode gradient for halo ring */
+:root.light .glass-card::before {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.28) 0%, rgba(6, 182, 212, 0.24) 50%, rgba(37, 99, 235, 0.28) 100%);
+  background-size: 200% 200%;
 }
 
 .glass-card::after {
@@ -418,13 +466,22 @@ textarea::placeholder {
   position: absolute;
   inset: -16px;
   border-radius: inherit;
-  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, rgba(34, 211, 238, 0.16) 50%, transparent 75%);
   filter: blur(12px);
   opacity: 0.1;
   z-index: -2;
   pointer-events: none;
   animation: halo-glow-pulse 6s ease-in-out infinite;
   transition: opacity var(--duration-normal), filter var(--duration-normal), transform var(--duration-normal);
+}
+
+/* Dark mode radial glow */
+:root:not(.light) .glass-card::after {
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, rgba(34, 211, 238, 0.16) 50%, transparent 75%);
+}
+
+/* Light mode radial glow */
+:root.light .glass-card::after {
+  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.15) 0%, rgba(6, 182, 212, 0.12) 50%, transparent 75%);
 }
 
 .glass-card:hover::before {
@@ -570,31 +627,33 @@ textarea::placeholder {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  
-  /* Anneau bleu → cyan */
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.6) 0%,      /* Bleu #3B82F6 */
-    rgba(34, 211, 238, 0.45) 50%,    /* Cyan #22D3EE */
-    rgba(59, 130, 246, 0.6) 100%
-  );
   background-size: 200% 200%;
-  
-  /* Blurs doux pour l'effet halo */
   filter: blur(14px);
-  
-  /* Animation gradient lente */
   animation: halo-gradient-shift 8s ease-in-out infinite,
              halo-glow-pulse 4s ease-in-out infinite;
-  
-  /* Derrière l'image */
   z-index: 1;
-  
-  /* Transitions douces */
   transition: filter var(--duration-normal), opacity var(--duration-normal);
-  
-  /* Margin négative pour créer le halo qui dépasse */
   margin: -8px;
+}
+
+/* Dark mode gradient */
+:root:not(.light) .avatar-glow-ring {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.6) 0%,
+    rgba(34, 211, 238, 0.45) 50%,
+    rgba(59, 130, 246, 0.6) 100%
+  );
+}
+
+/* Light mode gradient */
+:root.light .avatar-glow-ring {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.45) 0%,
+    rgba(6, 182, 212, 0.35) 50%,
+    rgba(37, 99, 235, 0.45) 100%
+  );
 }
 
 /* Au hover: halo plus fort */

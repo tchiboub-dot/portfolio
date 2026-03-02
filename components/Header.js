@@ -38,14 +38,17 @@ export default function Header() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     const shouldUseDark = savedTheme ? savedTheme === 'dark' : prefersDark
 
-    document.documentElement.classList.toggle('dark', shouldUseDark)
+    // Apply light theme class when NOT dark mode
+    document.documentElement.classList.toggle('light', !shouldUseDark)
     setIsDark(shouldUseDark)
   }, [])
 
   const toggleTheme = () => {
     const nextIsDark = !isDark
     setIsDark(nextIsDark)
-    document.documentElement.classList.toggle('dark', nextIsDark)
+    
+    // Apply light class when NOT in dark mode
+    document.documentElement.classList.toggle('light', !nextIsDark)
     localStorage.setItem('theme', nextIsDark ? 'dark' : 'light')
   }
 
