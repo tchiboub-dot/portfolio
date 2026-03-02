@@ -3,16 +3,16 @@
 import Image from 'next/image'
 
 /**
- * COMPONENTE AVATAR CON GLOW RING PREMIUM
+ * AVATAR AVEC HALO LUMINEUX PROFESSIONNEL
+ * 
+ * Le glow ring est UNIQUEMENT derrière l'image:
+ * - Pas d'effet sur la photo (nette, inchangée)
+ * - Halo discret et élégant (style SaaS)
+ * - Anneau bleu → cyan avec soft blur
+ * - Responsive et accessible
  * 
  * Uso:
  * <Avatar src="/photo-profil.jpg" alt="Name" size="lg" />
- * 
- * Props:
- * - src: URL de la imagen
- * - alt: Texto alternativo
- * - size: 'sm' (112px), 'md' (144px), 'lg' (180px) - default: 'lg'
- * - priority: boolean - pre-carga de imagen (default: true)
  */
 export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = true }) {
   // Tamaños responsivos
@@ -25,18 +25,23 @@ export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = tr
   const config = sizes[size] || sizes.lg
 
   return (
-    <div className={`avatar-glow ${config.desktop} md:${config.desktop} ${config.mobile}`}>
-      <Image
-        src={src}
-        alt={alt}
-        width={config.pixels}
-        height={config.pixels}
-        priority={priority}
-        quality={90}
-        decoding="async"
-      />
-      {/* Subtle inner border */}
-      <div className="avatar-border" aria-hidden="true" />
+    <div className={`avatar-container ${config.desktop} md:${config.desktop} ${config.mobile}`}>
+      {/* GLOW RING - DETRÁS DE LA IMAGEN (z-index bajo) */}
+      <div className="avatar-glow-ring" aria-hidden="true" />
+      
+      {/* IMAGEN - ARRIBA SIN EFECTOS (z-index alto) */}
+      <div className="avatar-image-wrapper">
+        <Image
+          src={src}
+          alt={alt}
+          width={config.pixels}
+          height={config.pixels}
+          priority={priority}
+          quality={90}
+          decoding="async"
+          className="avatar-image"
+        />
+      </div>
     </div>
   )
 }
