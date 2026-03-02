@@ -66,26 +66,23 @@ export default function Certifications() {
             >
               {/* IMAGE ZONE - FIXE 16:9 RATIO */}
               <div
-                className="relative w-full aspect-video bg-surface-2 rounded-lg overflow-hidden mb-4 cursor-pointer group border border-border/50"
+                className="relative w-full aspect-video bg-white rounded-lg overflow-hidden mb-4 cursor-pointer group border border-border/50 shadow-sm"
                 onClick={() => setSelectedImage(cert.image)}
               >
-                {/* Fond pour les images blanches */}
-                <div className="absolute inset-0 bg-white" />
-                
-                {/* Image - object-fit contain pour ne pas couper */}
+                {/* Image - object-fit contain */}
                 <Image
                   src={cert.image}
                   alt={`Certificat - ${cert.title}`}
-                  width={600}
-                  height={337}
-                  className="w-full h-full object-contain p-2"
-                  quality={85}
+                  width={800}
+                  height={450}
+                  className="w-full h-full object-contain p-3"
+                  quality={90}
                 />
 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white font-medium text-sm">
+                    <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white font-medium text-sm shadow-lg">
                       <FaEye className="w-4 h-4" />
                       Voir en grand
                     </div>
