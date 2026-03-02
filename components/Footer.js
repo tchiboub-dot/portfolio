@@ -10,7 +10,7 @@ import { FaHeart, FaGithub, FaLinkedin, FaEnvelope, FaArrowUp } from 'react-icon
 export default function Footer() {
   // DONNÉES DU FOOTER - MODIFIEZ ICI
   const footerData = {
-    name: 'Chiboub Taha Adnane',
+    name: 'T.A.C',
     email: 'taha.adnane.chiboub@gmail.com',
     github: 'https://github.com/tchiboub-dot',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',

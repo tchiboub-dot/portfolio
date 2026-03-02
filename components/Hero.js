@@ -10,7 +10,7 @@ import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
 export default function Hero() {
   // DONNÉES DE LA SECTION HERO - MODIFIEZ ICI
   const heroData = {
-    name: 'Chiboub Taha Adnane',
+    name: 'T.A.C',
     title: 'Étudiant en Informatique (1ère année) — ESISA Fes',
     subtitle: 'Développeur Web Junior | Passionné par la Cybersécurité & l\'IA',
     description: 'Je crée des applications web modernes, responsives et centrées sur l\'expérience utilisateur. Ouvert aux opportunités de stage et missions freelance.',

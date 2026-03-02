@@ -44,7 +44,7 @@ export default function Header() {
           href="#home"
           className="text-2xl font-bold text-primary hover:text-secondary transition-colors"
         >
-          Taha Chiboub
+          T.A.C
         </a>
 
         {/* Navigation Desktop */}
