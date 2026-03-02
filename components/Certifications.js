@@ -12,35 +12,35 @@ export default function Certifications() {
 
   const certificationsData = [
     {
-      title: 'C Programming Basics',
+      title: 'C Programming',
       organization: 'Simplilearn SkillUp',
       date: '10 Janvier 2026',
       certificateId: '9698550',
       image: '/certificates/cert-c-programming.png',
     },
     {
-      title: 'Prompt Engineering Applications',
+      title: 'AI Business',
       organization: 'Simplilearn SkillUp',
       date: '5 Février 2026',
       certificateId: '9808496',
       image: '/certificates/cert-prompt-engineering.jpeg',
     },
     {
-      title: 'Introduction to Cybersecurity Awareness',
+      title: 'Cybersecurity',
       organization: 'HP LIFE / HP Foundation',
       date: '3 Février 2026',
       certificateId: 'HPF-AI-2026',
       image: '/certificates/cert-ai-business.jpeg',
     },
     {
-      title: 'Introduction to Cybersecurity Awareness',
+      title: 'Prompt Engineering',
       organization: 'HP LIFE / HP Foundation',
       date: 'Février 2026',
       certificateId: 'HPF-CS-2026',
       image: '/certificates/cert-cybersecurity.jpeg',
     },
     {
-      title: 'Agile Project Management',
+      title: 'Agile Project',
       organization: 'HP LIFE / HP Foundation',
       date: 'Février 2026',
       certificateId: 'HPF-APM-2026',
