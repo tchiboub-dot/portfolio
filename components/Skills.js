@@ -71,8 +71,8 @@ export default function Skills() {
   const categories = [
     { key: 'frontend', label: 'Front-end', icon: '🎨', color: 'text-primary' },
     { key: 'backend', label: 'Back-end', icon: '⚙️', color: 'text-accent' },
-    { key: 'tools', label: 'Outils', icon: '🛠️', color: 'text-green-600' },
-    { key: 'other', label: 'Autres', icon: '🎯', color: 'text-purple-600' },
+    { key: 'tools', label: 'Outils', icon: '🛠️', color: 'text-primary' },
+    { key: 'other', label: 'Autres', icon: '🎯', color: 'text-accent' },
   ]
   
   return (

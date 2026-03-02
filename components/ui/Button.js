@@ -33,8 +33,8 @@ export default function Button({
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
     secondary: `
-      bg-surface text-primary border-border-light
-      hover:bg-primary-soft hover:border-primary/50
+      bg-transparent text-text border-border
+      hover:bg-surface-2 hover:border-primary/50
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
     soft: `
@@ -43,13 +43,13 @@ export default function Button({
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary
     `,
     danger: `
-      bg-danger text-white hover:bg-red-700 
+      bg-danger text-white hover:opacity-90 
       border-danger shadow-sm hover:shadow-md
       focus-visible:outline-2 focus-visible:outline-danger focus-visible:ring-2 focus-visible:ring-danger/20
     `,
     outline: `
-      bg-transparent text-text border-border-light
-      hover:border-primary hover:bg-primary-soft hover:text-primary hover:shadow-sm
+      bg-transparent text-text border-border
+      hover:border-primary hover:bg-surface-2 hover:text-primary hover:shadow-sm
       focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-2 focus-visible:ring-primary-soft
     `,
   }

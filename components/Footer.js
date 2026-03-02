@@ -42,27 +42,27 @@ export default function Footer() {
             <h4 className="text-xl font-semibold text-heading mb-4">Liens rapides</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#home" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#home" className="text-text hover:text-primary transition-colors">
                   Accueil
                 </a>
               </li>
               <li>
-                <a href="#about" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#about" className="text-text hover:text-primary transition-colors">
                   À propos
                 </a>
               </li>
               <li>
-                <a href="#projects" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#projects" className="text-text hover:text-primary transition-colors">
                   Projets
                 </a>
               </li>
               <li>
-                <a href="#skills" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#skills" className="text-text hover:text-primary transition-colors">
                   Compétences
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#contact" className="text-text hover:text-primary transition-colors">
                   Contact
                 </a>
               </li>
@@ -75,7 +75,7 @@ export default function Footer() {
             <div className="space-y-3 mb-6">
               <a
                 href={`mailto:${footerData.email}`}
-                className="flex items-center text-text hover:text-primary dark:hover:text-accent transition-colors"
+                className="flex items-center text-text hover:text-primary transition-colors"
               >
                 <FaEnvelope className="mr-3" />
                 {footerData.email}
@@ -88,7 +88,7 @@ export default function Footer() {
                 href={footerData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary transition-colors"
                 aria-label="GitHub"
               >
                 <FaGithub />
@@ -97,14 +97,14 @@ export default function Footer() {
                 href={footerData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary transition-colors"
                 aria-label="LinkedIn"
               >
                 <FaLinkedin />
               </a>
               <a
                 href={`mailto:${footerData.email}`}
-                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary transition-colors"
                 aria-label="Email"
               >
                 <FaEnvelope />
@@ -131,7 +131,7 @@ export default function Footer() {
         {/* Bouton retour en haut */}
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-medium hover:bg-primary-dark transition-all duration-normal hover:scale-110 z-40"
+          className="fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-medium hover:bg-primary-hover transition-all duration-normal hover:scale-110 z-40"
           aria-label="Retour en haut"
         >
           <FaArrowUp />

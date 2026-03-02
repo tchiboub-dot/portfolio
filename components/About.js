@@ -81,11 +81,11 @@ export default function About() {
 
             <div className="relative overflow-hidden rounded-card bg-gradient-to-br from-primary to-accent p-8 shadow-default">
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -mr-20 -mt-20" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-surface rounded-full -mr-20 -mt-20" />
               </div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-white mb-2">Prêt à collaborer ?</h3>
-                <p className="text-blue-50 mb-6 leading-relaxed">{aboutData.availability}</p>
+                <h3 className="text-2xl font-bold text-heading mb-2">Prêt à collaborer ?</h3>
+                <p className="text-text mb-6 leading-relaxed">{aboutData.availability}</p>
                 <Button href="#contact">Démarrer une conversation</Button>
               </div>
             </div>

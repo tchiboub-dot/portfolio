@@ -14,7 +14,7 @@ export default function Card({ children, className = '', hover = true, ...props 
         glass-card
         rounded-[22px] shadow-sm
         p-7 md:p-8 transition-all ease-out duration-normal
-        ${hover ? 'hover:border-white/5 hover:shadow-md hover:-translate-y-[2px]' : ''}
+        ${hover ? 'hover:border-primary/30 hover:shadow-md hover:-translate-y-[2px]' : ''}
         ${className}
       `}
       {...props}

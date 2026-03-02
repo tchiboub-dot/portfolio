@@ -1,6 +1,6 @@
 'use client'
 
-import { FaGraduationCap, FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
@@ -44,7 +44,13 @@ export default function Education() {
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 pb-4 border-b border-border">
                   <div className="flex-1 mb-4 md:mb-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <FaGraduationCap className="w-5 h-5 text-primary" />
+                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border bg-surface-2 shadow-soft p-1">
+                        <img
+                          src="/esisa-logo.png?v=2"
+                          alt="Logo ESISA"
+                          className="w-full h-full object-contain"
+                        />
+                      </span>
                       <h3 className="text-xl md:text-2xl font-bold text-heading">{edu.degree}</h3>
                     </div>
                     <p className="text-lg font-semibold text-primary mb-1">{edu.institution}</p>

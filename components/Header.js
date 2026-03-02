@@ -36,20 +36,19 @@ export default function Header() {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const shouldUseDark = savedTheme ? savedTheme === 'dark' : prefersDark
-
-    // Apply light theme class when NOT dark mode
-    document.documentElement.classList.toggle('light', !shouldUseDark)
-    setIsDark(shouldUseDark)
+    const theme = savedTheme === 'dark' || savedTheme === 'light'
+      ? savedTheme
+      : (prefersDark ? 'dark' : 'light')
+    setIsDark(theme === 'dark')
   }, [])
 
   const toggleTheme = () => {
     const nextIsDark = !isDark
     setIsDark(nextIsDark)
-    
-    // Apply light class when NOT in dark mode
-    document.documentElement.classList.toggle('light', !nextIsDark)
-    localStorage.setItem('theme', nextIsDark ? 'dark' : 'light')
+
+    const nextTheme = nextIsDark ? 'dark' : 'light'
+    document.documentElement.dataset.theme = nextTheme
+    localStorage.setItem('theme', nextTheme)
   }
 
   return (
@@ -75,7 +74,7 @@ export default function Header() {
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-text hover:text-primary dark:hover:text-accent transition-colors font-medium"
+                className="text-text hover:text-primary transition-colors font-medium"
               >
                 {link.name}
               </a>
@@ -83,49 +82,52 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2">
+        {/* Actions: Theme Toggle + Menu Mobile */}
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle Button - Desktop */}
           <button
             onClick={toggleTheme}
-            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border  text-text hover:text-primary dark:hover:text-accent hover:border-primary transition-all"
-            aria-label="Basculer le thème"
-            title="Basculer le thème"
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border bg-surface text-text hover:text-primary hover:border-primary transition-all"
+            aria-label="Toggle theme"
+            title={isDark ? 'Mode clair' : 'Mode sombre'}
           >
-            {isDark ? <FaSun /> : <FaMoon />}
+            {isDark ? <FaMoon className="w-5 h-5" /> : <FaSun className="w-5 h-5" />}
           </button>
 
-          {/* Bouton Menu Mobile */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-xl text-text hover:text-primary dark:hover:text-accent transition-colors"
-            aria-label="Toggle menu"
+            className="md:hidden text-xl text-text hover:text-primary transition-colors"
+            aria-label="Menu"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </nav>
 
-      {/* Menu Mobile */}
       {isOpen && (
-        <div className="md:hidden bg-surface  border-t border-border  shadow-medium">
-          <div className="container-custom py-4">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-text">Navigation</span>
+        <div className="md:hidden bg-surface border-t border-border shadow-medium">
+          <div className="container-custom py-4 space-y-4">
+            {/* Theme Toggle - Mobile */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-muted">Thème</span>
               <button
                 onClick={toggleTheme}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border  text-text"
-                aria-label="Basculer le thème"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border bg-surface-2 text-text hover:text-primary transition-colors"
+                aria-label="Toggle theme"
               >
-                {isDark ? <FaSun /> : <FaMoon />}
+                {isDark ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />}
               </button>
             </div>
-            <ul className="flex flex-col space-y-3">
+
+            {/* Mobile Navigation */}
+            <ul className="flex flex-col space-y-3 border-t border-border pt-4">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <a
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block text-text hover:text-primary dark:hover:text-accent transition-colors font-medium"
+                  className="block text-text hover:text-primary transition-colors font-medium"
                 >
                   {link.name}
                 </a>

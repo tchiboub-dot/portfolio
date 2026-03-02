@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,30 +25,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" data-theme="dark" suppressHydrationWarning>
       <head>
-        {/* Prevent theme flash: Apply theme before React hydration */}
-        <Script
-          id="theme-script"
-          strategy="beforeInteractive"
+        <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const savedTheme = localStorage.getItem('theme');
-                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  const shouldUseDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-                  
-                  if (!shouldUseDark) {
-                    document.documentElement.classList.add('light');
-                  }
-                } catch (e) {}
-              })();
-            `,
+            __html: `(function(){try{var t=localStorage.getItem('theme');var p=window.matchMedia('(prefers-color-scheme: dark)').matches;var v=(t==='dark'||t==='light')?t:(p?'dark':'light');document.documentElement.dataset.theme=v;}catch(e){document.documentElement.dataset.theme='dark';}})();`,
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

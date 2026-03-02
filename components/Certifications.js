@@ -66,7 +66,7 @@ export default function Certifications() {
             >
               {/* IMAGE ZONE - FIXE 16:9 RATIO, PLUS GRANDE */}
               <div
-                className="relative w-full aspect-video bg-white rounded-[22px] overflow-hidden mb-6 cursor-pointer group border border-white/5 shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-normal"
+                className="relative w-full aspect-video bg-surface rounded-[22px] overflow-hidden mb-6 cursor-pointer group border border-border shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-normal"
                 onClick={() => setSelectedImage(cert.image)}
               >
                 {/* Image - object-fit contain */}
@@ -80,7 +80,7 @@ export default function Certifications() {
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-bg/0 group-hover:bg-bg/55 transition-colors duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-[16px] text-white font-medium text-sm shadow-md">
                       <FaEye className="w-4 h-4" />
@@ -141,14 +141,14 @@ export default function Certifications() {
       {/* MODAL FULLSCREEN */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 z-50 bg-bg/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative w-full max-w-5xl max-h-[90vh]">
             {/* Bouton Fermer */}
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 text-white hover:text-primary transition-colors text-xl font-bold z-10 flex items-center gap-2"
+              className="absolute -top-12 right-0 text-text hover:text-primary transition-colors text-xl font-bold z-10 flex items-center gap-2"
               aria-label="Fermer le modal"
             >
               <FaTimes className="w-5 h-5" />
@@ -156,7 +156,7 @@ export default function Certifications() {
             </button>
 
             {/* Image Agrandie */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+            <div className="bg-surface rounded-xl overflow-hidden shadow-lg border border-border">
               <Image
                 src={selectedImage}
                 alt="Certificat à plein écran"
@@ -169,7 +169,7 @@ export default function Certifications() {
             </div>
 
             {/* Info supplémentaire */}
-            <div className="text-center mt-4 text-white text-sm">
+            <div className="text-center mt-4 text-text text-sm">
               <p>Cliquez en arrière-plan pour fermer</p>
             </div>
           </div>
