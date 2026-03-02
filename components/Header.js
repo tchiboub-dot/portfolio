@@ -53,7 +53,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-normal ${
         scrolled
-          ? 'bg-surface/95 dark:bg-dark-surface/95 backdrop-blur-md border-b border-border dark:border-dark-border py-3'
+          ? 'bg-surface/95 /95 backdrop-blur-md border-b border-border  py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -61,7 +61,7 @@ export default function Header() {
         {/* Logo / Nom */}
         <a
           href="#home"
-          className="text-2xl font-bold text-primary dark:text-accent hover:opacity-80 transition-opacity"
+          className="text-2xl font-bold text-primary text-primary hover:opacity-80 transition-opacity"
         >
           T.A.C
         </a>
@@ -72,7 +72,7 @@ export default function Header() {
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors font-medium"
+                className="text-text hover:text-primary dark:hover:text-accent transition-colors font-medium"
               >
                 {link.name}
               </a>
@@ -84,7 +84,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent hover:border-primary transition-all"
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border  text-text hover:text-primary dark:hover:text-accent hover:border-primary transition-all"
             aria-label="Basculer le thème"
             title="Basculer le thème"
           >
@@ -94,7 +94,7 @@ export default function Header() {
           {/* Bouton Menu Mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+            className="md:hidden text-xl text-text hover:text-primary dark:hover:text-accent transition-colors"
             aria-label="Toggle menu"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
@@ -104,13 +104,13 @@ export default function Header() {
 
       {/* Menu Mobile */}
       {isOpen && (
-        <div className="md:hidden bg-surface dark:bg-dark-surface border-t border-border dark:border-dark-border shadow-medium">
+        <div className="md:hidden bg-surface  border-t border-border  shadow-medium">
           <div className="container-custom py-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Navigation</span>
+              <span className="text-sm font-medium text-text">Navigation</span>
               <button
                 onClick={toggleTheme}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border  text-text"
                 aria-label="Basculer le thème"
               >
                 {isDark ? <FaSun /> : <FaMoon />}
@@ -122,7 +122,7 @@ export default function Header() {
                 <a
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors font-medium"
+                  className="block text-text hover:text-primary dark:hover:text-accent transition-colors font-medium"
                 >
                   {link.name}
                 </a>

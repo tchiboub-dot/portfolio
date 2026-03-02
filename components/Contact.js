@@ -58,7 +58,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+    <section id="contact" className="section py-24 md:py-32 bg-bg">
       <div className="container-custom">
         <SectionTitle
           title="Contact"
@@ -69,10 +69,10 @@ export default function Contact() {
         <div className="grid md:grid-cols-2 gap-12">
           {/* Informations de contact */}
           <div>
-            <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-6">
+            <h3 className="text-2xl font-bold text-heading mb-6">
               Restons en contact
             </h3>
-            <p className="text-text-secondary dark:text-dark-text-secondary mb-6 leading-relaxed">
+            <p className="text-text mb-6 leading-relaxed">
               {contactData.availability}
             </p>
 
@@ -81,12 +81,12 @@ export default function Contact() {
               {/* Email */}
               <a
                 href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
               >
-                <FaEnvelope className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
+                <FaEnvelope className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">Email</p>
-                  <p className="text-primary dark:text-accent">{contactData.email}</p>
+                  <p className="font-semibold text-heading">Email</p>
+                  <p className="text-primary text-primary">{contactData.email}</p>
                 </div>
               </a>
 
@@ -95,12 +95,12 @@ export default function Contact() {
                 href={contactData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
               >
-                <FaLinkedin className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
+                <FaLinkedin className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">LinkedIn</p>
-                  <p className="text-primary dark:text-accent">Taha Adnane Chiboub</p>
+                  <p className="font-semibold text-heading">LinkedIn</p>
+                  <p className="text-primary text-primary">Taha Adnane Chiboub</p>
                 </div>
               </a>
 
@@ -109,12 +109,12 @@ export default function Contact() {
                 href={contactData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
               >
-                <FaGithub className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
+                <FaGithub className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">GitHub</p>
-                  <p className="text-primary dark:text-accent">tchiboub-dot</p>
+                  <p className="font-semibold text-heading">GitHub</p>
+                  <p className="text-primary text-primary">tchiboub-dot</p>
                 </div>
               </a>
             </div>
@@ -135,7 +135,7 @@ export default function Contact() {
 
           {/* Formulaire de contact */}
           <div>
-            <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-6">
+            <h3 className="text-2xl font-bold text-heading mb-6">
               Envoyez-moi un message
             </h3>
 
@@ -154,7 +154,7 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Nom */}
                 <div>
-                  <label htmlFor="name" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
+                  <label htmlFor="name" className="block text-heading font-semibold mb-2">
                     Nom complet *
                   </label>
                   <input
@@ -171,7 +171,7 @@ export default function Contact() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
+                  <label htmlFor="email" className="block text-heading font-semibold mb-2">
                     Email *
                   </label>
                   <input
@@ -188,7 +188,7 @@ export default function Contact() {
 
                 {/* Sujet */}
                 <div>
-                  <label htmlFor="subject" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
+                  <label htmlFor="subject" className="block text-heading font-semibold mb-2">
                     Sujet *
                   </label>
                   <input
@@ -205,7 +205,7 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
+                  <label htmlFor="message" className="block text-heading font-semibold mb-2">
                     Message *
                   </label>
                   <textarea

@@ -22,47 +22,47 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-surface dark:bg-dark-surface border-t border-border dark:border-dark-border py-12">
+    <footer className="bg-surface  border-t border-border  py-12">
       <div className="container-custom">
         {/* Contenu principal du footer */}
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Colonne 1 - À propos */}
           <div>
-            <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-4">{footerData.name}</h3>
-            <p className="text-text-secondary dark:text-dark-text-secondary mb-4">
+            <h3 className="text-2xl font-bold text-heading mb-4">{footerData.name}</h3>
+            <p className="text-text mb-4">
               Étudiant en Informatique à ESISA Fes, passionné par le développement web et les nouvelles technologies.
             </p>
-            <p className="text-text-secondary dark:text-dark-text-secondary">
+            <p className="text-text">
               Ouvert aux opportunités de stage et missions freelance.
             </p>
           </div>
 
           {/* Colonne 2 - Liens rapides */}
           <div>
-            <h4 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-4">Liens rapides</h4>
+            <h4 className="text-xl font-semibold text-heading mb-4">Liens rapides</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#home" className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#home" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
                   Accueil
                 </a>
               </li>
               <li>
-                <a href="#about" className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#about" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
                   À propos
                 </a>
               </li>
               <li>
-                <a href="#projects" className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#projects" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
                   Projets
                 </a>
               </li>
               <li>
-                <a href="#skills" className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#skills" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
                   Compétences
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors">
+                <a href="#contact" className="text-text hover:text-primary dark:hover:text-accent transition-colors">
                   Contact
                 </a>
               </li>
@@ -71,24 +71,24 @@ export default function Footer() {
 
           {/* Colonne 3 - Contact et réseaux sociaux */}
           <div>
-            <h4 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-4">Contact</h4>
+            <h4 className="text-xl font-semibold text-heading mb-4">Contact</h4>
             <div className="space-y-3 mb-6">
               <a
                 href={`mailto:${footerData.email}`}
-                className="flex items-center text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+                className="flex items-center text-text hover:text-primary dark:hover:text-accent transition-colors"
               >
                 <FaEnvelope className="mr-3" />
                 {footerData.email}
               </a>
             </div>
 
-            <h4 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-4">Suivez-moi</h4>
+            <h4 className="text-xl font-semibold text-heading mb-4">Suivez-moi</h4>
             <div className="flex gap-4">
               <a
                 href={footerData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
                 aria-label="GitHub"
               >
                 <FaGithub />
@@ -97,14 +97,14 @@ export default function Footer() {
                 href={footerData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
                 aria-label="LinkedIn"
               >
                 <FaLinkedin />
               </a>
               <a
                 href={`mailto:${footerData.email}`}
-                className="text-2xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+                className="text-2xl text-text hover:text-primary dark:hover:text-accent transition-colors"
                 aria-label="Email"
               >
                 <FaEnvelope />
@@ -114,15 +114,15 @@ export default function Footer() {
         </div>
 
         {/* Séparateur */}
-        <div className="border-t border-border dark:border-dark-border pt-8">
+        <div className="border-t border-border  pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             {/* Copyright */}
-            <p className="text-text-secondary dark:text-dark-text-secondary text-center md:text-left mb-4 md:mb-0">
+            <p className="text-text text-center md:text-left mb-4 md:mb-0">
               © {currentYear} {footerData.name}. Tous droits réservés.
             </p>
 
             {/* Message */}
-            <p className="text-text-secondary dark:text-dark-text-secondary flex items-center">
+            <p className="text-text flex items-center">
               Fait avec <FaHeart className="text-red-500 mx-2" /> et Next.js
             </p>
           </div>

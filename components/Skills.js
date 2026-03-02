@@ -50,16 +50,16 @@ export default function Skills() {
     <div className="mb-4">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xl text-primary dark:text-accent">{skill.icon}</span>
-          <span className="font-medium text-text-primary dark:text-dark-text-primary">
+          <span className="text-xl text-primary text-primary">{skill.icon}</span>
+          <span className="font-medium text-heading">
             {skill.name}
           </span>
         </div>
-        <span className="text-xs font-bold text-primary dark:text-accent bg-primary-soft dark:bg-dark-primary-soft px-2 py-1 rounded">
+        <span className="text-xs font-bold text-primary text-primary bg-primary-soft  px-2 py-1 rounded">
           {skill.level}%
         </span>
       </div>
-      <div className="w-full bg-border dark:bg-dark-border rounded-full h-2">
+      <div className="w-full bg-border bg-border rounded-full h-2">
         <div
           className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-700"
           style={{ width: `${skill.level}%` }}
@@ -76,7 +76,7 @@ export default function Skills() {
   ]
   
   return (
-    <section id="skills" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+    <section id="skills" className="section py-24 md:py-32 bg-bg">
       <div className="container-custom">
         <SectionTitle 
           title="Compétences"

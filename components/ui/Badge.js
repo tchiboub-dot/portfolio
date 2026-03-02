@@ -1,25 +1,24 @@
 'use client'
 
-/**
- * COMPOSANT BADGE/CHIP
- * Petit badge pour taguer des compétences, catégories, etc.
+/*
+ * BADGE / CHIP COMPONENT
+ * Modern badge with proper contrast + dark theme cohesion
  */
 export default function Badge({ children, variant = 'default', className = '' }) {
   const variants = {
-    default: 'bg-primary-soft text-primary dark:bg-primary-dark dark:text-blue-200',
-    accent: 'bg-accent-soft text-accent dark:bg-accent dark:text-white',
-    secondary: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-100',
-    success: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200',
-    warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200',
+    default: 'bg-primary-soft text-primary border border-primary',
+    accent: 'bg-accent-soft text-accent border border-accent',
+    secondary: 'bg-surface-2 text-text border border-border',
+    success: 'bg-green-900 text-green-100 border border-green-700',
+    warning: 'bg-yellow-900 text-yellow-100 border border-yellow-700',
+    danger: 'bg-red-900 text-red-100 border border-red-700',
   }
 
   return (
     <span
       className={`
-        inline-block
-        px-3 py-1.5
-        rounded-full
-        text-xs font-medium
+        inline-block px-3 py-1.5
+        rounded-full text-xs font-semibold
         transition-colors duration-fast
         ${variants[variant] || variants.default}
         ${className}

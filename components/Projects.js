@@ -58,7 +58,7 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+    <section id="projects" className="section py-24 md:py-32 bg-bg">
       <div className="container-custom">
         {/* Titre principal */}
         <SectionTitle 
@@ -80,12 +80,12 @@ export default function Projects() {
               {/* Contenu de la carte */}
               <div className="flex flex-col flex-grow p-6">
                 {/* Titre du projet */}
-                <h3 className="text-xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
+                <h3 className="text-xl font-bold text-heading mb-2">
                   {project.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-text-secondary dark:text-dark-text-secondary text-sm leading-relaxed mb-4 flex-grow">
+                <p className="text-text text-sm leading-relaxed mb-4 flex-grow">
                   {project.description}
                 </p>
 
@@ -104,19 +104,19 @@ export default function Projects() {
                 </div>
 
                 {/* Fonctionnalités principales (mini list) */}
-                <div className="bg-primary-soft dark:bg-dark-primary-soft rounded-lg p-3 mb-4">
-                  <p className="text-xs font-semibold text-text-primary dark:text-dark-text-primary mb-2">
+                <div className="bg-primary-soft  rounded-lg p-3 mb-4">
+                  <p className="text-xs font-semibold text-heading mb-2">
                     Fonctionnalités clés :
                   </p>
-                  <ul className="text-xs text-text-secondary dark:text-dark-text-secondary space-y-1">
+                  <ul className="text-xs text-text space-y-1">
                     {project.features.slice(0, 2).map((feature, i) => (
                       <li key={i} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary dark:bg-accent flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary bg-primary flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
                     {project.features.length > 2 && (
-                      <li className="text-primary dark:text-accent font-medium">
+                      <li className="text-primary text-primary font-medium">
                         +{project.features.length - 2} fonctionnalités...
                       </li>
                     )}
@@ -165,7 +165,7 @@ export default function Projects() {
 
         {/* CTA section */}
         <div className="mt-16 text-center">
-          <p className="text-text-secondary dark:text-dark-text-secondary mb-6 text-lg">
+          <p className="text-text mb-6 text-lg">
             Intéressé par ma façon de travailler ?
           </p>
           <Button href="#contact" size="lg">

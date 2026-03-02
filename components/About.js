@@ -6,11 +6,6 @@ import Card from './ui/Card'
 import Badge from './ui/Badge'
 import Button from './ui/Button'
 
-/**
- * COMPOSANT ABOUT (À PROPOS)
- * Section présentant le profil professionnel avec design system
- * Pour modifier les données, changez l'objet aboutData ci-dessous
- */
 export default function About() {
   const aboutData = {
     title: 'À propos de moi',
@@ -28,9 +23,8 @@ export default function About() {
   }
 
   return (
-    <section id="about" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+    <section id="about" className="section py-24 md:py-32 bg-bg">
       <div className="container-custom">
-        {/* Titre principal */}
         <SectionTitle 
           title={aboutData.title}
           subtitle={aboutData.subtitle}
@@ -38,45 +32,28 @@ export default function About() {
         />
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Colonne gauche - Description */}
           <div className="space-y-6">
-            {/* Carte "Qui suis-je" */}
             <Card>
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0">
-                  <FaUser className="w-6 h-6 text-primary dark:text-accent" />
-                </div>
+              <div className="flex items-start gap-4">
+                <FaUser className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-3">
-                    Qui suis-je ?
-                  </h3>
-                  <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed mb-3">
-                    {aboutData.introduction}
-                  </p>
-                  <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed">
-                    {aboutData.description}
-                  </p>
+                  <h3 className="text-xl font-semibold text-heading mb-3">Qui suis-je ?</h3>
+                  <p className="text-text leading-relaxed mb-3">{aboutData.introduction}</p>
+                  <p className="text-text leading-relaxed">{aboutData.description}</p>
                 </div>
               </div>
             </Card>
 
-            {/* Langues */}
             <Card>
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <FaLanguage className="w-6 h-6 text-primary dark:text-accent mt-1" />
-                </div>
+                <FaLanguage className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-4">
-                    Langues
-                  </h3>
+                  <h3 className="text-xl font-semibold text-heading mb-4">Langues</h3>
                   <div className="space-y-2">
-                    {aboutData.languages.map((language, index) => (
-                      <div key={index} className="flex items-center">
-                        <div className="w-2 h-2 bg-primary dark:bg-accent rounded-full mr-3" />
-                        <span className="text-text-primary dark:text-dark-text-primary">
-                          {language}
-                        </span>
+                    {aboutData.languages.map((language, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary rounded-full" />
+                        <span className="text-text">{language}</span>
                       </div>
                     ))}
                   </div>
@@ -85,24 +62,15 @@ export default function About() {
             </Card>
           </div>
 
-          {/* Colonne droite - Intérêts et disponibilité */}
           <div className="space-y-6">
-            {/* Centres d'intérêt */}
             <Card>
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0">
-                  <FaLaptopCode className="w-6 h-6 text-primary dark:text-accent" />
-                </div>
+              <div className="flex items-start gap-4">
+                <FaLaptopCode className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-4">
-                    Centres d'intérêt
-                  </h3>
+                  <h3 className="text-xl font-semibold text-heading mb-4">Centres d'intérêt</h3>
                   <div className="space-y-2">
-                    {aboutData.interests.map((interest, index) => (
-                      <div
-                        key={index}
-                        className="bg-primary-soft dark:bg-dark-primary-soft text-text-primary dark:text-dark-text-primary p-3 rounded-lg text-sm leading-relaxed"
-                      >
+                    {aboutData.interests.map((interest, i) => (
+                      <div key={i} className="bg-primary-soft text-text p-3 rounded-lg text-sm">
                         ✨ {interest}
                       </div>
                     ))}
@@ -111,26 +79,14 @@ export default function About() {
               </div>
             </Card>
 
-            {/* Carte Disponibilité avec CTA */}
-            <div className="relative overflow-hidden rounded-card bg-gradient-to-br from-primary to-accent p-8 shadow-medium">
-              {/* Décoration de fond */}
+            <div className="relative overflow-hidden rounded-card bg-gradient-to-br from-primary to-accent p-8 shadow-default">
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -mr-20 -mt-20" />
               </div>
-
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  Prêt à collaborer ?
-                </h3>
-                <p className="text-blue-50 mb-6 leading-relaxed">
-                  {aboutData.availability}
-                </p>
-                <Button 
-                  href="#contact"
-                  className="bg-white text-primary hover:bg-gray-50 dark:bg-gray-100 dark:hover:bg-gray-200"
-                >
-                  Démarrer une conversation
-                </Button>
+                <h3 className="text-2xl font-bold text-white mb-2">Prêt à collaborer ?</h3>
+                <p className="text-blue-50 mb-6 leading-relaxed">{aboutData.availability}</p>
+                <Button href="#contact">Démarrer une conversation</Button>
               </div>
             </div>
           </div>

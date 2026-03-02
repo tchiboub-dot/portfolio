@@ -1,8 +1,9 @@
 'use client'
 
-/**
- * COMPOSANT SECTION TITLE
- * Titre standardisé pour toutes les sections
+/*
+ * SECTION TITLE COMPONENT
+ * Professional section headers with accent underline
+ * Uses CSS variables for consistent styling
  */
 export default function SectionTitle({
   title,
@@ -11,26 +12,30 @@ export default function SectionTitle({
   className = '',
 }) {
   const alignClasses = {
-    left: 'text-left',
-    center: 'text-center',
-    right: 'text-right',
+    left: 'text-left justify-start',
+    center: 'text-center justify-center',
+    right: 'text-right justify-end',
   }
 
   return (
-    <div className={`mb-12 md:mb-16 ${alignClasses[align]} ${className}`}>
-      <h2 className="text-h2 md:text-h1-mobile font-bold text-text-primary dark:text-dark-text-primary mb-3">
+    <div className={`mb-12 md:mb-16 ${className}`}>
+      <h2 className={`text-h2 md:text-h1-mobile font-bold text-heading mb-3 ${
+        align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'
+      }`}>
         {title}
       </h2>
 
       {subtitle && (
-        <p className="text-text-secondary dark:text-dark-text-secondary text-lg max-w-2xl">
+        <p className={`text-muted text-lg max-w-2xl ${
+          align === 'center' ? 'mx-auto' : ''
+        }`}>
           {subtitle}
         </p>
       )}
 
-      {/* Underline accent */}
-      <div className="flex gap-2 mt-4 justify-start md:justify-center">
-        <div className="h-1 w-12 bg-primary dark:bg-accent rounded-full" />
+      {/* Accent underline */}
+      <div className={`flex gap-2 mt-4 ${alignClasses[align]}`}>
+        <div className="h-1 w-16 bg-primary rounded-full shadow-medium" />
       </div>
     </div>
   )

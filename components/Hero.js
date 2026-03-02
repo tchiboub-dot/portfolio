@@ -1,14 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import Button from './ui/Button'
 
-/**
- * COMPOSANT HERO (SECTION D'ACCUEIL)
- * Section principale de la page d'accueil
- * Pour modifier les informations, changez les valeurs dans l'objet heroData ci-dessous
- */
 export default function Hero() {
   const heroData = {
     name: 'Chiboub Taha Adnane',
@@ -22,44 +17,63 @@ export default function Hero() {
   }
 
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center bg-background dark:bg-dark-background pt-24"
-    >
+    <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-24">
       <div className="container-custom text-center">
         <div className="animate-fade-in-up">
-          {/* Photo de profil */}
-          <div className="mb-8">
-            <Image
-              src={heroData.photo}
-              alt={heroData.name}
-              width={200}
-              height={200}
-              className="w-44 h-44 md:w-48 md:h-48 rounded-full mx-auto object-cover shadow-medium border-4 border-primary dark:border-accent"
-            />
+          {/* Photo de profil avec contour bleu pro */}
+          <div className="mb-8 flex justify-center">
+            <div
+              className="relative w-48 h-48 md:w-56 md:h-56"
+              style={{
+                background: `linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(34,211,238,0.1) 100%)`,
+                borderRadius: '50%',
+                padding: '3px',
+              }}
+            >
+              <div
+                className="absolute inset-0"
+                style={{
+                  border: '2px solid rgba(59,130,246,0.45)',
+                  borderRadius: '50%',
+                  boxShadow: `
+                    0 0 0 6px rgba(59,130,246,0.08),
+                    0 15px 40px rgba(0,0,0,0.25),
+                    inset 0 0 0 1px rgba(59,130,246,0.2)
+                  `,
+                }}
+              />
+              <Image
+                src={heroData.photo}
+                alt={heroData.name}
+                width={224}
+                height={224}
+                className="w-full h-full rounded-full object-cover relative z-10"
+                priority
+              />
+            </div>
           </div>
 
           {/* Nom */}
-          <h1 className="text-h1-mobile md:text-h1 font-bold text-text-primary dark:text-dark-text-primary mb-4 leading-tight">
+          <h1 className="text-h1-mobile md:text-h1 font-bold text-heading mb-4 leading-tight">
             {heroData.name}
           </h1>
 
           {/* Titre principal */}
-          <h2 className="text-xl md:text-2xl text-primary dark:text-accent font-semibold mb-3">
+          <h2 className="text-xl md:text-2xl text-primary font-semibold mb-3">
             {heroData.title}
           </h2>
 
           {/* Sous-titre */}
-          <p className="text-lg md:text-xl text-text-secondary dark:text-dark-text-secondary mb-6">
+          <p className="text-lg md:text-xl text-muted mb-6">
             {heroData.subtitle}
           </p>
 
           {/* Description */}
-          <p className="text-body text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto mb-8">
+          <p className="text-body text-text max-w-3xl mx-auto mb-8">
             {heroData.description}
           </p>
 
-          {/* Boutons d'action */}
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-9">
             <Button href="#projects" size="lg">
               Voir mes projets
@@ -69,13 +83,13 @@ export default function Hero() {
             </Button>
           </div>
 
-          {/* Liens sociaux */}
-          <div className="flex gap-6 justify-center mb-12">
+          {/* Social Links */}
+          <div className="flex gap-6 justify-center">
             <a
               href={heroData.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+              className="text-3xl text-muted hover:text-primary transition-colors duration-normal"
               aria-label="GitHub"
             >
               <FaGithub />
@@ -84,28 +98,19 @@ export default function Hero() {
               href={heroData.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+              className="text-3xl text-muted hover:text-primary transition-colors duration-normal"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
             </a>
             <a
               href={`mailto:${heroData.email}`}
-              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+              className="text-3xl text-muted hover:text-primary transition-colors duration-normal"
               aria-label="Email"
             >
               <FaEnvelope />
             </a>
           </div>
-
-          {/* Flèche de défilement */}
-          <a
-            href="#about"
-            className="inline-block text-primary dark:text-accent animate-bounce text-4xl"
-            aria-label="Scroll down"
-          >
-            <FaArrowDown />
-          </a>
         </div>
       </div>
     </section>

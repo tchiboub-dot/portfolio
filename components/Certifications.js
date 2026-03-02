@@ -45,7 +45,7 @@ export default function Certifications() {
   ]
 
   return (
-    <section id="certifications" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+    <section id="certifications" className="section py-24 md:py-32 bg-bg">
       <div className="container-custom">
         <SectionTitle 
           title="Certifications"
@@ -55,13 +55,13 @@ export default function Certifications() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {certificationsData.map((cert, index) => (
             <Card key={index} hover={false} className="flex flex-col">
-              <div className="flex items-start gap-3 mb-4 pb-4 border-b border-border dark:border-dark-border">
+              <div className="flex items-start gap-3 mb-4 pb-4 border-b border-border ">
                 <div className="text-4xl">{cert.logo}</div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-1">
+                  <h3 className="text-lg font-bold text-heading mb-1">
                     {cert.title}
                   </h3>
-                  <p className="text-sm text-primary dark:text-accent font-medium">
+                  <p className="text-sm text-primary text-primary font-medium">
                     {cert.organization}
                   </p>
                 </div>
@@ -70,19 +70,19 @@ export default function Certifications() {
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">📅</span>
                   <div>
-                    <p className="text-xs text-text-secondary dark:text-dark-text-secondary opacity-70">
+                    <p className="text-xs text-text opacity-70">
                       Date d'obtention
                     </p>
-                    <p className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                    <p className="text-sm font-medium text-heading">
                       {cert.date}
                     </p>
                   </div>
                 </div>
-                <div className="bg-primary-soft dark:bg-dark-primary-soft p-3 rounded-lg">
-                  <p className="text-xs text-text-secondary dark:text-dark-text-secondary opacity-70 mb-1">
+                <div className="bg-primary-soft  p-3 rounded-lg">
+                  <p className="text-xs text-text opacity-70 mb-1">
                     ID Certification
                   </p>
-                  <p className="text-sm font-mono font-medium text-text-primary dark:text-dark-text-primary">
+                  <p className="text-sm font-mono font-medium text-heading">
                     {cert.certificateId}
                   </p>
                 </div>

@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 
-/**
- * COMPOSANT BUTTON
- * Bouton réutilisable avec variants (primary, secondary, soft)
- * Supporte les liens internes et externes
+/* 
+ * MODERN BUTTON COMPONENT
+ * Variants: primary, secondary, soft, danger, outline
+ * Pro styling with proper contrast & accessibility
  */
 export default function Button({
   children,
@@ -13,27 +13,45 @@ export default function Button({
   size = 'md',
   className = '',
   href,
+  disabled = false,
   ...props
 }) {
-  const baseStyles =
-    'font-medium transition-all duration-fast border rounded-button focus:outline-none focus:ring-2 focus:ring-offset-2'
+  const baseStyles = `
+    font-semibold transition-all duration-fast
+    border rounded-button focus-visible:outline focus-visible:outline-2 
+    focus-visible:outline-offset-2 focus-visible:outline-primary
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
+    inline-flex items-center justify-center gap-2
+  `
 
   const variants = {
-    primary:
-      'bg-primary text-white hover:bg-primary-dark border-transparent focus:ring-primary shadow-soft hover:shadow-medium',
-    secondary:
-      'bg-surface text-primary border-primary hover:bg-primary-soft border focus:ring-primary',
-    soft: 'bg-primary-soft text-primary hover:bg-primary hover:text-white border-transparent focus:ring-primary',
-    danger:
-      'bg-danger text-white hover:bg-red-700 border-transparent focus:ring-danger',
-    outline:
-      'bg-transparent text-text-primary border-border hover:border-primary hover:text-primary',
+    primary: `
+      bg-primary text-white hover:bg-primary-hover 
+      border-primary shadow-medium hover:shadow-default
+    `,
+    secondary: `
+      bg-surface text-primary border-primary
+      hover:bg-primary-soft transition-colors
+    `,
+    soft: `
+      bg-primary-soft text-primary border-transparent
+      hover:bg-primary hover:text-white
+    `,
+    danger: `
+      bg-danger text-white hover:bg-red-700
+      border-danger shadow-medium hover:shadow-default
+    `,
+    outline: `
+      bg-transparent text-text border-border
+      hover:border-primary hover:text-primary
+      hover:bg-primary-soft
+    `,
   }
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm gap-2',
-    md: 'px-6 py-3 text-base gap-2',
-    lg: 'px-8 py-4 text-lg gap-2',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base h-12',
+    lg: 'px-8 py-4 text-lg h-14',
   }
 
   const buttonClasses = `
@@ -41,8 +59,7 @@ export default function Button({
     ${variants[variant] || variants.primary}
     ${sizes[size] || sizes.md}
     ${className}
-    flex items-center justify-center
-  `
+  `.replace(/\s+/g, ' ').trim()
 
   if (href) {
     return (
@@ -55,6 +72,7 @@ export default function Button({
   return (
     <button
       className={buttonClasses}
+      disabled={disabled}
       {...props}
     >
       {children}
