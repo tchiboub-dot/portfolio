@@ -1,14 +1,16 @@
 'use client'
 
-import { FaBriefcase, FaCalendar, FaMapMarkerAlt, FaCheckCircle } from 'react-icons/fa'
+import { FaBriefcase, FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import SectionTitle from './ui/SectionTitle'
+import Card from './ui/Card'
+import Badge from './ui/Badge'
 
 /**
  * COMPOSANT EXPERIENCE (EXPÉRIENCE PROFESSIONNELLE)
- * Section présentant les expériences professionnelles
- * Pour modifier les informations, changez les valeurs dans le tableau experienceData ci-dessous
+ * Section présentant les expériences professionnelles avec design moderne
+ * Pour modifier les données, changez l'objet experienceData ci-dessous
  */
 export default function Experience() {
-  // DONNÉES DE LA SECTION EXPÉRIENCE - MODIFIEZ ICI
   const experienceData = [
     {
       title: 'Développeur Web Junior',
@@ -27,89 +29,82 @@ export default function Experience() {
   ]
 
   return (
-    <section id="experience" className="py-20 bg-white">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Titre de la section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Expérience
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto"></div>
-        </div>
+    <section id="experience" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+      <div className="container-custom">
+        {/* Titre principal */}
+        <SectionTitle 
+          title="Expérience"
+          subtitle="Mes réalisations et projets professionnels"
+          align="center"
+        />
 
         {/* Liste des expériences */}
-        <div className="space-y-8">
+        <div className="max-w-4xl mx-auto space-y-6">
           {experienceData.map((exp, index) => (
-            <div
-              key={index}
-              className="bg-gradient-to-br from-blue-50 to-white rounded-lg shadow-lg p-6 md:p-8 hover:shadow-xl transition-shadow border-l-4 border-primary"
-            >
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                <div className="flex-1">
+            <Card key={index} hover={false}>
+              {/* En-tête */}
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 pb-4 border-b border-border dark:border-dark-border">
+                <div className="flex-1 mb-4 md:mb-0">
                   {/* Titre du poste */}
-                  <div className="flex items-start mb-2">
-                    <FaBriefcase className="text-primary text-2xl mr-3 mt-1" />
+                  <div className="flex items-start gap-3 mb-3">
+                    <FaBriefcase className="w-5 h-5 text-primary dark:text-accent flex-shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">
+                      <h3 className="text-xl md:text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
                         {exp.title}
                       </h3>
-                      {exp.current && (
-                        <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mt-2">
-                          Actuellement
-                        </span>
-                      )}
-                      {exp.type && (
-                        <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mt-2 ml-2">
-                          {exp.type}
-                        </span>
-                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {exp.current && (
+                          <Badge variant="success">Actuellement</Badge>
+                        )}
+                        {exp.type && (
+                          <Badge variant="default">{exp.type}</Badge>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   {/* Entreprise */}
-                  <h4 className="text-xl text-primary font-semibold mb-3">
+                  <p className="text-lg font-semibold text-primary dark:text-accent mb-2">
                     {exp.company}
-                  </h4>
+                  </p>
                 </div>
 
                 {/* Période et lieu */}
-                <div className="text-gray-600 md:text-right mt-4 md:mt-0">
-                  <div className="flex items-center md:justify-end mb-2">
-                    <FaCalendar className="mr-2" />
-                    <span>{exp.period}</span>
+                <div className="flex flex-col gap-2 md:text-right md:items-end">
+                  <div className="flex items-center gap-2 text-text-secondary dark:text-dark-text-secondary">
+                    <FaCalendar className="w-4 h-4 flex-shrink-0" />
+                    <span className="font-medium">{exp.period}</span>
                   </div>
-                  <div className="flex items-center md:justify-end">
-                    <FaMapMarkerAlt className="mr-2" />
-                    <span>{exp.location}</span>
+                  <div className="flex items-center gap-2 text-text-secondary dark:text-dark-text-secondary">
+                    <FaMapMarkerAlt className="w-4 h-4 flex-shrink-0" />
+                    <span className="font-medium">{exp.location}</span>
                   </div>
                 </div>
               </div>
 
               {/* Responsabilités */}
-              {exp.responsibilities && exp.responsibilities.length > 0 && (
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">
-                    Responsabilités & réalisations :
-                  </h5>
-                  <ul className="space-y-2">
-                    {exp.responsibilities.map((responsibility, idx) => (
-                      <li key={idx} className="flex items-start text-gray-700">
-                        <FaCheckCircle className="text-green-500 mr-3 mt-1 flex-shrink-0" />
-                        <span>{responsibility}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+              <div>
+                <p className="text-sm font-semibold text-text-primary dark:text-dark-text-primary mb-3">
+                  Responsabilités & réalisations :
+                </p>
+                <ul className="space-y-2">
+                  {exp.responsibilities.map((resp, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-3"
+                    >
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-soft dark:bg-dark-primary-soft flex items-center justify-center mt-0.5">
+                        <span className="w-2 h-2 rounded-full bg-primary dark:bg-accent" />
+                      </span>
+                      <span className="text-text-secondary dark:text-dark-text-secondary leading-relaxed">
+                        {resp}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Card>
           ))}
-        </div>
-
-        {/* Note informative */}
-        <div className="mt-8 text-center text-gray-600">
-          <p className="italic">
-            Pour ajouter plus d'expériences, modifiez le tableau experienceData dans le fichier Experience.js
-          </p>
         </div>
       </div>
     </section>
