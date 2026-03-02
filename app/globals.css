@@ -126,7 +126,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   position: relative;
-  isolation: isolate;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
