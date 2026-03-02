@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import Button from './ui/Button'
+import Avatar from './ui/Avatar'
 
 export default function Hero() {
   const heroData = {
@@ -20,37 +20,9 @@ export default function Hero() {
     <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-24">
       <div className="container-custom text-center">
         <div className="animate-fade-in-up">
-          {/* Photo de profil avec contour bleu pro */}
+          {/* Avatar avec glow ring premium */}
           <div className="mb-8 flex justify-center">
-            <div
-              className="relative w-48 h-48 md:w-56 md:h-56"
-              style={{
-                background: `linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(34,211,238,0.1) 100%)`,
-                borderRadius: '50%',
-                padding: '3px',
-              }}
-            >
-              <div
-                className="absolute inset-0"
-                style={{
-                  border: '2px solid rgba(59,130,246,0.45)',
-                  borderRadius: '50%',
-                  boxShadow: `
-                    0 0 0 6px rgba(59,130,246,0.08),
-                    0 15px 40px rgba(0,0,0,0.25),
-                    inset 0 0 0 1px rgba(59,130,246,0.2)
-                  `,
-                }}
-              />
-              <Image
-                src={heroData.photo}
-                alt={heroData.name}
-                width={224}
-                height={224}
-                className="w-full h-full rounded-full object-cover relative z-10"
-                priority
-              />
-            </div>
+            <Avatar src={heroData.photo} alt={heroData.name} size="lg" priority={true} />
           </div>
 
           {/* Nom */}
