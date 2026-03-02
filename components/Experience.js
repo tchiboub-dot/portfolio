@@ -47,7 +47,7 @@ export default function Experience() {
                 <div className="flex-1 mb-4 md:mb-0">
                   {/* Titre du poste */}
                   <div className="flex items-start gap-3 mb-3">
-                    <FaBriefcase className="w-5 h-5 text-primary text-primary flex-shrink-0 mt-0.5" />
+                    <FaBriefcase className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold text-heading mb-2">
                         {exp.title}
@@ -64,7 +64,7 @@ export default function Experience() {
                   </div>
 
                   {/* Entreprise */}
-                  <p className="text-lg font-semibold text-primary text-primary mb-2">
+                  <p className="text-lg font-semibold text-primary mb-2">
                     {exp.company}
                   </p>
                 </div>
@@ -93,8 +93,8 @@ export default function Experience() {
                       key={i}
                       className="flex items-start gap-3"
                     >
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-soft  flex items-center justify-center mt-0.5">
-                        <span className="w-2 h-2 rounded-full bg-primary bg-primary" />
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-soft flex items-center justify-center mt-0.5">
+                        <span className="w-2 h-2 rounded-full bg-primary" />
                       </span>
                       <span className="text-text leading-relaxed">
                         {resp}

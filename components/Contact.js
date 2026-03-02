@@ -81,12 +81,12 @@ export default function Contact() {
               {/* Email */}
               <a
                 href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
               >
-                <FaEnvelope className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaEnvelope className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
                   <p className="font-semibold text-heading">Email</p>
-                  <p className="text-primary text-primary">{contactData.email}</p>
+                  <p className="text-primary">{contactData.email}</p>
                 </div>
               </a>
 
@@ -95,9 +95,9 @@ export default function Contact() {
                 href={contactData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
               >
-                <FaLinkedin className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaLinkedin className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
                   <p className="font-semibold text-heading">LinkedIn</p>
                   <p className="text-primary text-primary">Taha Adnane Chiboub</p>
@@ -109,9 +109,9 @@ export default function Contact() {
                 href={contactData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft  rounded-card border border-border  hover:border-primary transition-all group"
+                className="flex items-center p-4 bg-primary-soft rounded-lg border border-border hover:border-primary transition-all group"
               >
-                <FaGithub className="text-3xl text-primary text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaGithub className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
                 <div>
                   <p className="font-semibold text-heading">GitHub</p>
                   <p className="text-primary text-primary">tchiboub-dot</p>
