@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle } from 'react-icons/fa'
+import SectionTitle from './ui/SectionTitle'
+import Card from './ui/Card'
+import Button from './ui/Button'
 
 /**
  * COMPOSANT CONTACT
@@ -17,7 +20,6 @@ export default function Contact() {
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  // DONNÉES DE CONTACT - MODIFIEZ ICI
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
@@ -56,26 +58,21 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 bg-white">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Titre de la section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">
-            N'hésitez pas à me contacter pour toute opportunité
-          </p>
-        </div>
+    <section id="contact" className="section py-24 md:py-32 bg-background dark:bg-dark-background">
+      <div className="container-custom">
+        <SectionTitle
+          title="Contact"
+          subtitle="N'hésitez pas à me contacter pour toute opportunité"
+          align="center"
+        />
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Informations de contact */}
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-6">
               Restons en contact
             </h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
+            <p className="text-text-secondary dark:text-dark-text-secondary mb-6 leading-relaxed">
               {contactData.availability}
             </p>
 
@@ -84,12 +81,12 @@ export default function Contact() {
               {/* Email */}
               <a
                 href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group"
+                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
               >
-                <FaEnvelope className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaEnvelope className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-gray-800">Email</p>
-                  <p className="text-primary">{contactData.email}</p>
+                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">Email</p>
+                  <p className="text-primary dark:text-accent">{contactData.email}</p>
                 </div>
               </a>
 
@@ -98,12 +95,12 @@ export default function Contact() {
                 href={contactData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group"
+                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
               >
-                <FaLinkedin className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaLinkedin className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-gray-800">LinkedIn</p>
-                  <p className="text-primary">Taha Adnane Chiboub</p>
+                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">LinkedIn</p>
+                  <p className="text-primary dark:text-accent">Taha Adnane Chiboub</p>
                 </div>
               </a>
 
@@ -112,18 +109,18 @@ export default function Contact() {
                 href={contactData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group"
+                className="flex items-center p-4 bg-primary-soft dark:bg-dark-primary-soft rounded-card border border-border dark:border-dark-border hover:border-primary transition-all group"
               >
-                <FaGithub className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
+                <FaGithub className="text-3xl text-primary dark:text-accent mr-4 group-hover:scale-110 transition-transform" />
                 <div>
-                  <p className="font-semibold text-gray-800">GitHub</p>
-                  <p className="text-primary">tchiboub-dot</p>
+                  <p className="font-semibold text-text-primary dark:text-dark-text-primary">GitHub</p>
+                  <p className="text-primary dark:text-accent">tchiboub-dot</p>
                 </div>
               </a>
             </div>
 
             {/* CTA pour projets */}
-            <div className="bg-gradient-to-br from-primary to-secondary text-white p-6 rounded-lg">
+            <div className="bg-gradient-to-br from-primary to-accent text-white p-6 rounded-card shadow-medium">
               <h4 className="text-xl font-semibold mb-3">Vous avez un projet ?</h4>
               <p className="mb-4">
                 Je suis disponible pour des stages, missions freelance et collaborations sur des projets web.
@@ -138,12 +135,12 @@ export default function Contact() {
 
           {/* Formulaire de contact */}
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-6">
               Envoyez-moi un message
             </h3>
 
             {isSubmitted ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-8 text-center">
+              <Card hover={false} className="bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800 text-center">
                 <FaCheckCircle className="text-5xl text-green-500 mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-green-800 mb-2">
                   Message envoyé !
@@ -151,12 +148,13 @@ export default function Contact() {
                 <p className="text-green-700">
                   Votre client email va s'ouvrir pour finaliser l'envoi.
                 </p>
-              </div>
+              </Card>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <Card hover={false}>
+                <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Nom */}
                 <div>
-                  <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
+                  <label htmlFor="name" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
                     Nom complet *
                   </label>
                   <input
@@ -166,14 +164,14 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-4 py-3"
                     placeholder="Votre nom"
                   />
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+                  <label htmlFor="email" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
                     Email *
                   </label>
                   <input
@@ -183,14 +181,14 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-4 py-3"
                     placeholder="votre.email@exemple.com"
                   />
                 </div>
 
                 {/* Sujet */}
                 <div>
-                  <label htmlFor="subject" className="block text-gray-700 font-semibold mb-2">
+                  <label htmlFor="subject" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
                     Sujet *
                   </label>
                   <input
@@ -200,14 +198,14 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-4 py-3"
                     placeholder="Sujet de votre message"
                   />
                 </div>
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
+                  <label htmlFor="message" className="block text-text-primary dark:text-dark-text-primary font-semibold mb-2">
                     Message *
                   </label>
                   <textarea
@@ -217,20 +215,18 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows="5"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors resize-none"
+                    className="w-full px-4 py-3 resize-none"
                     placeholder="Votre message..."
                   ></textarea>
                 </div>
 
                 {/* Bouton d'envoi */}
-                <button
-                  type="submit"
-                  className="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors flex items-center justify-center shadow-lg hover:shadow-xl"
-                >
+                <Button type="submit" className="w-full">
                   <FaPaperPlane className="mr-2" />
                   Envoyer le message
-                </button>
-              </form>
+                </Button>
+                </form>
+              </Card>
             )}
           </div>
         </div>

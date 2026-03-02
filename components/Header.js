@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { FaBars, FaTimes } from 'react-icons/fa'
+import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
 
 /**
  * COMPOSANT HEADER/NAVIGATION
@@ -11,6 +11,7 @@ import { FaBars, FaTimes } from 'react-icons/fa'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isDark, setIsDark] = useState(false)
 
   // Liste des liens de navigation - MODIFIEZ ICI pour ajouter/supprimer des liens
   const navLinks = [
@@ -32,28 +33,46 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const shouldUseDark = savedTheme ? savedTheme === 'dark' : prefersDark
+
+    document.documentElement.classList.toggle('dark', shouldUseDark)
+    setIsDark(shouldUseDark)
+  }, [])
+
+  const toggleTheme = () => {
+    const nextIsDark = !isDark
+    setIsDark(nextIsDark)
+    document.documentElement.classList.toggle('dark', nextIsDark)
+    localStorage.setItem('theme', nextIsDark ? 'dark' : 'light')
+  }
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-4' : 'bg-transparent py-6'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-normal ${
+        scrolled
+          ? 'bg-surface/95 dark:bg-dark-surface/95 backdrop-blur-md border-b border-border dark:border-dark-border py-3'
+          : 'bg-transparent py-5'
       }`}
     >
-      <nav className="container mx-auto px-4 flex justify-between items-center">
+      <nav className="container-custom flex justify-between items-center">
         {/* Logo / Nom */}
         <a
           href="#home"
-          className="text-2xl font-bold text-primary hover:text-secondary transition-colors"
+          className="text-2xl font-bold text-primary dark:text-accent hover:opacity-80 transition-opacity"
         >
           T.A.C
         </a>
 
         {/* Navigation Desktop */}
-        <ul className="hidden md:flex space-x-8">
+        <ul className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-gray-700 hover:text-primary transition-colors font-medium"
+                className="text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors font-medium"
               >
                 {link.name}
               </a>
@@ -61,32 +80,56 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Bouton Menu Mobile */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-2xl text-gray-700 hover:text-primary transition-colors"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </button>
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent hover:border-primary transition-all"
+            aria-label="Basculer le thème"
+            title="Basculer le thème"
+          >
+            {isDark ? <FaSun /> : <FaMoon />}
+          </button>
+
+          {/* Bouton Menu Mobile */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </nav>
 
       {/* Menu Mobile */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-lg">
-          <ul className="flex flex-col space-y-4 p-4">
+        <div className="md:hidden bg-surface dark:bg-dark-surface border-t border-border dark:border-dark-border shadow-medium">
+          <div className="container-custom py-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Navigation</span>
+              <button
+                onClick={toggleTheme}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary"
+                aria-label="Basculer le thème"
+              >
+                {isDark ? <FaSun /> : <FaMoon />}
+              </button>
+            </div>
+            <ul className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <a
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block text-gray-700 hover:text-primary transition-colors font-medium"
+                  className="block text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors font-medium"
                 >
                   {link.name}
                 </a>
               </li>
             ))}
-          </ul>
+            </ul>
+          </div>
         </div>
       )}
     </header>

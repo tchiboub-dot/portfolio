@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
+import Button from './ui/Button'
 
 /**
  * COMPOSANT HERO (SECTION D'ACCUEIL)
@@ -9,7 +10,6 @@ import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa'
  * Pour modifier les informations, changez les valeurs dans l'objet heroData ci-dessous
  */
 export default function Hero() {
-  // DONNÉES DE LA SECTION HERO - MODIFIEZ ICI
   const heroData = {
     name: 'Chiboub Taha Adnane',
     title: 'Étudiant en Informatique (1ère année) — ESISA Fes',
@@ -24,9 +24,9 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 pt-20"
+      className="min-h-screen flex items-center justify-center bg-background dark:bg-dark-background pt-24"
     >
-      <div className="container mx-auto px-4 text-center">
+      <div className="container-custom text-center">
         <div className="animate-fade-in-up">
           {/* Photo de profil */}
           <div className="mb-8">
@@ -35,44 +35,38 @@ export default function Hero() {
               alt={heroData.name}
               width={200}
               height={200}
-              className="w-48 h-48 rounded-full mx-auto object-cover shadow-xl border-4 border-primary"
+              className="w-44 h-44 md:w-48 md:h-48 rounded-full mx-auto object-cover shadow-medium border-4 border-primary dark:border-accent"
             />
           </div>
 
           {/* Nom */}
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-4">
+          <h1 className="text-h1-mobile md:text-h1 font-bold text-text-primary dark:text-dark-text-primary mb-4 leading-tight">
             {heroData.name}
           </h1>
 
           {/* Titre principal */}
-          <h2 className="text-2xl md:text-3xl text-primary font-semibold mb-3">
+          <h2 className="text-xl md:text-2xl text-primary dark:text-accent font-semibold mb-3">
             {heroData.title}
           </h2>
 
           {/* Sous-titre */}
-          <p className="text-xl md:text-2xl text-gray-600 mb-6">
+          <p className="text-lg md:text-xl text-text-secondary dark:text-dark-text-secondary mb-6">
             {heroData.subtitle}
           </p>
 
           {/* Description */}
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+          <p className="text-body text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto mb-8">
             {heroData.description}
           </p>
 
           {/* Boutons d'action */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <a
-              href="#projects"
-              className="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors shadow-lg hover:shadow-xl"
-            >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-9">
+            <Button href="#projects" size="lg">
               Voir mes projets
-            </a>
-            <a
-              href="#contact"
-              className="bg-white text-primary border-2 border-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors shadow-lg hover:shadow-xl"
-            >
+            </Button>
+            <Button href="#contact" variant="outline" size="lg">
               Me contacter
-            </a>
+            </Button>
           </div>
 
           {/* Liens sociaux */}
@@ -81,7 +75,7 @@ export default function Hero() {
               href={heroData.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-gray-700 hover:text-primary transition-colors"
+              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
               aria-label="GitHub"
             >
               <FaGithub />
@@ -90,14 +84,14 @@ export default function Hero() {
               href={heroData.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-gray-700 hover:text-primary transition-colors"
+              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
             </a>
             <a
               href={`mailto:${heroData.email}`}
-              className="text-3xl text-gray-700 hover:text-primary transition-colors"
+              className="text-3xl text-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-accent transition-colors"
               aria-label="Email"
             >
               <FaEnvelope />
@@ -107,7 +101,7 @@ export default function Hero() {
           {/* Flèche de défilement */}
           <a
             href="#about"
-            className="inline-block text-primary animate-bounce text-4xl"
+            className="inline-block text-primary dark:text-accent animate-bounce text-4xl"
             aria-label="Scroll down"
           >
             <FaArrowDown />
