@@ -755,12 +755,10 @@ body::before{
 }
 
 /* DEBUG (leave commented): enable to confirm layer exists */
-/*
 body::before{
   outline: 3px solid red !important;
   opacity: 1 !important;
 }
-*/
 
 /* Animation for stars drift */
 @media (prefers-reduced-motion: no-preference){
