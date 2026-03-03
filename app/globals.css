@@ -118,6 +118,7 @@ html {
   width: 100%;
   height: 100%;
   position: relative;
+  background: transparent;
 }
 
 body {
@@ -130,6 +131,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   width: 100%;
   isolation: isolate;
+  background: transparent;
 }
 
 
@@ -456,7 +458,7 @@ textarea::placeholder {
 /* ================= GRADIENT BACKGROUND ================= */
 .bg-gradient {
   position: relative;
-  background: var(--bg);
+  background: transparent;
 }
 
 .bg-gradient::before {
