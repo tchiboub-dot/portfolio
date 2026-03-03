@@ -129,22 +129,6 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: -220px;
-  left: 50%;
-  width: 860px;
-  height: 860px;
-  transform: translateX(-50%);
-  border-radius: 9999px;
-  pointer-events: none;
-  z-index: -2;
-  filter: blur(14px);
-  opacity: 0.45;
-  transition: background var(--duration-normal);
-}
-
 
 
 /* Light mode glow ring */
@@ -704,7 +688,7 @@ textarea::placeholder {
   .glass-card::before,
   .glass-card::after,
   .avatar-glow-ring,
-  html::before {
+  body::before {
     animation: none;
   }
 
@@ -737,46 +721,55 @@ hr {
   transition: border-color .2s ease;
 }
 
-/* === GLOBAL STARFIELD BACKGROUND === */
-html{
+/* === FIX: STARFIELD HIDDEN BY BACKGROUND === */
+
+/* Stable stacking context */
+body{
   position: relative;
+  isolation: isolate; /* prevents being hidden by other stacking contexts */
 }
 
-/* Put stars behind everything, across the whole site */
-html::before{
+/* Ensure main wrapper/content does not cover the stars */
+#root, #__next, main, .app, .container{
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+}
+
+/* Stars layer: above background, below content */
+body::before{
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: -1;
-  opacity: var(--stars-opacity);
+  z-index: 0;
+  opacity: var(--stars-opacity, 0.3);
 
-  /* Multiple layers for depth (tiny + medium + few bigger stars) */
   background-image:
-    radial-gradient(1px 1px at 10% 20%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(1px 1px at 30% 80%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(1px 1px at 70% 40%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 85% 70%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(2px 2px at 45% 55%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(1px 1px at 55% 15%, var(--stars-color) 99%, transparent 100%),
-    radial-gradient(1px 1px at 90% 10%, var(--stars-color) 99%, transparent 100%);
+    radial-gradient(1px 1px at 10% 20%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(1px 1px at 30% 80%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(1px 1px at 70% 40%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 70%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(2px 2px at 45% 55%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(1px 1px at 55% 15%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%);
 
   background-size:
-    var(--stars-size) var(--stars-size),
-    calc(var(--stars-size) * 0.85) calc(var(--stars-size) * 0.85),
-    calc(var(--stars-size) * 0.75) calc(var(--stars-size) * 0.75),
-    calc(var(--stars-size) * 0.65) calc(var(--stars-size) * 0.65),
-    calc(var(--stars-size) * 0.55) calc(var(--stars-size) * 0.55),
-    calc(var(--stars-size) * 0.45) calc(var(--stars-size) * 0.45),
-    calc(var(--stars-size) * 0.35) calc(var(--stars-size) * 0.35);
+    var(--stars-size, 520px) var(--stars-size, 520px),
+    calc(var(--stars-size, 520px) * 0.85) calc(var(--stars-size, 520px) * 0.85),
+    calc(var(--stars-size, 520px) * 0.75) calc(var(--stars-size, 520px) * 0.75),
+    calc(var(--stars-size, 520px) * 0.65) calc(var(--stars-size, 520px) * 0.65),
+    calc(var(--stars-size, 520px) * 0.55) calc(var(--stars-size, 520px) * 0.55),
+    calc(var(--stars-size, 520px) * 0.45) calc(var(--stars-size, 520px) * 0.45),
+    calc(var(--stars-size, 520px) * 0.35) calc(var(--stars-size, 520px) * 0.35);
 
   background-repeat: repeat;
   transform: translateZ(0);
 }
 
-/* Ultra-slow drift (disable for reduced motion) */
+/* Optional slow drift */
 @media (prefers-reduced-motion: no-preference){
-  html::before{
+  body::before{
     animation: stars-drift 55s linear infinite;
   }
   @keyframes stars-drift{
