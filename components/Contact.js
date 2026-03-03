@@ -23,6 +23,12 @@ export default function Contact() {
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -34,23 +40,44 @@ export default function Contact() {
   // Validation côté client
   const validateForm = () => {
     const { name, email, subject, message } = formData
+    const nextErrors = {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    }
 
-    // Vérifier que tous les champs sont remplis
-    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
-      setErrorMessage('Tous les champs sont requis')
-      return false
+    const trimmedName = name.trim()
+    const trimmedEmail = email.trim()
+    const trimmedSubject = subject.trim()
+    const trimmedMessage = message.trim()
+
+    if (!trimmedName) {
+      nextErrors.name = 'Le nom est requis'
+    }
+
+    if (!trimmedEmail) {
+      nextErrors.email = 'L’email est requis'
+    }
+
+    if (!trimmedSubject) {
+      nextErrors.subject = 'Le sujet est requis'
+    }
+
+    if (!trimmedMessage) {
+      nextErrors.message = 'Le message est requis'
     }
 
     // Validation de l'email
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    if (!emailRegex.test(email)) {
-      setErrorMessage('Email invalide')
-      return false
+    if (trimmedEmail && !emailRegex.test(trimmedEmail)) {
+      nextErrors.email = 'Email invalide'
     }
 
     // Vérifier les longueurs max
     if (name.length > 100 || email.length > 150 || subject.length > 200 || message.length > 2000) {
       setErrorMessage('Un ou plusieurs champs sont trop longs')
+      setFieldErrors(nextErrors)
       return false
     }
 
@@ -58,6 +85,15 @@ export default function Contact() {
     const spamPatterns = /(viagra|cialis|casino|lottery)/i
     if (spamPatterns.test(name + subject + message)) {
       setErrorMessage('Contenu suspect détecté')
+      setFieldErrors(nextErrors)
+      return false
+    }
+
+    const hasFieldError = Object.values(nextErrors).some(Boolean)
+    setFieldErrors(nextErrors)
+
+    if (hasFieldError) {
+      setErrorMessage('Veuillez corriger les champs indiqués')
       return false
     }
 
@@ -65,14 +101,28 @@ export default function Contact() {
   }
 
   const handleChange = (e) => {
+    const { name, value } = e.target
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     })
+
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }))
+    }
+
     // Réinitialiser les erreurs quand l'utilisateur tape
     if (isError) {
       setIsError(false)
       setErrorMessage('')
+    }
+
+    if (isSubmitted) {
+      setIsSubmitted(false)
     }
   }
 
@@ -128,11 +178,17 @@ export default function Contact() {
         // Erreur serveur
         setIsError(true)
         setErrorMessage(data.message || 'Une erreur est survenue')
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Contact form API error:', data)
+        }
       }
     } catch (error) {
       // Erreur réseau
       setIsError(true)
       setErrorMessage('Impossible de contacter le serveur')
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Contact form network error:', error)
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -278,6 +334,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Votre nom"
                   />
+                  {fieldErrors.name && (
+                    <p className="mt-1 text-xs text-danger">{fieldErrors.name}</p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -297,6 +356,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="votre.email@exemple.com"
                   />
+                  {fieldErrors.email && (
+                    <p className="mt-1 text-xs text-danger">{fieldErrors.email}</p>
+                  )}
                 </div>
 
                 {/* Sujet */}
@@ -316,6 +378,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Sujet de votre message"
                   />
+                  {fieldErrors.subject && (
+                    <p className="mt-1 text-xs text-danger">{fieldErrors.subject}</p>
+                  )}
                 </div>
 
                 {/* Message */}
@@ -335,6 +400,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Votre message..."
                   ></textarea>
+                  {fieldErrors.message && (
+                    <p className="mt-1 text-xs text-danger">{fieldErrors.message}</p>
+                  )}
                   <div className="text-right text-xs text-muted mt-1">
                     {formData.message.length} / 2000
                   </div>
@@ -353,8 +421,8 @@ export default function Contact() {
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="inline-block animate-spin mr-2">⏳</span>
-                      Envoi en cours...
+                      <span className="inline-block animate-spin mr-2" aria-hidden="true">⏳</span>
+                      Envoi...
                     </>
                   ) : (
                     <>

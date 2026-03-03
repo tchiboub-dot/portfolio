@@ -12,6 +12,7 @@ const MAX_EMAIL_LENGTH = 150
 const MAX_SUBJECT_LENGTH = 200
 const MAX_MESSAGE_LENGTH = 2000
 const MAX_BODY_SIZE = 10 * 1024 // 10KB max
+const RESEND_API_URL = 'https://api.resend.com/emails'
 
 // Store en mémoire pour le rate limiting (à remplacer par Redis en prod)
 const requestStore = new Map()
@@ -41,6 +42,15 @@ function sanitizeInput(input) {
     .replace(/javascript:/gi, '') // Retire javascript:
     .replace(/on\w+=/gi, '') // Retire les event handlers (onclick=, etc.)
     .slice(0, MAX_MESSAGE_LENGTH) // Limite la longueur
+}
+
+function escapeHtml(input) {
+  return String(input)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
 
 /**
@@ -109,6 +119,35 @@ function getClientIP(request) {
     request.headers.get('x-real-ip') ||
     'unknown'
   )
+}
+
+async function sendWithResend({ fromEmail, toEmail, replyTo, subject, text, html }) {
+  const apiKey = process.env.RESEND_API_KEY
+
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is not configured')
+  }
+
+  const response = await fetch(RESEND_API_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: fromEmail,
+      to: [toEmail],
+      reply_to: replyTo,
+      subject,
+      text,
+      html,
+    }),
+  })
+
+  if (!response.ok) {
+    const resendError = await response.text()
+    throw new Error(`Resend request failed (${response.status}): ${resendError}`)
+  }
 }
 
 // ============================================================================
@@ -224,34 +263,63 @@ export async function POST(request) {
       return NextResponse.json({ success: true, message: 'Message envoyé' })
     }
 
-    // 12. Ici, vous pourriez envoyer l'email via un service (SendGrid, Resend, etc.)
-    // Pour l'instant, on logue juste (ne jamais logger les données sensibles en prod)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('📧 Message reçu:', { safeName, email, safeSubject })
+    // 12. Envoi réel via Resend (compatible Vercel)
+    const toEmail = process.env.CONTACT_TO_EMAIL
+    const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>'
+
+    if (!toEmail) {
+      throw new Error('CONTACT_TO_EMAIL is not configured')
     }
 
-    // TODO: Intégrer un service d'email
-    // Exemple avec Resend:
-    // const resend = new Resend(process.env.RESEND_API_KEY)
-    // await resend.emails.send({
-    //   from: 'contact@votredomaine.com',
-    //   to: process.env.CONTACT_EMAIL,
-    //   subject: `[Portfolio] ${safeSubject}`,
-    //   html: `<p><strong>De:</strong> ${safeName} (${email})</p><p>${safeMessage}</p>`
-    // })
+    const emailSubject = `[Portfolio] ${safeSubject}`
+    const safeEmail = sanitizeInput(email)
+    const textBody = [
+      'Nouveau message depuis le portfolio',
+      '',
+      `Nom: ${safeName}`,
+      `Email: ${safeEmail}`,
+      `Sujet: ${safeSubject}`,
+      '',
+      'Message:',
+      safeMessage,
+      '',
+      `IP: ${clientIP}`,
+    ].join('\n')
+
+    const htmlBody = `
+      <h2>Nouveau message depuis le portfolio</h2>
+      <p><strong>Nom:</strong> ${escapeHtml(safeName)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(safeEmail)}</p>
+      <p><strong>Sujet:</strong> ${escapeHtml(safeSubject)}</p>
+      <p><strong>Message:</strong></p>
+      <p>${escapeHtml(safeMessage).replace(/\n/g, '<br/>')}</p>
+      <hr/>
+      <p><small>IP: ${escapeHtml(clientIP)}</small></p>
+    `
+
+    await sendWithResend({
+      fromEmail,
+      toEmail,
+      replyTo: safeEmail,
+      subject: emailSubject,
+      text: textBody,
+      html: htmlBody,
+    })
 
     // 13. Réponse générique (ne leak pas d'info)
     return NextResponse.json({
       success: true,
-      message: 'Message envoyé avec succès'
+      message: 'Message envoyé ✅'
     })
 
   } catch (error) {
     // Ne jamais exposer les erreurs internes
-    console.error('Erreur serveur:', error.message)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Erreur serveur /api/contact:', error)
+    }
     
     return NextResponse.json(
-      { success: false, message: 'Une erreur est survenue' },
+      { success: false, message: 'Erreur d\'envoi, réessayez.' },
       { status: 500 }
     )
   }
