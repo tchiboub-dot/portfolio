@@ -131,6 +131,18 @@ export default function Projects() {
                     {project.title}
                   </h3>
 
+                  {/* Compact Tech Stack */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {project.technologies.slice(0, 3).map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/15 text-blue-200 border border-blue-400/25"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
                   {/* Description */}
                   <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300">
                     {project.description}

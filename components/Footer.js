@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { FaHeart, FaGithub, FaLinkedin, FaEnvelope, FaArrowUp } from 'react-icons/fa'
 
 /**
@@ -7,6 +8,8 @@ import { FaHeart, FaGithub, FaLinkedin, FaEnvelope, FaArrowUp } from 'react-icon
  * Premium footer with enhanced styling and animations
  */
 export default function Footer() {
+  const [showBackToTop, setShowBackToTop] = useState(false)
+
   const footerData = {
     name: 'T.A.C',
     email: 'taha.adnane.chiboub@gmail.com',
@@ -15,6 +18,20 @@ export default function Footer() {
   }
 
   const currentYear = new Date().getFullYear()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const doc = document.documentElement
+      const scrollTop = window.scrollY || doc.scrollTop || 0
+      const scrollable = Math.max(doc.scrollHeight - window.innerHeight, 1)
+      setShowBackToTop((scrollTop / scrollable) >= 0.2)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -108,10 +125,10 @@ export default function Footer() {
         {/* Scroll to Top Button */}
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-gradient-to-b from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 hover:from-blue-400 hover:to-blue-500 z-40 drop-shadow-lg"
+          className={`fixed bottom-8 right-8 bg-gradient-to-b from-blue-500/85 to-blue-600/85 text-white p-3.5 rounded-full border border-blue-300/25 shadow-lg shadow-blue-500/25 backdrop-blur-sm transition-all duration-300 z-40 drop-shadow-lg ${showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-3 pointer-events-none'}`}
           aria-label="Retour en haut"
         >
-          <FaArrowUp className="animate-bounce" />
+          <FaArrowUp />
         </button>
       </div>
     </footer>

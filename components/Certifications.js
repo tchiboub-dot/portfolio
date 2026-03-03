@@ -244,6 +244,25 @@ export default function Certifications() {
                 <div className="mt-4 text-center text-blue-300/60 text-sm">
                   {currentIndex + 1} / {certificationsData.length}
                 </div>
+
+                {/* Viewer Actions */}
+                <div className="mt-4 flex items-center justify-center gap-3">
+                  <a
+                    href={certificationsData[currentIndex].image}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-500/15 text-blue-100 border border-blue-400/30 hover:border-blue-400/55 transition-colors"
+                  >
+                    Voir l'original
+                  </a>
+                  <a
+                    href={certificationsData[currentIndex].image}
+                    download
+                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-500/15 text-blue-100 border border-blue-400/30 hover:border-blue-400/55 transition-colors"
+                  >
+                    Télécharger
+                  </a>
+                </div>
               </div>
             </div>
           </div>
