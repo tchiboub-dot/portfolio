@@ -1713,7 +1713,7 @@ section[id] {
   }
 
   html::before {
-    animation-duration: 48s, 10s;
+    animation-duration: 48s;
   }
   
   html::after,
@@ -1831,3 +1831,103 @@ section[id] {
 .animate-stagger-4 { animation-delay: 0.4s; }
 .animate-stagger-5 { animation-delay: 0.5s; }
 .animate-stagger-6 { animation-delay: 0.6s; }
+
+/* ============================================
+   FINAL MASTER OVERRIDES (PRODUCTION-SAFE)
+   ============================================ */
+
+/* Starfield intensity and color per mode */
+:root[data-theme="dark"] {
+  --stars-opacity: 0.54;
+  --stars-color: rgba(165, 215, 255, 0.94);
+}
+
+:root[data-theme="light"] {
+  --stars-opacity: 0.16;
+  --stars-color: rgba(74, 132, 230, 0.62);
+}
+
+/* Keep wrappers transparent so stars remain visible */
+html,
+body,
+#__next,
+#root,
+main {
+  background: transparent !important;
+}
+
+/* Deepest cinematic space gradient layer */
+body::before {
+  z-index: -4;
+  background:
+    radial-gradient(1500px 980px at 14% 18%, rgba(8, 24, 58, 0.20) 0%, transparent 64%),
+    radial-gradient(1220px 840px at 82% 22%, rgba(18, 40, 82, 0.15) 0%, transparent 60%),
+    radial-gradient(1100px 760px at 30% 84%, rgba(8, 26, 64, 0.12) 0%, transparent 62%),
+    linear-gradient(180deg, #050A16 0%, #070E1D 55%, #081124 100%);
+}
+
+/* Behind-glass haze: subtle diffusion, keep stars crisp */
+body::after {
+  z-index: -1;
+  opacity: 0.62;
+  backdrop-filter: blur(0.35px) brightness(0.97);
+  -webkit-backdrop-filter: blur(0.35px) brightness(0.97);
+}
+
+/* Tiny star points only (1–2px), smooth bottom->top drift */
+html::before {
+  animation: starfieldRise 46s linear infinite;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 23% 68%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.1px 1.1px at 68% 38%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 22% 44%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 78% 12%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 42% 88%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.1px 1.1px at 88% 52%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 8% 62%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.4px 1.4px at 52% 24%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 84% 68%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 35% 52%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.8px 1.8px at 48% 58%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(2px 2px at 18% 32%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.7px 1.7px at 92% 28%, var(--stars-color) 99%, transparent 100%);
+}
+
+/* Ring-only card hover: no movement, no layout shift */
+.card-interactive:hover,
+.glass-card:hover,
+.card-base:hover {
+  transform: none !important;
+  translate: none !important;
+}
+
+/* Ensure text readability in both modes */
+:root[data-theme="dark"] p,
+:root[data-theme="dark"] li,
+:root[data-theme="dark"] span,
+:root[data-theme="dark"] label {
+  color: #DDE8FF;
+}
+
+:root[data-theme="light"] p,
+:root[data-theme="light"] li,
+:root[data-theme="light"] span,
+:root[data-theme="light"] label {
+  color: #1B2940;
+}
+
+/* Light mode surface tuning for clear visual distinction */
+:root[data-theme="light"] body::before {
+  background:
+    radial-gradient(1400px 950px at 16% 20%, rgba(204, 224, 255, 0.08) 0%, transparent 64%),
+    radial-gradient(1200px 820px at 84% 18%, rgba(188, 214, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(1100px 750px at 28% 82%, rgba(170, 205, 255, 0.05) 0%, transparent 62%),
+    linear-gradient(180deg, #F7FAFF 0%, #EEF4FF 55%, #E9F1FF 100%);
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.44;
+  backdrop-filter: blur(0.25px) brightness(1.03);
+  -webkit-backdrop-filter: blur(0.25px) brightness(1.03);
+}
