@@ -132,21 +132,6 @@ body {
   isolation: isolate;
 }
 
-/* BACKGROUND LAYER: Behind everything (z-index: -1) */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  background-color: var(--bg);
-  background-image: var(--bgGradient);
-  transition: background-color .2s ease;
-}
-
 
 /* ============================================
    TYPOGRAPHY (IMPROVED HIERARCHY & READABILITY)
@@ -669,8 +654,7 @@ textarea::placeholder {
   .glass-card::before,
   .glass-card::after,
   .avatar-glow-ring,
-  body::before,
-  body::after {
+  body::before {
     animation: none;
   }
 
