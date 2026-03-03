@@ -124,7 +124,7 @@ export default function Header() {
   }
 
   return (
-    <header className={`site-header ${isHeaderHidden ? 'site-header--hidden' : 'site-header--visible'} fixed top-3 left-0 right-0 z-50 pointer-events-none`}>
+    <header className={`site-header ${isHeaderHidden ? 'site-header--hidden' : 'site-header--visible'} z-50 pointer-events-none`}>
       <nav className="navbar-pill container-custom flex justify-between items-center pointer-events-auto">
         {/* Logo */}
         <a

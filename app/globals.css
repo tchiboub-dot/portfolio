@@ -2112,10 +2112,8 @@ header {
 
 /* Fix for light mode navbar text visibility */
 header {
-  position: fixed !important;
+  position: sticky !important;
   top: 0.75rem;
-  left: 0;
-  right: 0;
   z-index: 50;
   pointer-events: none;
 }
