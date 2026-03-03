@@ -115,6 +115,9 @@
 html {
   scroll-behavior: smooth;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 body {
@@ -125,13 +128,18 @@ body {
   line-height: 1.6;
   position: relative;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  width: 100%;
+  isolation: isolate;
 }
 
-/* Background moved to body::after to allow starfield visibility */
+/* BACKGROUND LAYER: Behind everything (z-index: -1) */
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: -1;
   background-color: var(--bg);
@@ -720,17 +728,20 @@ body{
   isolation: isolate;
 }
 
-/* Ensure main wrapper is above stars; do NOT hide stars */
+/* Ensure main wrapper is above stars and background */
 #root, #__next, main, .app, .container{
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* The actual stars layer */
 body::before{
   content: "";
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
   opacity: var(--stars-opacity);
