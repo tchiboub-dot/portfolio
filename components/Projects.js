@@ -17,7 +17,6 @@ import Button from './ui/Button'
  * - Scroll reveal animations
  */
 export default function Projects() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [visibleCards, setVisibleCards] = useState(new Set())
   const cardRefs = useRef([])
 
@@ -87,23 +86,6 @@ export default function Projects() {
     })
   }, [])
 
-  const handleMouseMove = (e, index) => {
-    const rect = cardRefs.current[index]?.getBoundingClientRect()
-    if (!rect) return
-
-    const x = (e.clientX - rect.left) / rect.width
-    const y = (e.clientY - rect.top) / rect.height
-    
-    const rotateX = (y - 0.5) * 10
-    const rotateY = (x - 0.5) * -10
-
-    setMousePos({ x: rotateX, y: rotateY })
-  }
-
-  const handleMouseLeave = () => {
-    setMousePos({ x: 0, y: 0 })
-  }
-
   return (
     <section id="projects" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
       {/* Background glow effects */}
@@ -130,14 +112,6 @@ export default function Projects() {
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
               }`}
-              onMouseMove={e => handleMouseMove(e, index)}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                transformStyle: 'preserve-3d',
-                transform: visibleCards.has(String(index)) 
-                  ? `perspective(1000px) rotateX(${mousePos.x}deg) rotateY(${mousePos.y}deg)`
-                  : 'none',
-              }}
             >
               <Card className="flex flex-col h-full overflow-hidden p-0 card-interactive group">
                 {/* Project Image/Icon */}

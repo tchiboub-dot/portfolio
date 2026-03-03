@@ -1931,3 +1931,144 @@ html::before {
   backdrop-filter: blur(0.25px) brightness(1.03);
   -webkit-backdrop-filter: blur(0.25px) brightness(1.03);
 }
+
+/* ============================================
+   NAVBAR PILL + STAR VISIBILITY + PERFORMANCE PATCH
+   ============================================ */
+
+/* Keep starfield visible under all wrappers */
+html,
+body,
+#__next,
+#root,
+main,
+.section,
+.container-custom {
+  background-color: transparent !important;
+}
+
+/* Dedicated star layers: deepest, non-interactive */
+body::before {
+  pointer-events: none;
+  z-index: -4;
+}
+
+html::before {
+  pointer-events: none;
+  z-index: -3;
+  animation: starfieldRise 48s linear infinite;
+}
+
+html::after {
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* Remove extra heavy animated veil to prevent lag */
+main::before {
+  display: none !important;
+}
+
+/* Premium capsule navbar */
+header {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.navbar-pill {
+  width: min(1200px, calc(100% - 24px));
+  margin-inline: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(112, 174, 255, 0.28);
+  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  box-shadow:
+    0 8px 24px rgba(2, 8, 22, 0.22),
+    0 0 0 1px rgba(142, 190, 255, 0.08) inset,
+    0 0 24px rgba(72, 140, 255, 0.12);
+  transition: background-color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+:root[data-theme="dark"] .navbar-pill {
+  background: linear-gradient(145deg, rgba(9, 22, 52, 0.62), rgba(6, 15, 36, 0.54));
+}
+
+:root[data-theme="light"] .navbar-pill {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(246, 250, 255, 0.78));
+  border-color: rgba(120, 170, 240, 0.28);
+  box-shadow:
+    0 8px 20px rgba(18, 40, 82, 0.10),
+    0 0 0 1px rgba(255, 255, 255, 0.58) inset,
+    0 0 18px rgba(90, 145, 230, 0.10);
+}
+
+.navbar-mobile-panel {
+  width: min(1200px, calc(100% - 24px));
+  margin: 10px auto 0;
+  border-radius: 22px;
+  border: 1px solid rgba(112, 174, 255, 0.24);
+  background: linear-gradient(145deg, rgba(9, 22, 52, 0.56), rgba(6, 15, 36, 0.48));
+  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  box-shadow: 0 8px 20px rgba(2, 8, 22, 0.22);
+}
+
+:root[data-theme="light"] .navbar-mobile-panel {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(246, 250, 255, 0.80));
+  border-color: rgba(120, 170, 240, 0.26);
+}
+
+.navbar-link {
+  text-shadow: 0 0 0 rgba(100, 170, 255, 0);
+  transition: color 240ms ease, text-shadow 240ms ease;
+}
+
+.navbar-link:hover {
+  text-shadow: 0 0 8px rgba(110, 180, 255, 0.30);
+}
+
+/* Ring-only cards, no movement/reflow */
+.card-interactive,
+.glass-card,
+.card-base {
+  transition: border-color 260ms ease, box-shadow 260ms ease, background-color 260ms ease !important;
+}
+
+.card-interactive:hover,
+.glass-card:hover,
+.card-base:hover {
+  transform: none !important;
+  translate: none !important;
+}
+
+/* Mobile/perf tuning */
+@media (max-width: 768px) {
+  .navbar-pill {
+    width: calc(100% - 16px);
+    border-radius: 22px;
+    backdrop-filter: blur(8px) saturate(118%);
+    -webkit-backdrop-filter: blur(8px) saturate(118%);
+  }
+
+  body::after {
+    backdrop-filter: blur(0.18px) brightness(0.98);
+    -webkit-backdrop-filter: blur(0.18px) brightness(0.98);
+  }
+
+  html::before {
+    animation-duration: 56s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html::before,
+  body::before,
+  body::after {
+    animation: none !important;
+  }
+}

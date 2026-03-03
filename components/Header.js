@@ -10,7 +10,6 @@ import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
  */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [isDark, setIsDark] = useState(false)
 
   const navLinks = [
@@ -22,14 +21,6 @@ export default function Header() {
     { name: 'Compétences', href: '#skills' },
     { name: 'Contact', href: '#contact' },
   ]
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -49,14 +40,8 @@ export default function Header() {
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 py-3 shadow-lg shadow-blue-500/5'
-          : 'bg-transparent py-5'
-      }`}
-    >
-      <nav className="container-custom flex justify-between items-center">
+    <header className="fixed top-3 left-0 right-0 z-50 pointer-events-none">
+      <nav className="navbar-pill container-custom flex justify-between items-center pointer-events-auto">
         {/* Logo */}
         <a
           href="#home"
@@ -71,7 +56,7 @@ export default function Header() {
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide relative group"
+                className="navbar-link text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide relative group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
@@ -105,7 +90,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-blue-950/50 backdrop-blur-xl border-t border-blue-400/20 shadow-lg">
+        <div className="md:hidden navbar-mobile-panel pointer-events-auto">
           <div className="container-custom py-6 space-y-4">
             {/* Theme Toggle - Mobile */}
             <div className="flex items-center justify-between pb-4 border-b border-blue-400/20">
