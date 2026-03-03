@@ -118,8 +118,6 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  background-image: var(--bgGradient);
   color: var(--text);
   transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
   -webkit-font-smoothing: antialiased;
@@ -129,9 +127,17 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-
-/* Light mode glow ring */
-/* REMOVED: body::before override - moved to separate element */
+/* Background moved to body::after to allow starfield visibility */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-color: var(--bg);
+  background-image: var(--bgGradient);
+  transition: background-color .2s ease;
+}
 
 
 /* ============================================
@@ -655,7 +661,8 @@ textarea::placeholder {
   .glass-card::before,
   .glass-card::after,
   .avatar-glow-ring,
-  body::before {
+  body::before,
+  body::after {
     animation: none;
   }
 
