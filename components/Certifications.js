@@ -115,7 +115,7 @@ export default function Certifications() {
             <div
               key={index}
               onClick={() => openViewer(index)}
-              className="glass-card group cursor-pointer rounded-xl overflow-hidden transition-all duration-300"
+              className="glass-card group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 float-card hover:shadow-xl"
             >
               {/* Certificate Image */}
               <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-950/40 to-slate-900/40">
@@ -191,7 +191,7 @@ export default function Certifications() {
 
             {/* Certificate Display */}
             <div 
-              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col"
+              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col float-up"
               onClick={(e) => e.stopPropagation()}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}

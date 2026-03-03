@@ -21,11 +21,13 @@
   --shadow: 0 18px 45px rgba(0,0,0,0.45);
   --shadowSoft: 0 10px 30px rgba(0,0,0,0.30);
   --ring: rgba(59,130,246,0.45);
-  --stars-opacity: 0.48;
+  --stars-opacity: 0.54;
   --stars-size: 580px;
-  --stars-color: rgba(180,210,255,0.92);
+  --stars-color: rgba(165, 215, 255, 0.94);
   --neon-blue: rgba(59, 130, 246, 1);
   --neon-blue-glow: rgba(59, 130, 246, 0.6);
+  --navbar-text: #EAF0FF;
+  --navbar-text-hover: #8FD3FF;
 
   --bg-gradient: var(--bgGradient);
   --surface-2: var(--surface2);
@@ -70,11 +72,13 @@
   --shadow: 0 16px 35px rgba(2,6,23,0.10);
   --shadowSoft: 0 10px 25px rgba(2,6,23,0.07);
   --ring: rgba(59,130,246,0.35);
-  --stars-opacity: 0.18;
+  --stars-opacity: 0.16;
   --stars-size: 580px;
-  --stars-color: rgba(59,130,246,0.65);
+  --stars-color: rgba(74, 132, 230, 0.62);
   --neon-blue: rgba(37, 99, 235, 1);
   --neon-blue-glow: rgba(37, 99, 235, 0.5);
+  --navbar-text: #0B1220;
+  --navbar-text-hover: #1E40AF;
 
   --bg-gradient: var(--bgGradient);
   --surface-2: var(--surface2);
@@ -424,6 +428,30 @@ textarea::placeholder {
   to {
     transform: translateY(-50%);
   }
+}
+
+@keyframes float-up {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-8px) scale(1.01);
+    opacity: 0.98;
+  }
+}
+
+.float-card {
+  animation: float-subtle 4s ease-in-out infinite;
 }
 
 .animate-fade-in { animation: fadeIn var(--duration-slow) ease-out; }
@@ -808,6 +836,13 @@ textarea::placeholder {
 
 html {
   transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+  scroll-behavior: smooth;
+  background: transparent;
+}
+
+body {
+  background: transparent;
+  color: var(--text);
 }
 
 hr {
@@ -1984,14 +2019,14 @@ header {
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 9999px;
-  border: 1px solid rgba(112, 174, 255, 0.28);
-  backdrop-filter: blur(12px) saturate(125%);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  border: 1px solid rgba(112, 174, 255, 0.22);
+  backdrop-filter: blur(14px) saturate(130%) brightness(1.08);
+  -webkit-backdrop-filter: blur(14px) saturate(130%) brightness(1.08);
   box-shadow:
-    0 8px 24px rgba(2, 8, 22, 0.22),
-    0 0 0 1px rgba(142, 190, 255, 0.08) inset,
-    0 0 24px rgba(72, 140, 255, 0.12);
-  transition: background-color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+    0 8px 32px rgba(2, 8, 22, 0.18),
+    0 0 0 1px rgba(180, 210, 255, 0.12) inset,
+    0 0 32px rgba(72, 140, 255, 0.10);
+  transition: all 260ms ease;
 }
 
 :root[data-theme="dark"] .navbar-pill {
@@ -1999,12 +2034,12 @@ header {
 }
 
 :root[data-theme="light"] .navbar-pill {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(246, 250, 255, 0.78));
-  border-color: rgba(120, 170, 240, 0.28);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(246, 250, 255, 0.82));
+  border-color: rgba(100, 150, 250, 0.24);
   box-shadow:
-    0 8px 20px rgba(18, 40, 82, 0.10),
-    0 0 0 1px rgba(255, 255, 255, 0.58) inset,
-    0 0 18px rgba(90, 145, 230, 0.10);
+    0 8px 28px rgba(18, 40, 82, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.60) inset,
+    0 0 24px rgba(90, 145, 230, 0.12);
 }
 
 .navbar-mobile-panel {
@@ -2024,12 +2059,41 @@ header {
 }
 
 .navbar-link {
+  color: var(--navbar-text);
   text-shadow: 0 0 0 rgba(100, 170, 255, 0);
   transition: color 240ms ease, text-shadow 240ms ease;
+  position: relative;
 }
 
 .navbar-link:hover {
-  text-shadow: 0 0 8px rgba(110, 180, 255, 0.30);
+  color: var(--navbar-text-hover);
+  text-shadow: 0 0 8px rgba(110, 180, 255, 0.25);
+}
+
+:root[data-theme="light"] header .navbar-link {
+  color: #0B1220;
+  font-weight: 600;
+}
+
+:root[data-theme="light"] header .navbar-link:hover {
+  color: #1E40AF;
+  text-shadow: none;
+}
+
+:root[data-theme="light"] header .text-blue-100 {
+  color: #0B1220 !important;
+}
+
+:root[data-theme="light"] header .text-blue-300 {
+  color: #1E40AF !important;
+}
+
+:root[data-theme="light"] a.text-blue-100 {
+  color: #0B1220 !important;
+}
+
+:root[data-theme="light"] a.text-blue-100:hover {
+  color: #1E40AF !important;
 }
 
 /* Ring-only cards, no movement/reflow */
@@ -2046,13 +2110,43 @@ header {
   translate: none !important;
 }
 
+/* Fix for light mode navbar text visibility */
+header {
+  position: fixed !important;
+  top: 0.75rem;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+header nav,
+header .navbar-pill {
+  pointer-events: auto;
+}
+
+/* Optimize card hover animations - no heavy transforms */
+.card-interactive,
+.glass-card,
+.certificate-card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Add floating effect to certificate cards in lightbox */
+.lightbox-open .certificate-card {
+  animation: float-subtle 3.5s ease-in-out;
+}
+
 /* Mobile/perf tuning */
 @media (max-width: 768px) {
   .navbar-pill {
     width: calc(100% - 16px);
     border-radius: 22px;
-    backdrop-filter: blur(8px) saturate(118%);
-    -webkit-backdrop-filter: blur(8px) saturate(118%);
+    backdrop-filter: blur(10px) saturate(122%) brightness(1.06);
+    -webkit-backdrop-filter: blur(10px) saturate(122%) brightness(1.06);
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   body::after {
@@ -2062,13 +2156,101 @@ header {
 
   html::before {
     animation-duration: 56s;
+    will-change: transform;
+    contain: layout style;
+  }
+  
+  .float-card {
+    animation-duration: 5s;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html::before,
   body::before,
-  body::after {
+  body::after,
+  .float-card,
+  .float-up {
     animation: none !important;
   }
+}
+
+/* ============================================
+   LIGHT MODE HEADER CONTRAST FIX
+   ============================================ */
+
+:root[data-theme="light"] header {
+  background: transparent !important;
+}
+
+:root[data-theme="light"] header a,
+:root[data-theme="light"] header span,
+:root[data-theme="light"] header button {
+  color: #0B1220 !important;
+  font-weight: 600 !important;
+}
+
+:root[data-theme="light"] header a:hover {
+  color: #1E40AF !important;
+}
+
+:root[data-theme="light"] .navbar-pill {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(248, 251, 255, 0.88)) !important;
+  border-color: rgba(100, 140, 240, 0.26) !important;
+}
+
+/* ============================================
+   STARFIELD VISIBILITY GUARANTEE
+   ============================================ */
+
+/* All content wrappers must be transparent to stars show */
+main, section, footer, [id], article {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Ensure star layers stay positioned correctly */
+html::before {
+  z-index: -3 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+}
+
+html::after {
+  z-index: -2 !important;
+  position: fixed !important;
+}
+
+body::before {
+  z-index: -4 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Remove any blocking overlays */
+main::before,
+main::after {
+  display: none !important;
+}
+
+/* ============================================
+   PERFORMANCE & ANIMATION OPTIMIZATION
+   ============================================ */
+
+/* Prevent jank during scroll with GPU acceleration */
+html::before,
+html::after,
+body::before,
+body::after {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }

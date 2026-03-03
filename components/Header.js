@@ -45,7 +45,15 @@ export default function Header() {
         {/* Logo */}
         <a
           href="#home"
-          className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-cyan-300 transition-all duration-300 font-black drop-shadow-lg"
+          className="text-2xl font-bold hover:opacity-80 transition-all duration-300 font-black drop-shadow-lg"
+          style={{
+            background: isDark 
+              ? 'linear-gradient(to right, rgb(96, 165, 250), rgb(34, 211, 238))' 
+              : 'linear-gradient(to right, rgb(37, 99, 235), rgb(59, 130, 246))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
         >
           T.A.C
         </a>
@@ -56,7 +64,17 @@ export default function Header() {
             <li key={link.name}>
               <a
                 href={link.href}
-                className="navbar-link text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide relative group"
+                className="navbar-link font-medium text-sm uppercase tracking-wide relative group"
+                style={{
+                  color: isDark ? '#EAF0FF' : '#0B1220',
+                  transition: 'color 240ms ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = isDark ? '#8FD3FF' : '#1E40AF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = isDark ? '#EAF0FF' : '#0B1220';
+                }}
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
@@ -70,7 +88,12 @@ export default function Header() {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="h-10 w-10 inline-flex items-center justify-center rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-300 hover:text-cyan-300 hover:border-blue-400/60 hover:bg-blue-500/20 transition-all duration-300 hover:drop-shadow-lg"
+            className="h-10 w-10 inline-flex items-center justify-center rounded-lg border transition-all duration-300 hover:drop-shadow-lg"
+            style={{
+              borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+              backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
+            }}
             aria-label="Toggle theme"
             title={isDark ? 'Mode clair' : 'Mode sombre'}
           >
@@ -80,7 +103,10 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-xl text-blue-300 hover:text-cyan-400 transition-colors duration-300"
+            className="md:hidden text-xl transition-colors duration-300"
+            style={{
+              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
+            }}
             aria-label="Menu"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
@@ -93,11 +119,16 @@ export default function Header() {
         <div className="md:hidden navbar-mobile-panel pointer-events-auto">
           <div className="container-custom py-6 space-y-4">
             {/* Theme Toggle - Mobile */}
-            <div className="flex items-center justify-between pb-4 border-b border-blue-400/20">
-              <span className="text-sm font-medium text-blue-300">Thème</span>
+            <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)' }}>
+              <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)' }}>Thème</span>
               <button
                 onClick={toggleTheme}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-300 hover:text-cyan-300 hover:border-blue-400/60 transition-all duration-300"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-300"
+                style={{
+                  borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+                  color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
+                }}
                 aria-label="Toggle theme"
               >
                 {isDark ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />}
@@ -111,7 +142,11 @@ export default function Header() {
                   <a
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="block text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide"
+                    className="block font-medium text-sm uppercase tracking-wide"
+                    style={{
+                      color: isDark ? '#EAF0FF' : '#0B1220',
+                      transition: 'color 240ms ease',
+                    }}
                   >
                     {link.name}
                   </a>
