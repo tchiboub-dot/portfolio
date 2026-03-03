@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRef, useState, useEffect } from 'react'
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
@@ -8,11 +9,18 @@ import Badge from './ui/Badge'
 import Button from './ui/Button'
 
 /**
- * COMPOSANT PROJECTS (PROJETS)
- * Section présentant les projets réalisés avec design moderne
- * Pour modifier les données, changez l'objet projectsData ci-dessous
+ * ELITE PROJECTS COMPONENT
+ * Features:
+ * - 3D tilt effect on hover
+ * - Subtle glow intensity increase
+ * - Micro elevation shadows
+ * - Scroll reveal animations
  */
 export default function Projects() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [visibleCards, setVisibleCards] = useState(new Set())
+  const cardRefs = useRef([])
+
   const projectsData = [
     {
       title: 'Maison Élégance',
@@ -57,115 +65,181 @@ export default function Projects() {
     },
   ]
 
+  // Intersection Observer for scroll reveals
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set([...prev, entry.target.dataset.index]))
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    )
+
+    cardRefs.current.forEach(ref => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => cardRefs.current.forEach(ref => {
+      if (ref) observer.unobserve(ref)
+    })
+  }, [])
+
+  const handleMouseMove = (e, index) => {
+    const rect = cardRefs.current[index]?.getBoundingClientRect()
+    if (!rect) return
+
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    
+    const rotateX = (y - 0.5) * 10
+    const rotateY = (x - 0.5) * -10
+
+    setMousePos({ x: rotateX, y: rotateY })
+  }
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 })
+  }
+
   return (
-    <section id="projects" className="section py-24 md:py-32 bg-bg">
-      <div className="container-custom">
-        {/* Titre principal */}
+    <section id="projects" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
+      {/* Background glow effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/3 -right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-parallax-slower" />
+      </div>
+
+      <div className="container-custom relative z-10">
         <SectionTitle 
           title="Mes Projets"
           subtitle="Découvrez quelques-uns de mes projets récents et réalisations"
           align="center"
         />
 
-        {/* Grille de projets */}
+        {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {projectsData.map((project, index) => (
-            <Card key={index} className="flex flex-col h-full overflow-hidden p-0">
-              {/* Image/Icône du projet */}
-              <div className="bg-gradient-to-br from-primary via-primary-dark to-accent h-40 flex items-center justify-center text-6xl relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 bg-pattern" />
-                <div className="relative z-10">{project.image}</div>
-              </div>
-
-              {/* Contenu de la carte */}
-              <div className="flex flex-col flex-grow p-6">
-                {/* Titre du projet */}
-                <h3 className="text-xl font-bold text-heading mb-2">
-                  {project.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-text text-sm leading-relaxed mb-4 flex-grow">
-                  {project.description}
-                </p>
-
-                {/* Technologie principales */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.slice(0, 3).map((tech, idx) => (
-                    <Badge key={idx} variant="default" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <Badge variant="secondary" className="text-xs">
-                      +{project.technologies.length - 3}
-                    </Badge>
-                  )}
+            <div
+              key={index}
+              ref={el => cardRefs.current[index] = el}
+              data-index={index}
+              className={`transform transition-all duration-700 ease-out ${
+                visibleCards.has(String(index)) 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              onMouseMove={e => handleMouseMove(e, index)}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: visibleCards.has(String(index)) 
+                  ? `perspective(1000px) rotateX(${mousePos.x}deg) rotateY(${mousePos.y}deg)`
+                  : 'none',
+              }}
+            >
+              <Card className="flex flex-col h-full overflow-hidden p-0 card-interactive group">
+                {/* Project Image/Icon */}
+                <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 h-40 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg">
+                  <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
+                    background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+                  }} />
+                  <div className="relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {project.image}
+                  </div>
                 </div>
 
-                {/* Fonctionnalités principales (mini list) */}
-                <div className="bg-primary-soft  rounded-lg p-3 mb-4">
-                  <p className="text-xs font-semibold text-heading mb-2">
-                    Fonctionnalités clés :
+                {/* Card Content */}
+                <div className="flex flex-col flex-grow p-6">
+                  {/* Title */}
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300">
+                    {project.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300">
+                    {project.description}
                   </p>
-                  <ul className="text-xs text-text space-y-1">
-                    {project.features.slice(0, 2).map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary bg-primary flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                    {project.features.length > 2 && (
-                      <li className="text-primary text-primary font-medium">
-                        +{project.features.length - 2} fonctionnalités...
-                      </li>
-                    )}
-                  </ul>
-                </div>
 
-                {/* Boutons d'action */}
-                <div className="flex gap-2 mt-auto">
-                  {project.demoLink && (
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.slice(0, 3).map((tech, idx) => (
+                      <Badge key={idx} variant="default" className="text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 hover:border-blue-400/60 transition-colors">
+                        {tech}
+                      </Badge>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <Badge variant="secondary" className="text-xs">
+                        +{project.technologies.length - 3}
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Key Features */}
+                  <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-3 mb-4 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300">
+                    <p className="text-xs font-semibold text-blue-300 mb-2">
+                      Fonctionnalités clés :
+                    </p>
+                    <ul className="text-xs text-text space-y-1">
+                      {project.features.slice(0, 2).map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                      {project.features.length > 2 && (
+                        <li className="text-blue-400 font-medium">
+                          +{project.features.length - 2} fonctionnalités...
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2 mt-auto">
+                    {project.demoLink && (
+                      <Link
+                        href={project.demoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1"
+                      >
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          className="w-full"
+                        >
+                          <FaExternalLinkAlt className="w-3 h-3" />
+                          Démo
+                        </Button>
+                      </Link>
+                    )}
                     <Link
-                      href={project.demoLink}
+                      href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1"
                     >
                       <Button
-                        variant="primary"
+                        variant="outline"
                         size="sm"
                         className="w-full"
                       >
-                        <FaExternalLinkAlt className="w-3 h-3" />
-                        Démo
+                        <FaGithub className="w-3 h-3" />
+                        Code
                       </Button>
                     </Link>
-                  )}
-                  <Link
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1"
-                  >
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                    >
-                      <FaGithub className="w-3 h-3" />
-                      Code
-                    </Button>
-                  </Link>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
           ))}
         </div>
 
-        {/* CTA section */}
-        <div className="mt-16 text-center">
-          <p className="text-text mb-6 text-lg">
+        {/* CTA Section */}
+        <div className="mt-16 text-center animate-section-reveal">
+          <p className="text-text/80 mb-6 text-lg font-medium">
             Intéressé par ma façon de travailler ?
           </p>
           <Button href="#contact" size="lg">

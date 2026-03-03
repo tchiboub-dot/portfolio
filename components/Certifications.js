@@ -1,14 +1,14 @@
 'use client'
 
 import Image from 'next/image'
-import { FaCertificate, FaEye, FaTimes } from 'react-icons/fa'
+import { useState, useRef, useEffect } from 'react'
 import SectionTitle from './ui/SectionTitle'
-import Card from './ui/Card'
-import Badge from './ui/Badge'
-import { useState } from 'react'
 
 export default function Certifications() {
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [viewerOpen, setViewerOpen] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const touchStartX = useRef(null)
 
   const certificationsData = [
     {
@@ -48,133 +48,207 @@ export default function Certifications() {
     },
   ]
 
+  const openViewer = (index) => {
+    setCurrentIndex(index)
+    setViewerOpen(true)
+    setIsZoomed(false)
+  }
+
+  const closeViewer = () => {
+    setViewerOpen(false)
+    setIsZoomed(false)
+  }
+
+  const nextCertificate = () => {
+    setCurrentIndex((prev) => (prev + 1) % certificationsData.length)
+    setIsZoomed(false)
+  }
+
+  const prevCertificate = () => {
+    setCurrentIndex((prev) => (prev - 1 + certificationsData.length) % certificationsData.length)
+    setIsZoomed(false)
+  }
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!viewerOpen) return
+
+    const handleKeyPress = (e) => {
+      if (e.key === 'ArrowLeft') prevCertificate()
+      else if (e.key === 'ArrowRight') nextCertificate()
+      else if (e.key === 'Escape') closeViewer()
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [viewerOpen, currentIndex])
+
+  // Touch swipe for mobile
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e) => {
+    if (!touchStartX.current) return
+    const touchEndX = e.changedTouches[0].clientX
+    const diff = touchStartX.current - touchEndX
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextCertificate()
+      else prevCertificate()
+    }
+    touchStartX.current = null
+  }
+
   return (
-    <section id="certifications" className="section py-24 md:py-32 bg-bg">
+    <section id="certifications" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
       <div className="container-custom">
         <SectionTitle 
           title="Certifications"
           subtitle="Certifications professionnelles et formations complétées"
           align="center"
         />
-        
-        {/* Grid uniforme desktop 2 colonnes, mobile 1 colonne */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+
+        {/* Certificate Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
           {certificationsData.map((cert, index) => (
-            <Card 
-              key={index} 
-              className="flex flex-col h-full"
+            <div
+              key={index}
+              onClick={() => openViewer(index)}
+              className="glass-card group cursor-pointer rounded-xl overflow-hidden transition-all duration-300"
             >
-              {/* IMAGE ZONE - FIXE 16:9 RATIO, PLUS GRANDE */}
-              <div
-                className="relative w-full aspect-video bg-surface rounded-[22px] overflow-hidden mb-6 cursor-pointer group border border-border shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-normal"
-                onClick={() => setSelectedImage(cert.image)}
-              >
-                {/* Image - object-fit contain */}
+              {/* Certificate Image */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-950/40 to-slate-900/40">
                 <Image
                   src={cert.image}
-                  alt={`Certificat - ${cert.title}`}
-                  width={800}
-                  height={450}
-                  className="w-full h-full object-contain p-3"
-                  quality={90}
+                  alt={cert.title}
+                  fill
+                  className="object-cover"
                 />
+                {/* Verified badge */}
+                <div className="absolute top-3 right-3 bg-blue-500/90 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-400/50 shadow-lg flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Vérifié
+                </div>
+              </div>
 
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-bg/0 group-hover:bg-bg/55 transition-colors duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-[16px] text-white font-medium text-sm shadow-md">
-                      <FaEye className="w-4 h-4" />
-                      Voir en grand
+              {/* Certificate Details */}
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-blue-100 mb-2 group-hover:text-cyan-300 transition-colors">
+                  {cert.title}
+                </h3>
+                <p className="text-sm text-blue-200/80 mb-1">{cert.organization}</p>
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-blue-400/20">
+                  <span className="text-xs text-blue-300/70">{cert.date}</span>
+                  <span className="text-xs text-blue-300/70 font-mono">ID: {cert.certificateId}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Lightbox Viewer */}
+        {viewerOpen && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn"
+            style={{ background: 'rgba(0, 0, 0, 0.92)' }}
+            onClick={closeViewer}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeViewer}
+              className="absolute top-4 right-4 z-60 w-12 h-12 flex items-center justify-center rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm"
+              aria-label="Close viewer"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Previous Button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); prevCertificate(); }}
+              className="absolute left-4 z-60 w-12 h-12 flex items-center justify-center rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm"
+              aria-label="Previous certificate"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Next Button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); nextCertificate(); }}
+              className="absolute right-4 z-60 w-12 h-12 flex items-center justify-center rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm"
+              aria-label="Next certificate"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Certificate Display */}
+            <div 
+              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* Image Container */}
+              <div 
+                className={`relative w-full flex-1 flex items-center justify-center cursor-zoom-${isZoomed ? 'out' : 'in'}`}
+                onClick={() => setIsZoomed(!isZoomed)}
+              >
+                <div className={`relative transition-transform duration-300 ${isZoomed ? 'scale-150' : 'scale-100'}`}>
+                  <Image
+                    src={certificationsData[currentIndex].image}
+                    alt={certificationsData[currentIndex].title}
+                    width={1200}
+                    height={900}
+                    className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Certificate Info */}
+              <div className="mt-6 p-6 rounded-xl bg-gradient-to-br from-blue-950/60 to-slate-900/60 backdrop-blur-md border border-blue-400/20">
+                <div className="flex items-start justify-between gap-4 flex-wrap">
+                  <div>
+                    <h3 className="text-2xl font-bold text-blue-100 mb-2">
+                      {certificationsData[currentIndex].title}
+                    </h3>
+                    <p className="text-blue-200/80 mb-1">
+                      {certificationsData[currentIndex].organization}
+                    </p>
+                    <p className="text-sm text-blue-300/70">
+                      {certificationsData[currentIndex].date}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="bg-blue-500/20 backdrop-blur-sm text-blue-100 text-sm font-semibold px-4 py-2 rounded-lg border border-blue-400/30">
+                      ID: {certificationsData[currentIndex].certificateId}
+                    </div>
+                    <div className="bg-green-500/20 backdrop-blur-sm text-green-100 text-sm font-semibold px-4 py-2 rounded-lg border border-green-400/30 flex items-center gap-2">
+                      <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Vérifié
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* CONTENU - STRUCTURE FIXE */}
-              <div className="flex-1 flex flex-col gap-4">
-                {/* TITRE - Zone dédiée, clamp 2 lignes */}
-                <div className="min-h-16">
-                  <h3 className="text-lg font-bold text-heading leading-tight line-clamp-2">
-                    {cert.title}
-                  </h3>
-                </div>
-
-                {/* ORGANISATION - Secondaire */}
-                <div className="pb-2 border-b border-border/30">
-                  <p className="text-sm font-medium text-primary hover:text-primary-hover transition-colors">
-                    {cert.organization}
-                  </p>
-                </div>
-
-                {/* DATE - Compact */}
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-base">📅</span>
-                  <div className="flex-1">
-                    <p className="text-xs text-muted">Date d'obtention</p>
-                    <p className="text-sm font-medium text-heading">
-                      {cert.date}
-                    </p>
-                  </div>
-                </div>
-
-                {/* ID CERTIFICATION - Encadré */}
-                <div className="bg-primary-soft border border-primary/20 p-3 rounded-lg">
-                  <p className="text-xs text-muted mb-1 font-medium">ID Certification</p>
-                  <p className="text-sm font-mono text-heading font-semibold break-all">
-                    {cert.certificateId}
-                  </p>
-                </div>
-
-                {/* BADGE - Sticky en bas */}
-                <div className="mt-auto pt-2">
-                  <Badge variant="success" className="w-full justify-center">
-                    <FaCertificate className="w-3.5 h-3.5 mr-2" />
-                    Vérifiée
-                  </Badge>
+                
+                {/* Counter */}
+                <div className="mt-4 text-center text-blue-300/60 text-sm">
+                  {currentIndex + 1} / {certificationsData.length}
                 </div>
               </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* MODAL FULLSCREEN */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-50 bg-bg/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className="relative w-full max-w-5xl max-h-[90vh]">
-            {/* Bouton Fermer */}
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 text-text hover:text-primary transition-colors text-xl font-bold z-10 flex items-center gap-2"
-              aria-label="Fermer le modal"
-            >
-              <FaTimes className="w-5 h-5" />
-              <span className="text-sm">Fermer</span>
-            </button>
-
-            {/* Image Agrandie */}
-            <div className="bg-surface rounded-xl overflow-hidden shadow-lg border border-border">
-              <Image
-                src={selectedImage}
-                alt="Certificat à plein écran"
-                width={1600}
-                height={1000}
-                className="w-full h-auto"
-                quality={95}
-                priority
-              />
-            </div>
-
-            {/* Info supplémentaire */}
-            <div className="text-center mt-4 text-text text-sm">
-              <p>Cliquez en arrière-plan pour fermer</p>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }

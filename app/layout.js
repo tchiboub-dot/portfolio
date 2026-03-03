@@ -4,11 +4,15 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL || 'http://localhost:3000'
+const normalizedSiteUrl = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`
+
 /**
  * METADATA DE L'APPLICATION
  * Modifiez ces informations pour personnaliser les métadonnées SEO
  */
 export const metadata = {
+  metadataBase: new URL(normalizedSiteUrl),
   title: 'Chiboub Taha Adnane | Développeur Web Portfolio',
   description: 'Portfolio professionnel de Chiboub Taha Adnane - Étudiant en Informatique ESISA Fes, Développeur Web junior spécialisé en HTML, CSS, JavaScript, React et Next.js',
   keywords: 'développeur web, portfolio, Taha Chiboub, ESISA, développement web, HTML, CSS, JavaScript, React, Next.js',

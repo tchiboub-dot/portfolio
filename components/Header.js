@@ -4,16 +4,15 @@ import { useState, useEffect } from 'react'
 import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
 
 /**
- * COMPOSANT HEADER/NAVIGATION
- * Navigation responsive avec menu mobile
- * Pour modifier les liens de navigation, modifiez le tableau navLinks ci-dessous
+ * ELITE HEADER/NAVIGATION COMPONENT
+ * Premium navigation with smooth scroll effects
+ * Enhanced glassmorphism and neon styling
  */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isDark, setIsDark] = useState(false)
 
-  // Liste des liens de navigation - MODIFIEZ ICI pour ajouter/supprimer des liens
   const navLinks = [
     { name: 'Accueil', href: '#home' },
     { name: 'À propos', href: '#about' },
@@ -24,7 +23,6 @@ export default function Header() {
     { name: 'Contact', href: '#contact' },
   ]
 
-  // Gestion du scroll pour le style du header
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
@@ -45,7 +43,6 @@ export default function Header() {
   const toggleTheme = () => {
     const nextIsDark = !isDark
     setIsDark(nextIsDark)
-
     const nextTheme = nextIsDark ? 'dark' : 'light'
     document.documentElement.dataset.theme = nextTheme
     localStorage.setItem('theme', nextTheme)
@@ -53,41 +50,42 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-surface/95 backdrop-blur-md border-b border-border py-3'
+          ? 'bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 py-3 shadow-lg shadow-blue-500/5'
           : 'bg-transparent py-5'
       }`}
     >
       <nav className="container-custom flex justify-between items-center">
-        {/* Logo / Nom */}
+        {/* Logo */}
         <a
           href="#home"
-          className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
+          className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-cyan-300 transition-all duration-300 font-black drop-shadow-lg"
         >
           T.A.C
         </a>
 
-        {/* Navigation Desktop */}
-        <ul className="hidden md:flex items-center gap-7">
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-text hover:text-primary transition-colors font-medium"
+                className="text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide relative group"
               >
                 {link.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Actions: Theme Toggle + Menu Mobile */}
-        <div className="flex items-center gap-3">
-          {/* Theme Toggle Button - Desktop */}
+        {/* Actions: Theme Toggle + Mobile Menu */}
+        <div className="flex items-center gap-4">
+          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-button border border-border bg-surface text-text hover:text-primary hover:border-primary transition-all"
+            className="h-10 w-10 inline-flex items-center justify-center rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-300 hover:text-cyan-300 hover:border-blue-400/60 hover:bg-blue-500/20 transition-all duration-300 hover:drop-shadow-lg"
             aria-label="Toggle theme"
             title={isDark ? 'Mode clair' : 'Mode sombre'}
           >
@@ -97,7 +95,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-xl text-text hover:text-primary transition-colors"
+            className="md:hidden text-xl text-blue-300 hover:text-cyan-400 transition-colors duration-300"
             aria-label="Menu"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
@@ -105,15 +103,16 @@ export default function Header() {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-surface border-t border-border shadow-medium">
-          <div className="container-custom py-4 space-y-4">
+        <div className="md:hidden bg-blue-950/50 backdrop-blur-xl border-t border-blue-400/20 shadow-lg">
+          <div className="container-custom py-6 space-y-4">
             {/* Theme Toggle - Mobile */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-muted">Thème</span>
+            <div className="flex items-center justify-between pb-4 border-b border-blue-400/20">
+              <span className="text-sm font-medium text-blue-300">Thème</span>
               <button
                 onClick={toggleTheme}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-button border border-border bg-surface-2 text-text hover:text-primary transition-colors"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-300 hover:text-cyan-300 hover:border-blue-400/60 transition-all duration-300"
                 aria-label="Toggle theme"
               >
                 {isDark ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />}
@@ -121,18 +120,18 @@ export default function Header() {
             </div>
 
             {/* Mobile Navigation */}
-            <ul className="flex flex-col space-y-3 border-t border-border pt-4">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-text hover:text-primary transition-colors font-medium"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
+            <ul className="flex flex-col space-y-3">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-blue-100 hover:text-cyan-300 transition-colors duration-300 font-medium text-sm uppercase tracking-wide"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

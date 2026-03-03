@@ -3,19 +3,18 @@
 import Image from 'next/image'
 
 /**
- * AVATAR AVEC HALO LUMINEUX PROFESSIONNEL
+ * ELITE AVATAR COMPONENT - PREMIUM CINEMATIC GLOW
  * 
- * Le glow ring est UNIQUEMENT derrière l'image:
- * - Pas d'effet sur la photo (nette, inchangée)
- * - Halo discret et élégant (style SaaS)
- * - Anneau bleu → cyan avec soft blur
- * - Responsive et accessible
+ * Features:
+ * - STATIC (no floating movement)
+ * - Multi-layered glow halo with breathing effect
+ * - Clean image layer (no distortion)
+ * - Responsive and accessible
  * 
- * Uso:
- * <Avatar src="/photo-profil.jpg" alt="Name" size="lg" />
+ * Usage:
+ * <Avatar src="/photo.jpg" alt="Name" size="lg" />
  */
 export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = true }) {
-  // Tamaños responsivos
   const sizes = {
     sm: { desktop: 'w-28 h-28', mobile: 'w-20 h-20', pixels: 112 },
     md: { desktop: 'w-36 h-36', mobile: 'w-28 h-28', pixels: 144 },
@@ -25,11 +24,22 @@ export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = tr
   const config = sizes[size] || sizes.lg
 
   return (
-    <div className={`avatar-container ${config.desktop} md:${config.desktop} ${config.mobile}`}>
-      {/* GLOW RING - DETRÁS DE LA IMAGEN (z-index bajo) */}
+    <div className={`avatar-container ${config.desktop} ${config.mobile}`}>
+      {/* OUTER GLOW LAYER - Soft fading halo (animation in globals.css) */}
+      <div 
+        className="absolute inset-0 rounded-full animate-ambient-breath"
+        style={{
+          background: 'radial-gradient(circle, rgba(159, 180, 214, 0.3) 0%, rgba(34, 211, 238, 0.1) 50%, transparent 100%)',
+          filter: 'blur(20px)',
+          transform: 'scale(1.3)',
+        }}
+        aria-hidden="true"
+      />
+
+      {/* GLOW RING - BEHIND IMAGE (z-index low) */}
       <div className="avatar-glow-ring" aria-hidden="true" />
       
-      {/* IMAGEN - ARRIBA SIN EFECTOS (z-index alto) */}
+      {/* IMAGE WRAPPER - Clean, no effects, NO MOVEMENT */}
       <div className="avatar-image-wrapper">
         <Image
           src={src}
@@ -37,7 +47,7 @@ export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = tr
           width={config.pixels}
           height={config.pixels}
           priority={priority}
-          quality={90}
+          quality={92}
           decoding="async"
           className="avatar-image"
         />
