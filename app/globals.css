@@ -130,26 +130,9 @@ body {
 }
 
 
-
 /* Light mode glow ring */
-:root[data-theme="light"] body::before {
-  background: radial-gradient(circle,
-    rgba(37, 99, 235, 0) 56%,
-    rgba(37, 99, 235, 0.1) 66%,
-    rgba(6, 182, 212, 0.08) 74%,
-    rgba(6, 182, 212, 0) 82%
-  );
-}
+/* REMOVED: body::before override - moved to separate element */
 
-/* Dark mode glow ring */
-:root[data-theme="dark"] body::before {
-  background: radial-gradient(circle,
-    rgba(59, 130, 246, 0) 56%,
-    rgba(59, 130, 246, 0.16) 66%,
-    rgba(34, 211, 238, 0.12) 74%,
-    rgba(34, 211, 238, 0) 82%
-  );
-}
 
 /* ============================================
    TYPOGRAPHY (IMPROVED HIERARCHY & READABILITY)
@@ -336,22 +319,6 @@ textarea::placeholder {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes stars-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-0.8%, -0.6%, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-:root[data-theme="dark"] body::after {
-  animation: stars-drift 34s ease-in-out infinite;
 }
 
 .animate-fade-in { animation: fadeIn var(--duration-slow) ease-out; }
@@ -723,57 +690,81 @@ hr {
 
 /* === FIX: STARFIELD HIDDEN BY BACKGROUND === */
 
-/* Stable stacking context */
-body{
-  position: relative;
-  isolation: isolate; /* prevents being hidden by other stacking contexts */
+/* Fallbacks even if variables are missing */
+:root{
+  --stars-opacity: 0.28;
+  --stars-size: 520px;
+  --stars-color: rgba(255,255,255,0.90);
 }
 
-/* Ensure main wrapper/content does not cover the stars */
+/* If you use html[data-theme], keep these overrides */
+html[data-theme="light"]{
+  --stars-opacity: 0.12;
+  --stars-color: rgba(59,130,246,0.55); /* light blue stars */
+}
+html[data-theme="dark"]{
+  --stars-opacity: 0.28;
+  --stars-color: rgba(255,255,255,0.90);
+}
+
+/* Create stable stacking context */
+body{
+  position: relative;
+  isolation: isolate;
+}
+
+/* Ensure main wrapper is above stars; do NOT hide stars */
 #root, #__next, main, .app, .container{
   position: relative;
   z-index: 1;
-  background: transparent !important;
 }
 
-/* Stars layer: above background, below content */
+/* The actual stars layer */
 body::before{
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: var(--stars-opacity, 0.3);
+  opacity: var(--stars-opacity);
 
   background-image:
-    radial-gradient(1px 1px at 10% 20%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(1px 1px at 30% 80%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(1px 1px at 70% 40%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 85% 70%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(2px 2px at 45% 55%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(1px 1px at 55% 15%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%),
-    radial-gradient(1px 1px at 90% 10%, var(--stars-color, rgba(255,255,255,.9)) 99%, transparent 100%);
+    radial-gradient(1px 1px at 10% 20%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 30% 80%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 70% 40%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 70%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(2px 2px at 45% 55%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 55% 15%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, var(--stars-color) 99%, transparent 100%);
 
   background-size:
-    var(--stars-size, 520px) var(--stars-size, 520px),
-    calc(var(--stars-size, 520px) * 0.85) calc(var(--stars-size, 520px) * 0.85),
-    calc(var(--stars-size, 520px) * 0.75) calc(var(--stars-size, 520px) * 0.75),
-    calc(var(--stars-size, 520px) * 0.65) calc(var(--stars-size, 520px) * 0.65),
-    calc(var(--stars-size, 520px) * 0.55) calc(var(--stars-size, 520px) * 0.55),
-    calc(var(--stars-size, 520px) * 0.45) calc(var(--stars-size, 520px) * 0.45),
-    calc(var(--stars-size, 520px) * 0.35) calc(var(--stars-size, 520px) * 0.35);
+    var(--stars-size) var(--stars-size),
+    calc(var(--stars-size) * 0.85) calc(var(--stars-size) * 0.85),
+    calc(var(--stars-size) * 0.75) calc(var(--stars-size) * 0.75),
+    calc(var(--stars-size) * 0.65) calc(var(--stars-size) * 0.65),
+    calc(var(--stars-size) * 0.55) calc(var(--stars-size) * 0.55),
+    calc(var(--stars-size) * 0.45) calc(var(--stars-size) * 0.45),
+    calc(var(--stars-size) * 0.35) calc(var(--stars-size) * 0.35);
 
   background-repeat: repeat;
   transform: translateZ(0);
 }
 
-/* Optional slow drift */
+/* DEBUG (leave commented): enable to confirm layer exists */
+/*
+body::before{
+  outline: 3px solid red !important;
+  opacity: 1 !important;
+}
+*/
+
+/* Animation for stars drift */
 @media (prefers-reduced-motion: no-preference){
   body::before{
     animation: stars-drift 55s linear infinite;
   }
   @keyframes stars-drift{
     from { background-position: 0 0; }
-    to   { background-position: 420px 240px; }
+    to { background-position: 420px 240px; }
   }
 }
