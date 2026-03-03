@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
 
 /**
@@ -11,6 +11,8 @@ import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false)
+  const hiddenRef = useRef(false)
 
   const navLinks = [
     { name: 'Accueil', href: '#home' },
@@ -31,6 +33,88 @@ export default function Header() {
     setIsDark(theme === 'dark')
   }, [])
 
+  useEffect(() => {
+    const getScrollY = () => (
+      window.scrollY
+      || document.documentElement.scrollTop
+      || document.body.scrollTop
+      || 0
+    )
+
+    let lastScrollY = getScrollY()
+    let rafId = null
+    let downScrollAccum = 0
+    let upScrollAccum = 0
+
+    const TOP_THRESHOLD = 10
+    const HIDE_THRESHOLD = 22
+    const SHOW_THRESHOLD = 10
+    const NOISE_THRESHOLD = 1.5
+
+    const applyHiddenState = (nextHidden) => {
+      if (hiddenRef.current === nextHidden) return
+      hiddenRef.current = nextHidden
+      setIsHeaderHidden(nextHidden)
+    }
+
+    const handleScroll = () => {
+      if (rafId !== null) return
+
+      rafId = window.requestAnimationFrame(() => {
+        const currentScrollY = getScrollY()
+        const delta = currentScrollY - lastScrollY
+
+        if (currentScrollY <= TOP_THRESHOLD) {
+          downScrollAccum = 0
+          upScrollAccum = 0
+          applyHiddenState(false)
+        } else if (isOpen) {
+          downScrollAccum = 0
+          upScrollAccum = 0
+          applyHiddenState(false)
+        } else if (Math.abs(delta) <= NOISE_THRESHOLD) {
+          // ignore tiny wheel/touchpad jitter
+        } else if (delta > 0) {
+          downScrollAccum += delta
+          upScrollAccum = 0
+
+          if (downScrollAccum >= HIDE_THRESHOLD) {
+            downScrollAccum = 0
+            applyHiddenState(true)
+          }
+        } else {
+          upScrollAccum += Math.abs(delta)
+          downScrollAccum = 0
+
+          if (upScrollAccum >= SHOW_THRESHOLD) {
+            upScrollAccum = 0
+            applyHiddenState(false)
+          }
+        }
+
+        lastScrollY = currentScrollY
+        rafId = null
+      })
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId)
+      }
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (isOpen) {
+      hiddenRef.current = false
+      setIsHeaderHidden(false)
+    }
+  }, [isOpen])
+
   const toggleTheme = () => {
     const nextIsDark = !isDark
     setIsDark(nextIsDark)
@@ -40,20 +124,13 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-3 left-0 right-0 z-50 pointer-events-none">
+    <header className={`site-header ${isHeaderHidden ? 'site-header--hidden' : 'site-header--visible'} fixed top-3 left-0 right-0 z-50 pointer-events-none`}>
       <nav className="navbar-pill container-custom flex justify-between items-center pointer-events-auto">
         {/* Logo */}
         <a
           href="#home"
-          className="text-2xl font-bold hover:opacity-80 transition-all duration-300 font-black drop-shadow-lg"
-          style={{
-            background: isDark 
-              ? 'linear-gradient(to right, rgb(96, 165, 250), rgb(34, 211, 238))' 
-              : 'linear-gradient(to right, rgb(37, 99, 235), rgb(59, 130, 246))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
+          className="navbar-logo text-2xl font-bold hover:opacity-90 transition-opacity duration-300 font-black shrink-0"
+          aria-label="T.A.C"
         >
           T.A.C
         </a>

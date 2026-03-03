@@ -2254,3 +2254,361 @@ body::after {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* ============================================
+   NAVBAR SCROLL BEHAVIOR + BOUNDED FRAME
+   ============================================ */
+
+:root {
+  --frame-max-width: 1240px;
+  --frame-gutter: clamp(12px, 2.8vw, 30px);
+}
+
+.site-header {
+  transition: transform 180ms ease, opacity 180ms ease;
+  will-change: transform, opacity;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.site-header--hidden {
+  transform: translateY(-115%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-header--visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Keep navbar as centered glass capsule, not full-bleed */
+.navbar-pill,
+.navbar-mobile-panel {
+  width: min(var(--frame-max-width), calc(100% - (var(--frame-gutter) * 2))) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Bounded premium frame for sections/footer while stars stay full-screen */
+section[id],
+footer {
+  width: min(var(--frame-max-width), calc(100% - (var(--frame-gutter) * 2))) !important;
+  max-width: var(--frame-max-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+main,
+header,
+.site-header {
+  overflow: visible !important;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --frame-gutter: 10px;
+  }
+
+  .site-header {
+    transition-duration: 160ms;
+  }
+}
+
+/* ============================================
+   FINAL PERFORMANCE PATCH (SCROLL LAG FIX)
+   ============================================ */
+
+/* Navbar hide/show: transform + opacity only */
+.site-header {
+  transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 220ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  will-change: transform, opacity;
+}
+
+/* Keep stars lightweight (single layer, transform animation only) */
+html::before {
+  top: -50% !important;
+  height: 200vh !important;
+  animation: starfieldRise 60s linear infinite !important;
+  will-change: transform !important;
+  transform: translate3d(0, 0, 0);
+  contain: layout style paint;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1px 1px at 22% 44%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 42% 88%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 52% 24%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.4px 1.4px at 84% 68%, var(--stars-color) 99%, transparent 100%),
+    radial-gradient(1.1px 1.1px at 92% 28%, var(--stars-color) 99%, transparent 100%) !important;
+  background-size: 620px 620px, 520px 520px, 420px 420px, 320px 320px, 240px 240px, 170px 170px !important;
+}
+
+/* Remove heavy blur from large section surfaces */
+section[id],
+footer {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Keep premium glass look with lightweight tint on large panels */
+:root[data-theme="dark"] section[id],
+:root[data-theme="dark"] footer {
+  background: linear-gradient(145deg, rgba(10, 25, 60, 0.30), rgba(6, 15, 38, 0.24)) !important;
+  box-shadow: 0 14px 30px rgba(2, 8, 22, 0.28), 0 0 0 1px rgba(142, 190, 255, 0.07) inset !important;
+}
+
+:root[data-theme="light"] section[id],
+:root[data-theme="light"] footer {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(245, 250, 255, 0.70)) !important;
+  box-shadow: 0 12px 26px rgba(20, 40, 80, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.50) inset !important;
+}
+
+/* Keep blur only on compact elements */
+.navbar-pill {
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+}
+
+.glass-card,
+.card-base,
+.navbar-mobile-panel {
+  backdrop-filter: blur(8px) saturate(115%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(115%) !important;
+}
+
+/* Avoid expensive transition properties during scroll */
+section[id],
+footer,
+.glass-card,
+.card-base,
+.navbar-pill,
+.navbar-mobile-panel {
+  transition-property: transform, opacity, background-color, border-color !important;
+}
+
+/* Mobile / low-power tuning */
+@media (max-width: 768px) {
+  :root[data-theme="dark"] {
+    --stars-opacity: 0.32;
+  }
+
+  :root[data-theme="light"] {
+    --stars-opacity: 0.12;
+  }
+
+  html::before {
+    animation-duration: 72s !important;
+    background-image:
+      radial-gradient(1px 1px at 10% 16%, var(--stars-color) 99%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 48% 62%, var(--stars-color) 99%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 86% 34%, var(--stars-color) 99%, transparent 100%) !important;
+    background-size: 620px 620px, 360px 360px, 220px 220px !important;
+  }
+
+  .navbar-pill {
+    backdrop-filter: blur(7px) saturate(112%) !important;
+    -webkit-backdrop-filter: blur(7px) saturate(112%) !important;
+  }
+
+  .glass-card,
+  .card-base,
+  .navbar-mobile-panel {
+    backdrop-filter: blur(5px) saturate(108%) !important;
+    -webkit-backdrop-filter: blur(5px) saturate(108%) !important;
+  }
+}
+
+/* ============================================
+   PREMIUM CARD FLOAT HOVER (GLOBAL)
+   ============================================ */
+
+/* Apply to all main card variants across sections */
+.card-interactive,
+.glass-card,
+.card-base,
+.rounded-card {
+  will-change: transform;
+  transform: translateY(0) translateZ(0);
+  transition: transform 260ms ease-out, box-shadow 260ms ease-out, opacity 260ms ease-out !important;
+}
+
+/* Desktop/laptop hover only (no layout shift, transform-only lift) */
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover,
+  .glass-card:hover,
+  .card-base:hover,
+  .rounded-card:hover {
+    transform: translateY(-6px) translateZ(0) !important;
+    box-shadow:
+      0 14px 30px rgba(2, 8, 22, 0.24),
+      0 0 0 1px rgba(86, 156, 255, 0.32),
+      0 0 18px rgba(72, 140, 255, 0.16) !important;
+  }
+}
+
+/* Touch devices: disable hover lift, keep subtle press feedback only */
+@media (hover: none), (pointer: coarse) {
+  .card-interactive:hover,
+  .glass-card:hover,
+  .card-base:hover,
+  .rounded-card:hover {
+    transform: translateY(0) translateZ(0) !important;
+  }
+
+  .card-interactive:active,
+  .glass-card:active,
+  .card-base:active,
+  .rounded-card:active {
+    transform: translateY(-1px) translateZ(0) !important;
+  }
+}
+
+/* ============================================
+   STATIC CARDS AT REST + HOVER-ONLY MOTION
+   ============================================ */
+
+/* Disable any automatic card animation (idle floating, pulsing, bobbing) */
+.float-card,
+.float-up,
+.card-interactive,
+.glass-card,
+.card-base,
+.rounded-card,
+.glass-card::before,
+.glass-card::after,
+.card-base::before,
+.card-base::after,
+.card-interactive::before,
+.card-interactive::after,
+.rounded-card::before,
+.rounded-card::after {
+  animation: none !important;
+}
+
+/* Keep cards perfectly still when not hovered */
+.card-interactive,
+.glass-card,
+.card-base,
+.rounded-card {
+  transform: translateY(0) translateZ(0) !important;
+}
+
+/* Desktop hover-only lift (no layout shift, transform only) */
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover,
+  .glass-card:hover,
+  .card-base:hover,
+  .rounded-card:hover {
+    transform: translateY(-6px) translateZ(0) !important;
+    box-shadow:
+      0 14px 30px rgba(2, 8, 22, 0.24),
+      0 0 0 1px rgba(86, 156, 255, 0.32),
+      0 0 18px rgba(72, 140, 255, 0.16) !important;
+  }
+}
+
+/* Touch devices: no floating hover, optional subtle tap feedback only */
+@media (hover: none), (pointer: coarse) {
+  .card-interactive,
+  .glass-card,
+  .card-base,
+  .rounded-card {
+    transform: translateY(0) translateZ(0) !important;
+  }
+
+  .card-interactive:hover,
+  .glass-card:hover,
+  .card-base:hover,
+  .rounded-card:hover {
+    transform: translateY(0) translateZ(0) !important;
+  }
+
+  .card-interactive:active,
+  .glass-card:active,
+  .card-base:active,
+  .rounded-card:active {
+    transform: translateY(-1px) translateZ(0) !important;
+  }
+}
+
+/* ============================================
+   NAVBAR LOGO RESTORE + PROTECTION
+   ============================================ */
+
+.navbar-pill {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.navbar-logo {
+  position: relative;
+  z-index: 5;
+  display: inline-block;
+  flex-shrink: 0;
+  white-space: nowrap;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  border: 0;
+  box-shadow: none;
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: 0 1px 6px rgba(20, 80, 170, 0.20);
+}
+
+.navbar-logo::before,
+.navbar-logo::after {
+  content: none !important;
+  display: none !important;
+}
+
+:root[data-theme="dark"] .navbar-logo {
+  color: #7DC3FF !important;
+}
+
+:root[data-theme="light"] .navbar-logo {
+  color: #1D4ED8 !important;
+}
+
+.navbar-pill > * {
+  position: relative;
+  z-index: 2;
+}
+
+.navbar-pill > .navbar-logo {
+  z-index: 5;
+}
+
+.navbar-pill::before,
+.navbar-pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.site-header.site-header--hidden {
+  transform: translateY(calc(-100% - 16px)) !important;
+  opacity: 0 !important;
+}
+
+.site-header.site-header--visible {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+  .navbar-logo {
+    font-size: 1.25rem;
+  }
+}
