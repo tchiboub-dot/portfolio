@@ -129,10 +129,16 @@ export default function Header() {
         {/* Logo */}
         <a
           href="#home"
-          className="navbar-logo text-2xl font-bold hover:opacity-90 transition-opacity duration-300 font-black shrink-0"
-          aria-label="T.A.C"
+          className="navbar-logo hover:opacity-90 transition-opacity duration-300 shrink-0"
+          aria-label="T.A.C logo"
+          title="T.A.C"
         >
-          T.A.C
+          <img
+            src="/logo.png"
+            alt="T.A.C logo"
+            className="h-10 w-auto object-contain"
+            loading="eager"
+          />
         </a>
 
         {/* Desktop Navigation */}
