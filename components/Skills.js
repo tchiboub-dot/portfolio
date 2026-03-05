@@ -22,29 +22,29 @@ export default function Skills() {
 
   const skillsData = {
     frontend: [
-      { name: 'HTML5', icon: <FaHtml5 />, level: 90, color: 'text-orange-500' },
-      { name: 'CSS3', icon: <FaCss3Alt />, level: 85, color: 'text-blue-500' },
-      { name: 'JavaScript', icon: <FaJs />, level: 80, color: 'text-yellow-400' },
-      { name: 'React', icon: <FaReact />, level: 75, color: 'text-cyan-400' },
-      { name: 'Next.js', icon: <SiNextdotjs />, level: 70, color: 'text-white' },
-      { name: 'Tailwind CSS', icon: <SiTailwindcss />, level: 80, color: 'text-cyan-400' },
+      { name: 'HTML5', icon: <FaHtml5 />, level: 'Avancé', levelValue: 90, color: 'text-orange-500' },
+      { name: 'CSS3', icon: <FaCss3Alt />, level: 'Avancé', levelValue: 85, color: 'text-blue-500' },
+      { name: 'JavaScript', icon: <FaJs />, level: 'Avancé', levelValue: 80, color: 'text-yellow-400' },
+      { name: 'React', icon: <FaReact />, level: 'Intermédiaire', levelValue: 75, color: 'text-cyan-400' },
+      { name: 'Next.js', icon: <SiNextdotjs />, level: 'Intermédiaire', levelValue: 70, color: 'text-white' },
+      { name: 'Tailwind CSS', icon: <SiTailwindcss />, level: 'Avancé', levelValue: 80, color: 'text-cyan-400' },
     ],
     backend: [
-      { name: 'C Programming', icon: <FaCode />, level: 70, color: 'text-blue-400' },
-      { name: 'Algorithms', icon: <FaCode />, level: 75, color: 'text-purple-400' },
-      { name: 'CRUD Operations', icon: <FaCode />, level: 75, color: 'text-green-400' },
-      { name: 'Authentication', icon: <FaShieldAlt />, level: 65, color: 'text-red-400' },
+      { name: 'C Programming', icon: <FaCode />, level: 'Intermédiaire', levelValue: 70, color: 'text-blue-400' },
+      { name: 'Algorithms', icon: <FaCode />, level: 'Intermédiaire', levelValue: 75, color: 'text-purple-400' },
+      { name: 'CRUD Operations', icon: <FaCode />, level: 'Intermédiaire', levelValue: 75, color: 'text-green-400' },
+      { name: 'Authentication', icon: <FaShieldAlt />, level: 'Débutant', levelValue: 65, color: 'text-red-400' },
     ],
     tools: [
-      { name: 'Git', icon: <FaGitAlt />, level: 80, color: 'text-orange-500' },
-      { name: 'GitHub', icon: <FaGithub />, level: 85, color: 'text-gray-300' },
-      { name: 'Responsive Design', icon: <FaCode />, level: 90, color: 'text-blue-400' },
-      { name: 'UI/UX Basics', icon: <FaCode />, level: 75, color: 'text-pink-400' },
+      { name: 'Git', icon: <FaGitAlt />, level: 'Avancé', levelValue: 80, color: 'text-orange-500' },
+      { name: 'GitHub', icon: <FaGithub />, level: 'Avancé', levelValue: 85, color: 'text-gray-300' },
+      { name: 'Responsive Design', icon: <FaCode />, level: 'Avancé', levelValue: 90, color: 'text-blue-400' },
+      { name: 'UI/UX Basics', icon: <FaCode />, level: 'Intermédiaire', levelValue: 75, color: 'text-pink-400' },
     ],
     other: [
-      { name: 'Cybersecurity Awareness', icon: <FaShieldAlt />, level: 70, color: 'text-red-400' },
-      { name: 'AI / Prompt Engineering', icon: <FaRobot />, level: 75, color: 'text-purple-400' },
-      { name: 'Agile Project Management', icon: <FaCode />, level: 65, color: 'text-green-400' },
+      { name: 'Cybersecurity Awareness', icon: <FaShieldAlt />, level: 'Intermédiaire', levelValue: 70, color: 'text-red-400' },
+      { name: 'AI / Prompt Engineering', icon: <FaRobot />, level: 'Intermédiaire', levelValue: 75, color: 'text-purple-400' },
+      { name: 'Agile Project Management', icon: <FaCode />, level: 'Débutant', levelValue: 65, color: 'text-green-400' },
     ],
   }
 
@@ -69,34 +69,43 @@ export default function Skills() {
     })
   }, [])
 
-  const SkillBar = ({ skill, index }) => (
-    <div className="mb-4 group">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <span className={`text-xl ${skill.color} group-hover:scale-125 transition-transform duration-300`}>
-            {skill.icon}
-          </span>
-          <span className="font-medium text-blue-300 group-hover:text-cyan-300 transition-colors duration-300">
-            {skill.name}
+  const SkillBar = ({ skill, index }) => {
+    // Level badge colors based on proficiency
+    const levelColors = {
+      'Avancé': 'bg-green-500/20 text-green-300 border-green-400/30',
+      'Intermédiaire': 'bg-blue-500/20 text-cyan-400 border-cyan-400/30',
+      'Débutant': 'bg-orange-500/20 text-orange-300 border-orange-400/30',
+    }
+    
+    return (
+      <div className="mb-4 group">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <span className={`text-xl ${skill.color} group-hover:scale-125 transition-transform duration-300`}>
+              {skill.icon}
+            </span>
+            <span className="font-medium text-blue-300 group-hover:text-cyan-300 transition-colors duration-300">
+              {skill.name}
+            </span>
+          </div>
+          <span className={`text-xs font-bold px-2 py-1 rounded border ${levelColors[skill.level]} group-hover:brightness-110 transition-all duration-300`}>
+            {skill.level}
           </span>
         </div>
-        <span className="text-xs font-bold text-cyan-400 bg-blue-500/20 px-2 py-1 rounded border border-cyan-400/30 group-hover:border-cyan-400/60 group-hover:bg-blue-500/30 transition-all duration-300">
-          {skill.level}%
-        </span>
+        <div className="relative w-full bg-blue-950/40 rounded-full h-2.5 overflow-hidden border border-blue-400/20 group-hover:border-blue-400/50 transition-all duration-300">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 group-hover:shadow-lg group-hover:shadow-cyan-400/40"
+            style={{ width: `${skill.levelValue}%` }}
+          />
+          {/* Shine effect */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+            animation: 'shimmer 2s infinite',
+          }} />
+        </div>
       </div>
-      <div className="relative w-full bg-blue-950/40 rounded-full h-2.5 overflow-hidden border border-blue-400/20 group-hover:border-blue-400/50 transition-all duration-300">
-        <div
-          className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 group-hover:shadow-lg group-hover:shadow-cyan-400/40"
-          style={{ width: `${skill.level}%` }}
-        />
-        {/* Shine effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
-          animation: 'shimmer 2s infinite',
-        }} />
-      </div>
-    </div>
-  )
+    )
+  }
 
   const categories = [
     { key: 'frontend', label: 'Front-end', icon: '🎨', color: 'text-blue-400' },

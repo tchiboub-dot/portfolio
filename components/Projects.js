@@ -33,6 +33,8 @@ export default function Projects() {
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'Responsive'],
       demoLink: 'https://maisonelegance-one.vercel.app/',
       githubLink: 'https://github.com/tchiboub-dot',
+      status: 'Live',
+      type: 'Web App',
       features: [
         'Menu interactif',
         'Système de panier',
@@ -47,6 +49,8 @@ export default function Projects() {
       technologies: ['React', 'JavaScript', 'CRUD', 'Authentication'],
       demoLink: 'https://student-management5.vercel.app/',
       githubLink: 'https://github.com/tchiboub-dot',
+      status: 'Live',
+      type: 'Web App',
       features: [
         'CRUD complet',
         'Authentification',
@@ -60,6 +64,8 @@ export default function Projects() {
       description: 'Site vitrine professionnel pour une salle de sport avec sections marketing, présentation des offres et services, galerie photos, et formulaire de contact. Design moderne et attrayant.',
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX'],
       githubLink: 'https://github.com/tchiboub-dot',
+      status: 'GitHub',
+      type: 'UI/UX',
       features: [
         'Design professionnel',
         'Marketing optimisé',
@@ -270,16 +276,30 @@ export default function Projects() {
                     {project.title}
                   </h3>
 
-                  {/* Compact Tech Stack */}
+                  {/* Status & Type Badges */}
                   <div className="flex flex-wrap gap-1.5 mb-3">
-                    {project.technologies.slice(0, 3).map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/15 text-blue-200 border border-blue-400/25"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                    {/* Status Badge */}
+                    <span
+                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
+                        project.status === 'Live' 
+                          ? 'bg-green-500/20 text-green-300 border border-green-400/40' 
+                          : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                      }`}
+                    >
+                      {project.status}
+                    </span>
+                    {/* Type Badge */}
+                    <span
+                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/15 text-cyan-200 border border-cyan-400/25"
+                    >
+                      {project.type}
+                    </span>
+                    {/* Main Tech */}
+                    <span
+                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/15 text-blue-200 border border-blue-400/25"
+                    >
+                      {project.technologies[0]}
+                    </span>
                   </div>
 
                   {/* Description */}
@@ -323,7 +343,7 @@ export default function Projects() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2 mt-auto">
-                    {project.demoLink && (
+                    {project.demoLink ? (
                       <Link
                         href={project.demoLink}
                         target="_blank"
@@ -333,12 +353,23 @@ export default function Projects() {
                         <Button
                           variant="primary"
                           size="sm"
-                          className="w-full"
+                          className="w-full shadow-md shadow-blue-500/20"
                         >
                           <FaExternalLinkAlt className="w-3 h-3" />
-                          Démo
+                          Live Demo
                         </Button>
                       </Link>
+                    ) : (
+                      <div className="flex-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full opacity-50 cursor-not-allowed"
+                          disabled
+                        >
+                          Demo bientôt
+                        </Button>
+                      </div>
                     )}
                     <Link
                       href={project.githubLink}

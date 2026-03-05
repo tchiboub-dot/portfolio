@@ -2792,3 +2792,97 @@ footer,
     will-change: unset;
   }
 }
+
+/* ============================================
+   GLOBAL ACCESSIBILITY - FOCUS VISIBLE STATES
+   ============================================ */
+
+/* Subtle blue focus ring for all interactive elements */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Enhanced focus for buttons */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+/* Form inputs focus */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+  border-color: var(--primary) !important;
+}
+
+/* Skip for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   GLOBAL CONSISTENCY - BORDER & SHADOW STANDARDS
+   ============================================ */
+
+/* Standardized glass card styling */
+.glass-card {
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.08);
+}
+
+/* Consistent button focus/hover - no layout shift */
+.btn-consistent {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-consistent:hover {
+  transform: translateY(-1px);
+}
+
+.btn-consistent:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   THEME CONTRAST FIXES (DARK + LIGHT)
+   ============================================ */
+
+/* Dark mode text contrast improvements */
+:root[data-theme="dark"] .text-muted,
+:root[data-theme="dark"] .text-text {
+  opacity: 0.92;
+}
+
+/* Light mode - ensure blacks are readable */
+:root[data-theme="light"] .text-heading {
+  color: #0B1220;
+}
+
+:root[data-theme="light"] .text-text {
+  color: #1E293B;
+}
+
+/* Hero small text readability fix */
+:root[data-theme="dark"] .hero-small-text {
+  color: rgba(234, 240, 255, 0.85);
+}
+
+:root[data-theme="light"] .hero-small-text {
+  color: rgba(11, 18, 32, 0.75);
+}

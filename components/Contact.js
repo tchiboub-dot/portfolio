@@ -267,9 +267,12 @@ export default function Contact() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-bold text-heading mb-6">
+            <h3 className="text-2xl font-bold text-heading mb-2">
               Envoyez-moi un message
             </h3>
+            <p className="text-sm text-muted mb-6">
+              ⏱️ Réponse sous 24-48h en moyenne
+            </p>
 
             {isSubmitted && (
               <Card hover={false} className="bg-success/10 border-success/30 text-center mb-6">

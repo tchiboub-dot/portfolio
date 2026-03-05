@@ -54,8 +54,13 @@ export default function Hero() {
           </h2>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-blue-100 mb-6 font-medium">
+          <p className="text-lg md:text-xl text-blue-100 mb-4 font-medium">
             {heroData.subtitle}
+          </p>
+
+          {/* Value Proposition */}
+          <p className="text-md md:text-lg text-cyan-300/90 mb-6 font-semibold tracking-wide">
+            Transformer vos idées en solutions web performantes et sécurisées.
           </p>
 
           {/* Description */}
@@ -65,10 +70,10 @@ export default function Hero() {
 
           {/* Elite CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button href="#projects" size="lg" className="group relative overflow-hidden">
+            <Button href="#projects" size="lg" className="group relative overflow-hidden shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-shadow duration-300">
               <span className="relative z-10">Voir mes projets</span>
             </Button>
-            <Button href="#contact" variant="outline" size="lg" className="group">
+            <Button href="#contact" variant="outline" size="lg" className="group hover:border-cyan-400/60 transition-all duration-300">
               Me contacter
             </Button>
           </div>
