@@ -1,76 +1,91 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef, useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
-import * as anime from 'animejs'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
 import Button from './ui/Button'
+import StackedCardGroup from './StackedCardGroup'
 
 /**
  * ELITE PROJECTS COMPONENT
  * Features:
- * - 3D tilt effect on hover
- * - Subtle glow intensity increase
- * - Micro elevation shadows
- * - Scroll reveal animations
- * - Animated layout transitions with anime.js createLayout
+ * - Stacked card carousel with smooth animations
+ * - Click to expand for full details
+ * - Arrow navigation + pagination dots
+ * - Keyboard and swipe support
+ * - Galaxy glass theme maintained
  */
 export default function Projects() {
   const [visibleCards, setVisibleCards] = useState(new Set())
-  const [layoutMode, setLayoutMode] = useState('grid-3')
-  const cardRefs = useRef([])
   const containerRef = useRef(null)
-  const layoutRef = useRef(null)
-  const controlsRef = useRef(null)
 
   const projectsData = [
     {
+      id: 1,
       title: 'Maison Élégance',
       description: 'Application web complète pour un restaurant avec menu interactif, système de panier, gestion des réservations, avis clients, galerie photos, FAQ et formulaire de contact. Interface moderne et responsive.',
-      technologies: ['HTML5', 'CSS3', 'JavaScript', 'Responsive'],
+      fullDescription: 'Restaurant web application complète avec toutes les fonctionnalités nécessaires pour gérer un établissement culinaire. Inclut un système de panier persistant, gestion des réservations en temps réel, système d\'avis clients, galerie photos, FAQ interactive et formulaire de contact intégré.',
+      technologies: ['HTML5', 'CSS3', 'JavaScript', 'Responsive', 'Vercel'],
       demoLink: 'https://maisonelegance-one.vercel.app/',
       githubLink: 'https://github.com/tchiboub-dot',
       status: 'Live',
       type: 'Web App',
       features: [
-        'Menu interactif',
-        'Système de panier',
-        'Réservation en ligne',
-        'Avis clients',
+        'Menu interactif avec catégories',
+        'Système de panier persistant',
+        'Réservation en ligne intégrée',
+        'Avis clients et notations',
+        'Galerie photos optimisée',
+        'FAQ avec recherche',
+        'Formulaire de contact',
+        'Design responsive mobile-first',
       ],
       image: '🍽️',
     },
     {
+      id: 2,
       title: 'Student Management System',
       description: 'Application web de gestion des étudiants avec fonctionnalités CRUD complètes, authentification basique et interface utilisateur responsive. Démonstration de compétences en développement full-stack.',
-      technologies: ['React', 'JavaScript', 'CRUD', 'Authentication'],
+      fullDescription: 'Système de gestion des étudiants avec authentification sécurisée, opérations CRUD complètes, gestion des données en temps réel et interface utilisateur moderne. Built with React pour une expérience utilisateur fluide et réactive.',
+      technologies: ['React', 'JavaScript', 'CRUD', 'Authentication', 'RESTful API', 'Vercel'],
       demoLink: 'https://student-management5.vercel.app/',
       githubLink: 'https://github.com/tchiboub-dot',
       status: 'Live',
       type: 'Web App',
       features: [
-        'CRUD complet',
-        'Authentification',
+        'Authentification utilisateur sécurisée',
+        'CRUD complet des étudiants',
+        'Recherche et filtrage avancés',
         'Gestion temps réel',
         'Interface responsive',
+        'Validation des données',
+        'Export de données',
+        'Dashboard analytique',
       ],
       image: '📚',
     },
     {
+      id: 3,
       title: 'Site Web pour Gym',
       description: 'Site vitrine professionnel pour une salle de sport avec sections marketing, présentation des offres et services, galerie photos, et formulaire de contact. Design moderne et attrayant.',
-      technologies: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX'],
+      fullDescription: 'Site vitrine professionnel pour salle de sport avec design moderne, présentation complète des services et offres, galerie photos haute résolution, témoignages de clients et formulaire de contact optimisé pour les conversions.',
+      technologies: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX', 'GitHub Pages'],
+      demoLink: null,
       githubLink: 'https://github.com/tchiboub-dot',
       status: 'GitHub',
       type: 'UI/UX',
       features: [
-        'Design professionnel',
-        'Marketing optimisé',
-        'Présentation offres',
-        'Galerie photos',
+        'Design professionnel et moderne',
+        'Marketing optimisé pour conversions',
+        'Présentation offres tarifaires',
+        'Galerie photos haute résolution',
+        'Témoignages de clients',
+        'Section tarification dynamique',
+        'Formulaire de contact optimisé',
+        'SEO optimisé',
       ],
       image: '💪',
     },
@@ -89,57 +104,245 @@ export default function Projects() {
       { threshold: 0.1, rootMargin: '50px' }
     )
 
-    cardRefs.current.forEach(ref => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => cardRefs.current.forEach(ref => {
-      if (ref) observer.unobserve(ref)
-    })
-  }, [])
-
-  // Initialize anime.js createLayout
-  useEffect(() => {
-    if (!containerRef.current) return
-
-    // Initialize createLayout with anime.js
-    layoutRef.current = anime.createLayout('.projects-layout-container', {
-      leaveTo: { 
-        transform: 'scale(0.95)', 
-        opacity: 0, 
-        delay: anime.stagger(50) 
-      },
-    })
-
-    // Add click handlers to control buttons
-    const buttons = controlsRef.current?.querySelectorAll('button') || []
-    const handleModeChange = (e) => {
-      const mode = e.target.dataset.mode
-      if (!mode) return
-
-      setLayoutMode(mode)
-
-      if (layoutRef.current) {
-        layoutRef.current.update(({ root }) => {
-          root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
-          root.classList.add(mode)
-        })
-      }
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
     }
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', handleModeChange)
-    })
 
     return () => {
-      buttons.forEach(btn => {
-        btn.removeEventListener('click', handleModeChange)
-      })
-      if (layoutRef.current) {
-        layoutRef.current.remove()
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
       }
     }
   }, [])
+
+  const renderCard = (project, isActive) => (
+    <Card
+      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-all duration-300 ${
+        isActive ? 'shadow-2xl shadow-blue-500/30' : ''
+      }`}
+      hover={isActive}
+    >
+      {/* Project Image/Icon */}
+      <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 h-48 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg">
+        <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+        }} />
+        <div className="relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+          {project.image}
+        </div>
+      </div>
+
+      {/* Card Content */}
+      <div className="flex flex-col flex-grow p-6">
+        {/* Title */}
+        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300">
+          {project.title}
+        </h3>
+
+        {/* Status & Type Badges */}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          <span
+            className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm ${
+              project.status === 'Live' 
+                ? 'bg-green-500/30 text-green-200 border border-green-400/50' 
+                : 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
+            }`}
+          >
+            {project.status}
+          </span>
+          <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm">
+            {project.type}
+          </span>
+          {project.technologies.length > 0 && (
+            <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/25 text-blue-100 border border-blue-400/35 backdrop-blur-sm">
+              {project.technologies[0]}
+            </span>
+          )}
+        </div>
+
+        {/* Description */}
+        <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-2">
+          {project.description}
+        </p>
+
+        {/* Technologies - compact for card view */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {project.technologies.slice(0, 2).map((tech, idx) => (
+            <Badge key={idx} variant="default" className="text-xs bg-blue-500/30 text-blue-100 border border-blue-400/40 hover:border-blue-400/60 transition-colors backdrop-blur-sm">
+              {tech}
+            </Badge>
+          ))}
+          {project.technologies.length > 2 && (
+            <Badge variant="secondary" className="text-xs bg-slate-500/30 text-slate-200 border border-slate-400/30">
+              +{project.technologies.length - 2}
+            </Badge>
+          )}
+        </div>
+
+        {/* Key Features - brief */}
+        <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2.5 mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300">
+          <p className="text-[10px] font-semibold text-blue-300 mb-1">
+            Fonctionnalités :
+          </p>
+          <ul className="text-[10px] text-text space-y-0.5">
+            {project.features.slice(0, 2).map((feature, i) => (
+              <li key={i} className="flex items-center gap-1.5 truncate">
+                <span className="w-1 h-1 rounded-full bg-blue-400 flex-shrink-0" />
+                <span className="truncate">{feature}</span>
+              </li>
+            ))}
+            {project.features.length > 2 && (
+              <li className="text-blue-400 font-medium text-[9px]">
+                +{project.features.length - 2} fonctionnalités...
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-2 mt-auto">
+          {project.demoLink ? (
+            <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
+              <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20">
+                <FaExternalLinkAlt className="w-3 h-3" />
+                Live Demo
+              </Button>
+            </Link>
+          ) : (
+            <div className="flex-1">
+              <Button variant="outline" size="sm" className="w-full opacity-50 cursor-not-allowed" disabled>
+                Demo
+              </Button>
+            </div>
+          )}
+          <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex-1">
+            <Button variant="outline" size="sm" className="w-full">
+              <FaGithub className="w-3 h-3" />
+              Code
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </Card>
+  )
+
+  const renderDetails = (project, index, nav) => (
+    <div className="space-y-6 animate-fadeIn">
+      {/* Header with Title and Close */}
+      <div>
+        <div className="flex items-start gap-3 mb-4">
+          <div className="text-5xl filter drop-shadow-lg">{project.image}</div>
+          <div className="flex-1">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2">
+              {project.title}
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <span
+                className={`text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm ${
+                  project.status === 'Live' 
+                    ? 'bg-green-500/30 text-green-200 border border-green-400/50' 
+                    : 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
+                }`}
+              >
+                {project.status}
+              </span>
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm">
+                {project.type}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Full Description */}
+      <div>
+        <h3 className="text-sm font-semibold text-blue-300 mb-2 uppercase tracking-wider">À propos du projet</h3>
+        <p className="text-text/90 leading-relaxed text-base">
+          {project.fullDescription}
+        </p>
+      </div>
+
+      {/* All Technologies */}
+      <div>
+        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Technologies utilisées</h3>
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.map((tech, idx) => (
+            <Badge key={idx} variant="default" className="bg-blue-500/30 text-blue-100 border border-blue-400/40 backdrop-blur-sm">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      </div>
+
+      {/* All Features */}
+      <div>
+        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Fonctionnalités complètes</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {project.features.map((feature, i) => (
+            <div key={i} className="flex items-start gap-3 bg-blue-500/10 rounded-lg p-3 border border-blue-400/20">
+              <span className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0 mt-1.5" />
+              <span className="text-text/90 text-sm">{feature}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-blue-400/20">
+        {project.demoLink && (
+          <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
+            <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20">
+              <FaExternalLinkAlt className="w-4 h-4" />
+              Voir la démo en direct
+            </Button>
+          </Link>
+        )}
+        <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <Button variant="outline" size="sm" className="w-full">
+            <FaGithub className="w-4 h-4" />
+            Code source
+          </Button>
+        </Link>
+      </div>
+
+      {/* Navigation */}
+      {nav.totalItems > 1 && (
+        <div className="flex items-center justify-between pt-4 border-t border-blue-400/20">
+          <button
+            onClick={nav.onPrev}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            aria-label="Projet précédent"
+          >
+            ← Précédent
+          </button>
+          <span className="text-xs text-blue-300/70 font-medium">
+            {index + 1} / {nav.totalItems}
+          </span>
+          <button
+            onClick={nav.onNext}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            aria-label="Projet suivant"
+          >
+            Suivant →
+          </button>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
+    </div>
+  )
 
   return (
     <section id="projects" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
@@ -148,254 +351,33 @@ export default function Projects() {
         <div className="absolute top-1/3 -right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-parallax-slower" />
       </div>
 
-      <div className="container-custom relative z-10">
+      <div 
+        ref={containerRef}
+        className="container-custom relative z-10 animate-section-reveal"
+      >
         <SectionTitle 
           title="Mes Projets"
-          subtitle="Découvrez quelques-uns de mes projets récents et réalisations"
+          subtitle="Découvrez mes projets récents et réalisations"
           align="center"
         />
 
-        {/* Layout Control Buttons - Glass Styled */}
-        <div 
-          ref={controlsRef}
-          className="projects-controls flex flex-wrap justify-center gap-2 mb-10 animate-section-reveal"
-        >
-          <button
-            data-mode="grid-3"
-            onClick={(e) => {
-              const mode = e.currentTarget.dataset.mode
-              setLayoutMode(mode)
-              if (layoutRef.current) {
-                layoutRef.current.update(({ root }) => {
-                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
-                  root.classList.add(mode)
-                })
-              }
+        {/* Stacked Card Group */}
+        <div className="mt-16">
+          <StackedCardGroup
+            items={projectsData}
+            renderCard={renderCard}
+            renderDetails={renderDetails}
+            cardCount={3}
+            stackOffset={24}
+            stackScale={0.98}
+            onNavigate={(index) => {
+              // Optional: analytics tracking
             }}
-            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
-              layoutMode === 'grid-3'
-                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
-                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
-            }`}
-          >
-            Grille 3
-          </button>
-          <button
-            data-mode="grid-2"
-            onClick={(e) => {
-              const mode = e.currentTarget.dataset.mode
-              setLayoutMode(mode)
-              if (layoutRef.current) {
-                layoutRef.current.update(({ root }) => {
-                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
-                  root.classList.add(mode)
-                })
-              }
-            }}
-            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
-              layoutMode === 'grid-2'
-                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
-                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
-            }`}
-          >
-            Grille 2
-          </button>
-          <button
-            data-mode="flex-col"
-            onClick={(e) => {
-              const mode = e.currentTarget.dataset.mode
-              setLayoutMode(mode)
-              if (layoutRef.current) {
-                layoutRef.current.update(({ root }) => {
-                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
-                  root.classList.add(mode)
-                })
-              }
-            }}
-            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
-              layoutMode === 'flex-col'
-                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
-                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
-            }`}
-          >
-            Liste
-          </button>
-          <button
-            data-mode="flex-row"
-            onClick={(e) => {
-              const mode = e.currentTarget.dataset.mode
-              setLayoutMode(mode)
-              if (layoutRef.current) {
-                layoutRef.current.update(({ root }) => {
-                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
-                  root.classList.add(mode)
-                })
-              }
-            }}
-            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
-              layoutMode === 'flex-row'
-                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
-                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
-            }`}
-          >
-            Horizontal
-          </button>
+          />
         </div>
-
-        {/* Projects Container - Animated Layout */}
-        <div 
-          ref={containerRef}
-          className={`projects-layout-container ${layoutMode}`}
-        >
-          {projectsData.map((project, index) => (
-            <div
-              key={index}
-              ref={el => cardRefs.current[index] = el}
-              data-index={index}
-              className={`project-card transform transition-all duration-700 ease-out ${
-                visibleCards.has(String(index)) 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-10'
-              }`}
-            >
-              <Card className="flex flex-col h-full overflow-hidden p-0 card-interactive group">
-                {/* Project Image/Icon */}
-                <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 h-40 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg">
-                  <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
-                    background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
-                  }} />
-                  <div className="relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    {project.image}
-                  </div>
-                </div>
-
-                {/* Card Content */}
-                <div className="flex flex-col flex-grow p-6">
-                  {/* Title */}
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300">
-                    {project.title}
-                  </h3>
-
-                  {/* Status & Type Badges */}
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {/* Status Badge */}
-                    <span
-                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm ${
-                        project.status === 'Live' 
-                          ? 'bg-green-500/30 text-green-200 border border-green-400/50' 
-                          : 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
-                      }`}
-                    >
-                      {project.status}
-                    </span>
-                    {/* Type Badge */}
-                    <span
-                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm"
-                    >
-                      {project.type}
-                    </span>
-                    {/* Main Tech */}
-                    <span
-                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/25 text-blue-100 border border-blue-400/35 backdrop-blur-sm"
-                    >
-                      {project.technologies[0]}
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.slice(0, 3).map((tech, idx) => (
-                      <Badge key={idx} variant="default" className="text-xs bg-blue-500/30 text-blue-100 border border-blue-400/40 hover:border-blue-400/60 transition-colors backdrop-blur-sm">
-                        {tech}
-                      </Badge>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <Badge variant="secondary" className="text-xs bg-slate-500/30 text-slate-200 border border-slate-400/30">
-                        +{project.technologies.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-
-                  {/* Key Features */}
-                  <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-3 mb-4 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300">
-                    <p className="text-xs font-semibold text-blue-300 mb-2">
-                      Fonctionnalités clés :
-                    </p>
-                    <ul className="text-xs text-text space-y-1">
-                      {project.features.slice(0, 2).map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                      {project.features.length > 2 && (
-                        <li className="text-blue-400 font-medium">
-                          +{project.features.length - 2} fonctionnalités...
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-2 mt-auto">
-                    {project.demoLink ? (
-                      <Link
-                        href={project.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1"
-                      >
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          className="w-full shadow-md shadow-blue-500/20"
-                        >
-                          <FaExternalLinkAlt className="w-3 h-3" />
-                          Live Demo
-                        </Button>
-                      </Link>
-                    ) : (
-                      <div className="flex-1">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full opacity-50 cursor-not-allowed"
-                          disabled
-                        >
-                          Demo bientôt
-                        </Button>
-                      </div>
-                    )}
-                    <Link
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1"
-                    >
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                      >
-                        <FaGithub className="w-3 h-3" />
-                        Code
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          ))}
-        </div>
-        {/* End Projects Container */}
 
         {/* CTA Section */}
-        <div className="mt-16 text-center animate-section-reveal">
+        <div className="mt-20 text-center animate-section-reveal">
           <p className="text-text/80 mb-6 text-lg font-medium">
             Intéressé par ma façon de travailler ?
           </p>
