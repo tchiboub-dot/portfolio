@@ -2689,3 +2689,106 @@ footer,
     opacity: 1 !important;
   }
 }
+
+/* ============================================
+   PROJECTS LAYOUT ANIMATION SYSTEM
+   Anime.js createLayout for smooth transitions
+   ============================================ */
+
+.projects-layout-container {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  transition: all 0.3s ease;
+}
+
+/* Grid 3 columns - responsive */
+.projects-layout-container.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .projects-layout-container.grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-layout-container.grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Grid 2 columns - responsive */
+.projects-layout-container.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .projects-layout-container.grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Flex row - horizontal scroll */
+.projects-layout-container.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+}
+
+.projects-layout-container.flex-row > div {
+  flex: 0 0 calc(33.333% - 16px);
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .projects-layout-container.flex-row > div {
+    flex: 0 0 calc(50% - 12px);
+    min-width: 280px;
+  }
+}
+
+/* Flex column - vertical stack */
+.projects-layout-container.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* None - hide all project cards */
+.projects-layout-container.none .project-card {
+  display: none;
+}
+
+/* Individual project card wrapper */
+.projects-layout-container > div {
+  will-change: auto;
+  transform-origin: center;
+}
+
+/* Smooth animation during layout transitions */
+.projects-layout-container.anime {
+  /* Used by anime.js for layout transitions */
+}
+
+/* Mobile optimization for layout transitions */
+@media (prefers-reduced-motion: reduce) {
+  .projects-layout-container {
+    transition: none !important;
+  }
+}
+
+/* Reduce animation intensity on mobile devices */
+@media (max-width: 640px) {
+  .projects-layout-container > div {
+    will-change: unset;
+  }
+}

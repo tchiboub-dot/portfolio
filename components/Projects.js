@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRef, useState, useEffect } from 'react'
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
+import * as anime from 'animejs'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
@@ -15,10 +16,15 @@ import Button from './ui/Button'
  * - Subtle glow intensity increase
  * - Micro elevation shadows
  * - Scroll reveal animations
+ * - Animated layout transitions with anime.js createLayout
  */
 export default function Projects() {
   const [visibleCards, setVisibleCards] = useState(new Set())
+  const [layoutMode, setLayoutMode] = useState('grid-3')
   const cardRefs = useRef([])
+  const containerRef = useRef(null)
+  const layoutRef = useRef(null)
+  const controlsRef = useRef(null)
 
   const projectsData = [
     {
@@ -86,6 +92,49 @@ export default function Projects() {
     })
   }, [])
 
+  // Initialize anime.js createLayout
+  useEffect(() => {
+    if (!containerRef.current) return
+
+    // Initialize createLayout with anime.js
+    layoutRef.current = anime.createLayout('.projects-layout-container', {
+      leaveTo: { 
+        transform: 'scale(0.95)', 
+        opacity: 0, 
+        delay: anime.stagger(50) 
+      },
+    })
+
+    // Add click handlers to control buttons
+    const buttons = controlsRef.current?.querySelectorAll('button') || []
+    const handleModeChange = (e) => {
+      const mode = e.target.dataset.mode
+      if (!mode) return
+
+      setLayoutMode(mode)
+
+      if (layoutRef.current) {
+        layoutRef.current.update(({ root }) => {
+          root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
+          root.classList.add(mode)
+        })
+      }
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', handleModeChange)
+    })
+
+    return () => {
+      buttons.forEach(btn => {
+        btn.removeEventListener('click', handleModeChange)
+      })
+      if (layoutRef.current) {
+        layoutRef.current.remove()
+      }
+    }
+  }, [])
+
   return (
     <section id="projects" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
       {/* Background glow effects */}
@@ -100,14 +149,104 @@ export default function Projects() {
           align="center"
         />
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Layout Control Buttons - Glass Styled */}
+        <div 
+          ref={controlsRef}
+          className="projects-controls flex flex-wrap justify-center gap-2 mb-10 animate-section-reveal"
+        >
+          <button
+            data-mode="grid-3"
+            onClick={(e) => {
+              const mode = e.currentTarget.dataset.mode
+              setLayoutMode(mode)
+              if (layoutRef.current) {
+                layoutRef.current.update(({ root }) => {
+                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
+                  root.classList.add(mode)
+                })
+              }
+            }}
+            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
+              layoutMode === 'grid-3'
+                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
+                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
+            }`}
+          >
+            Grille 3
+          </button>
+          <button
+            data-mode="grid-2"
+            onClick={(e) => {
+              const mode = e.currentTarget.dataset.mode
+              setLayoutMode(mode)
+              if (layoutRef.current) {
+                layoutRef.current.update(({ root }) => {
+                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
+                  root.classList.add(mode)
+                })
+              }
+            }}
+            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
+              layoutMode === 'grid-2'
+                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
+                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
+            }`}
+          >
+            Grille 2
+          </button>
+          <button
+            data-mode="flex-col"
+            onClick={(e) => {
+              const mode = e.currentTarget.dataset.mode
+              setLayoutMode(mode)
+              if (layoutRef.current) {
+                layoutRef.current.update(({ root }) => {
+                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
+                  root.classList.add(mode)
+                })
+              }
+            }}
+            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
+              layoutMode === 'flex-col'
+                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
+                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
+            }`}
+          >
+            Liste
+          </button>
+          <button
+            data-mode="flex-row"
+            onClick={(e) => {
+              const mode = e.currentTarget.dataset.mode
+              setLayoutMode(mode)
+              if (layoutRef.current) {
+                layoutRef.current.update(({ root }) => {
+                  root.classList.remove('grid-2', 'grid-3', 'flex-row', 'flex-col', 'none')
+                  root.classList.add(mode)
+                })
+              }
+            }}
+            className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
+              layoutMode === 'flex-row'
+                ? 'bg-blue-500/30 text-blue-100 border border-blue-400/50 shadow-lg shadow-blue-500/20'
+                : 'bg-blue-500/10 text-blue-300 border border-blue-400/25 hover:bg-blue-500/15 hover:border-blue-400/40'
+            }`}
+          >
+            Horizontal
+          </button>
+        </div>
+
+        {/* Projects Container - Animated Layout */}
+        <div 
+          ref={containerRef}
+          className={`projects-layout-container ${layoutMode}`}
+        >
           {projectsData.map((project, index) => (
             <div
               key={index}
               ref={el => cardRefs.current[index] = el}
               data-index={index}
-              className={`transform transition-all duration-700 ease-out ${
+              className={`project-card transform transition-all duration-700 ease-out ${
                 visibleCards.has(String(index)) 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-10'
@@ -222,6 +361,7 @@ export default function Projects() {
             </div>
           ))}
         </div>
+        {/* End Projects Container */}
 
         {/* CTA Section */}
         <div className="mt-16 text-center animate-section-reveal">
