@@ -133,12 +133,36 @@ export default function Header() {
           aria-label="T.A.C logo"
           title="T.A.C"
         >
-          <img
-            src="/logo.png"
-            alt="T.A.C logo"
-            className="h-10 w-auto object-contain"
-            loading="eager"
-          />
+          <div
+            className="relative inline-flex items-center justify-center"
+            style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              border: '1px solid',
+              borderColor: isDark ? 'rgba(96, 165, 250, 0.4)' : 'rgba(59, 130, 246, 0.3)',
+              boxShadow: isDark
+                ? '0 0 12px rgba(96, 165, 250, 0.15), inset 0 0 12px rgba(96, 165, 250, 0.1)'
+                : '0 0 8px rgba(59, 130, 246, 0.1), inset 0 0 8px rgba(59, 130, 246, 0.05)',
+              backgroundColor: isDark
+                ? 'rgba(13, 27, 42, 0.4)'
+                : 'rgba(248, 250, 252, 0.4)',
+            }}
+          >
+            <img
+              src="/logo.png"
+              alt="T.A.C logo"
+              className="transition-opacity duration-300"
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+              }}
+              loading="eager"
+            />
+          </div>
         </a>
 
         {/* Desktop Navigation */}
