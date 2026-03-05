@@ -51,7 +51,7 @@ export default function SectionTitle({
       </h2>
 
       {subtitle && (
-        <p className={`text-blue-200/70 text-lg max-w-2xl font-medium ${
+        <p className={`text-blue-200/80 text-lg max-w-2xl font-medium ${
           align === 'center' ? 'mx-auto' : ''
         }`}>
           {subtitle}
@@ -60,7 +60,13 @@ export default function SectionTitle({
 
       {/* Animated Neon Glow Underline */}
       <div className={`flex gap-2 mt-6 ${alignClasses[align]}`}>
-        <div className={`section-title-accent h-1.5 w-20 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full shadow-lg shadow-blue-500/50 ${inView ? 'section-title-accent--in' : ''}`} />
+        <div 
+          className={`section-title-accent h-1 w-20 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full shadow-lg shadow-blue-500/40 transition-all duration-300 ${inView ? 'section-title-accent--in' : ''}`} 
+          style={{
+            transform: inView ? 'scaleX(1)' : 'scaleX(0)',
+            transformOrigin: align === 'center' ? 'center' : align === 'right' ? 'right' : 'left',
+          }}
+        />
       </div>
     </div>
   )

@@ -280,23 +280,23 @@ export default function Projects() {
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {/* Status Badge */}
                     <span
-                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
+                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm ${
                         project.status === 'Live' 
-                          ? 'bg-green-500/20 text-green-300 border border-green-400/40' 
-                          : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                          ? 'bg-green-500/30 text-green-200 border border-green-400/50' 
+                          : 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
                       }`}
                     >
                       {project.status}
                     </span>
                     {/* Type Badge */}
                     <span
-                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/15 text-cyan-200 border border-cyan-400/25"
+                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm"
                     >
                       {project.type}
                     </span>
                     {/* Main Tech */}
                     <span
-                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/15 text-blue-200 border border-blue-400/25"
+                      className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/25 text-blue-100 border border-blue-400/35 backdrop-blur-sm"
                     >
                       {project.technologies[0]}
                     </span>
@@ -310,12 +310,12 @@ export default function Projects() {
                   {/* Technologies */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.slice(0, 3).map((tech, idx) => (
-                      <Badge key={idx} variant="default" className="text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 hover:border-blue-400/60 transition-colors">
+                      <Badge key={idx} variant="default" className="text-xs bg-blue-500/30 text-blue-100 border border-blue-400/40 hover:border-blue-400/60 transition-colors backdrop-blur-sm">
                         {tech}
                       </Badge>
                     ))}
                     {project.technologies.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge variant="secondary" className="text-xs bg-slate-500/30 text-slate-200 border border-slate-400/30">
                         +{project.technologies.length - 3}
                       </Badge>
                     )}

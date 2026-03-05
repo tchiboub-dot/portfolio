@@ -13,11 +13,11 @@
   --bgGradient: radial-gradient(1200px 800px at 20% 10%, rgba(59,130,246,0.20), transparent 60%), radial-gradient(1000px 700px at 80% 20%, rgba(99,102,241,0.16), transparent 55%);
   --surface: #0B1220;
   --surface2: #0F1B2D;
-  --text: #EAF0FF;
-  --muted: #A9B6D1;
+  --text: #F0F5FF;
+  --muted: #C2CFEA;
   --primary: #2F6FED;
   --primaryHover: #255FE0;
-  --border: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.10);
   --shadow: 0 18px 45px rgba(0,0,0,0.45);
   --shadowSoft: 0 10px 30px rgba(0,0,0,0.30);
   --ring: rgba(59,130,246,0.45);
@@ -2885,4 +2885,59 @@ select:focus-visible {
 
 :root[data-theme="light"] .hero-small-text {
   color: rgba(11, 18, 32, 0.75);
+}
+
+/* ============================================
+   STUDIO POLISH - UNIFORM GLASS SYSTEM
+   ============================================ */
+
+/* Standardized border radius for all glass elements */
+.glass-uniform {
+  border-radius: var(--radius);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Subtle uniform glow on hover - same intensity everywhere */
+.glow-hover {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.glow-hover:hover {
+  border-color: rgba(96, 165, 250, 0.35);
+  box-shadow: 
+    var(--shadow-md),
+    0 0 16px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Text hierarchy improvements */
+:root[data-theme="dark"] .text-secondary {
+  color: rgba(194, 207, 234, 0.95);
+}
+
+:root[data-theme="dark"] .text-tertiary {
+  color: rgba(169, 182, 209, 0.85);
+}
+
+/* Project description text clarity */
+:root[data-theme="dark"] .text-text {
+  color: rgba(225, 233, 250, 0.92);
+}
+
+/* Skill bar label readability */
+:root[data-theme="dark"] .skill-label {
+  color: rgba(220, 230, 255, 0.95);
+}
+
+/* Footer text polish */
+:root[data-theme="dark"] footer p,
+:root[data-theme="dark"] footer a {
+  color: rgba(200, 215, 245, 0.9);
+}
+
+:root[data-theme="dark"] footer a:hover {
+  color: rgba(125, 211, 252, 1);
 }

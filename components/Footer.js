@@ -111,14 +111,31 @@ export default function Footer() {
         <div className="border-t border-blue-400/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright */}
-            <p className="text-blue-200 text-center md:text-left text-sm font-medium">
-              © {currentYear} T.A.C — Taha Adnane CHIBOUB. Tous droits réservés.
+            <p className="text-blue-100/90 text-center md:text-left text-sm font-medium">
+              © {currentYear} — Chiboub Taha Adnane. Tous droits réservés.
             </p>
 
-            {/* Made with */}
-            <p className="text-blue-200 flex items-center text-sm font-medium">
-              Fait avec <FaHeart className="text-red-400 mx-2 animate-pulse" /> et Next.js
-            </p>
+            {/* Social Icons */}
+            <div className="flex items-center gap-4">
+              <a
+                href={footerData.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110"
+                aria-label="GitHub"
+              >
+                <FaGithub className="text-lg" />
+              </a>
+              <a
+                href={footerData.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedin className="text-lg" />
+              </a>
+            </div>
           </div>
         </div>
 
