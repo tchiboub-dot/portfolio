@@ -3074,3 +3074,91 @@ select:focus-visible {
 .btn-primary:active, .btn-secondary:active {
   transform: translateY(0);
 }
+
+/* ============================================
+   CONTACT FORM STATUS BORDERS (GLASS STYLE)
+   ============================================ */
+
+/* Success state - subtle green border + glow */
+.contact-status--success {
+  outline: 2px solid rgba(34, 197, 94, 0.5);
+  outline-offset: 0;
+  box-shadow: 
+    0 0 0 4px rgba(34, 197, 94, 0.1),
+    0 0 20px rgba(34, 197, 94, 0.2),
+    0 12px 32px rgba(2, 8, 22, 0.42),
+    0 0 0 1px rgba(142, 190, 255, 0.06) inset;
+  transition: outline 300ms ease-out, box-shadow 300ms ease-out;
+}
+
+/* Error state - subtle red border + glow */
+.contact-status--error {
+  outline: 2px solid rgba(239, 68, 68, 0.5);
+  outline-offset: 0;
+  box-shadow: 
+    0 0 0 4px rgba(239, 68, 68, 0.1),
+    0 0 20px rgba(239, 68, 68, 0.2),
+    0 12px 32px rgba(2, 8, 22, 0.42),
+    0 0 0 1px rgba(142, 190, 255, 0.06) inset;
+  transition: outline 300ms ease-out, box-shadow 300ms ease-out;
+}
+
+/* Loading state - subtle blue border pulse */
+.contact-status--loading {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 0;
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.1),
+    0 0 20px rgba(59, 130, 246, 0.3),
+    0 12px 32px rgba(2, 8, 22, 0.42),
+    0 0 0 1px rgba(142, 190, 255, 0.06) inset;
+  animation: contact-loading-pulse 2s ease-in-out infinite;
+}
+
+/* Light mode adjustments */
+:root[data-theme="light"] .contact-status--success {
+  outline-color: rgba(22, 163, 74, 0.5);
+  box-shadow: 
+    0 0 0 4px rgba(22, 163, 74, 0.08),
+    0 0 20px rgba(22, 163, 74, 0.15),
+    0 12px 32px rgba(59, 130, 246, 0.08),
+    0 0 0 1px rgba(59, 130, 246, 0.04) inset;
+}
+
+:root[data-theme="light"] .contact-status--error {
+  outline-color: rgba(220, 38, 38, 0.5);
+  box-shadow: 
+    0 0 0 4px rgba(220, 38, 38, 0.08),
+    0 0 20px rgba(220, 38, 38, 0.15),
+    0 12px 32px rgba(59, 130, 246, 0.08),
+    0 0 0 1px rgba(59, 130, 246, 0.04) inset;
+}
+
+:root[data-theme="light"] .contact-status--loading {
+  outline-color: rgba(37, 99, 235, 0.5);
+  box-shadow: 
+    0 0 0 4px rgba(37, 99, 235, 0.08),
+    0 0 20px rgba(37, 99, 235, 0.20),
+    0 12px 32px rgba(59, 130, 246, 0.08),
+    0 0 0 1px rgba(59, 130, 246, 0.04) inset;
+}
+
+/* Loading pulse animation */
+@keyframes contact-loading-pulse {
+  0%, 100% {
+    outline-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 
+      0 0 0 4px rgba(59, 130, 246, 0.1),
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 12px 32px rgba(2, 8, 22, 0.42),
+      0 0 0 1px rgba(142, 190, 255, 0.06) inset;
+  }
+  50% {
+    outline-color: rgba(59, 130, 246, 0.7);
+    box-shadow: 
+      0 0 0 4px rgba(59, 130, 246, 0.2),
+      0 0 30px rgba(59, 130, 246, 0.4),
+      0 12px 32px rgba(2, 8, 22, 0.42),
+      0 0 0 1px rgba(142, 190, 255, 0.06) inset;
+  }
+}

@@ -409,7 +409,14 @@ export default function Contact() {
               </Card>
             )}
 
-            <Card hover={false}>
+            <Card 
+              hover={false}
+              className={`transition-all duration-300 ${
+                isSubmitted ? 'contact-status--success' : 
+                isError ? 'contact-status--error' : 
+                isSubmitting ? 'contact-status--loading' : ''
+              }`}
+            >
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
                   <label htmlFor="website">Do not fill</label>
