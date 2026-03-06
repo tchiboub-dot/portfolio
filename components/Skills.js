@@ -10,11 +10,7 @@ import {
   FaGithub,
   FaShieldAlt,
   FaRobot,
-  FaCode,
-  FaLaptopCode,
-  FaServer,
-  FaTools,
-  FaCompass
+  FaCode
 } from 'react-icons/fa'
 import { SiNextdotjs, SiTailwindcss } from 'react-icons/si'
 import SectionTitle from './ui/SectionTitle'
@@ -76,29 +72,29 @@ export default function Skills() {
   const SkillBar = ({ skill, index }) => {
     // Level badge colors based on proficiency
     const levelColors = {
-      'Avancé': 'bg-emerald-400/12 text-emerald-200 border-emerald-300/25',
-      'Intermédiaire': 'bg-cyan-400/12 text-cyan-200 border-cyan-300/25',
-      'Débutant': 'bg-amber-400/12 text-amber-200 border-amber-300/25',
+      'Avancé': 'bg-green-500/20 text-green-300 border-green-400/30',
+      'Intermédiaire': 'bg-blue-500/20 text-cyan-400 border-cyan-400/30',
+      'Débutant': 'bg-orange-500/20 text-orange-300 border-orange-400/30',
     }
     
     return (
       <div className="mb-4 group">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <span className={`text-xl ${skill.color} group-hover:scale-110 transition-transform duration-300`}>
+            <span className={`text-xl ${skill.color} group-hover:scale-125 transition-transform duration-300`}>
               {skill.icon}
             </span>
-            <span className="font-medium text-slate-100 group-hover:text-cyan-200 transition-colors duration-300">
+            <span className="font-medium text-blue-300 group-hover:text-cyan-300 transition-colors duration-300">
               {skill.name}
             </span>
           </div>
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full border backdrop-blur-sm ${levelColors[skill.level]} transition-colors duration-300`}>
+          <span className={`text-xs font-bold px-2 py-1 rounded border ${levelColors[skill.level]} group-hover:brightness-110 transition-all duration-300`}>
             {skill.level}
           </span>
         </div>
-        <div className="relative w-full bg-slate-900/40 rounded-full h-2.5 overflow-hidden border border-cyan-200/10 transition-colors duration-300">
+        <div className="relative w-full bg-blue-950/40 rounded-full h-2.5 overflow-hidden border border-blue-400/20 group-hover:border-blue-400/50 transition-all duration-300">
           <div
-            className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-cyan-500/90 via-teal-400/90 to-blue-400/85"
+            className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 group-hover:shadow-lg group-hover:shadow-cyan-400/40"
             style={{ width: `${skill.levelValue}%` }}
           />
           {/* Shine effect */}
@@ -112,10 +108,10 @@ export default function Skills() {
   }
 
   const categories = [
-    { key: 'frontend', label: 'Front-end', icon: FaLaptopCode, color: 'text-cyan-300' },
-    { key: 'backend', label: 'Back-end', icon: FaServer, color: 'text-cyan-300' },
-    { key: 'tools', label: 'Outils', icon: FaTools, color: 'text-cyan-300' },
-    { key: 'other', label: 'Autres', icon: FaCompass, color: 'text-cyan-300' },
+    { key: 'frontend', label: 'Front-end', icon: '🎨', color: 'text-blue-400' },
+    { key: 'backend', label: 'Back-end', icon: '⚙️', color: 'text-cyan-400' },
+    { key: 'tools', label: 'Outils', icon: '🛠️', color: 'text-blue-400' },
+    { key: 'other', label: 'Autres', icon: '🎯', color: 'text-cyan-400' },
   ]
   
   return (
@@ -145,10 +141,10 @@ export default function Skills() {
             >
               <Card hover={true} className="card-interactive">
                 <div className="flex items-center gap-3 mb-8">
-                  <span className="text-3xl text-cyan-300/90 group-hover:text-cyan-200 transition-colors duration-300">
-                    <category.icon />
+                  <span className="text-4xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {category.icon}
                   </span>
-                  <h3 className={`text-2xl font-bold bg-gradient-to-r from-cyan-200 to-teal-300 bg-clip-text text-transparent ${category.color}`}>
+                  <h3 className={`text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent ${category.color}`}>
                     {category.label}
                   </h3>
                 </div>
