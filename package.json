@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Portfolio professionnel de Chiboub Taha Adnane",
   "private": true,
+  "engines": {
+    "node": ">=18.18 <23"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
