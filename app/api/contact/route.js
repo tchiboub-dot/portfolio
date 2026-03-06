@@ -355,7 +355,7 @@ export async function POST(request) {
     }
 
     // 13. Envoyer email
-    const emailSubject = `[Portfolio] ${safeSubject}`
+    const emailSubject = `Portfolio - ${safeSubject}`
     const htmlBody = `
       <!DOCTYPE html>
       <html>
