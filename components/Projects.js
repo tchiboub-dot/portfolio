@@ -89,6 +89,28 @@ export default function Projects() {
       ],
       image: '💪',
     },
+    {
+      id: 4,
+      title: 'Security Headers',
+      description: 'Tool that demonstrates implementing strong HTTP security headers (CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) and verifying them for better web security.',
+      fullDescription: 'Comprehensive security headers implementation tool built with Next.js. Demonstrates best practices for configuring HTTP security headers to protect against common web vulnerabilities. Includes header verification, real-time testing, and detailed security recommendations. Implemented following Vercel and OWASP security standards.',
+      technologies: ['Next.js', 'Vercel', 'Security Headers', 'HTTP'],
+      demoLink: 'https://security-headers-2owb.vercel.app/',
+      githubLink: 'https://github.com/tchiboub-dot/security-headers',
+      status: 'Live',
+      type: 'Web App',
+      features: [
+        'HTTP Security Headers configuration',
+        'CSP (Content Security Policy)',
+        'HSTS (Strict-Transport-Security)',
+        'X-Frame-Options & X-Content-Type-Options',
+        'Referrer-Policy & Permissions-Policy',
+        'Real-time header verification',
+        'Security recommendations & guidance',
+        'Configured via Vercel/Next.js best practices',
+      ],
+      image: '🔒',
+    },
   ]
 
   // Intersection Observer for scroll reveals
@@ -367,7 +389,7 @@ export default function Projects() {
             items={projectsData}
             renderCard={renderCard}
             renderDetails={renderDetails}
-            cardCount={3}
+            cardCount={4}
             rightOffset={20}
             downOffset={12}
             onNavigate={(index) => {
