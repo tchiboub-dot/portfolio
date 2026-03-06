@@ -140,13 +140,13 @@ export default function Header() {
               height: '44px',
               borderRadius: '50%',
               border: '1px solid',
-              borderColor: isDark ? 'rgba(94, 234, 212, 0.35)' : 'rgba(14, 165, 233, 0.28)',
+              borderColor: isDark ? 'rgba(96, 165, 250, 0.4)' : 'rgba(59, 130, 246, 0.3)',
               boxShadow: isDark
-                ? '0 0 10px rgba(94, 234, 212, 0.14), inset 0 0 10px rgba(94, 234, 212, 0.08)'
-                : '0 0 8px rgba(14, 165, 233, 0.1), inset 0 0 8px rgba(14, 165, 233, 0.05)',
+                ? '0 0 12px rgba(96, 165, 250, 0.15), inset 0 0 12px rgba(96, 165, 250, 0.1)'
+                : '0 0 8px rgba(59, 130, 246, 0.1), inset 0 0 8px rgba(59, 130, 246, 0.05)',
               backgroundColor: isDark
-                ? 'rgba(10, 20, 34, 0.42)'
-                : 'rgba(247, 252, 255, 0.55)',
+                ? 'rgba(13, 27, 42, 0.4)'
+                : 'rgba(248, 250, 252, 0.4)',
             }}
           >
             <img
@@ -177,14 +177,14 @@ export default function Header() {
                   transition: 'color 240ms ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = isDark ? '#A5F3FC' : '#0E7490';
+                  e.currentTarget.style.color = isDark ? '#8FD3FF' : '#1E40AF';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = isDark ? '#EAF0FF' : '#0B1220';
                 }}
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-300 to-teal-300 group-hover:w-full transition-all duration-300" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
               </a>
             </li>
           ))}
@@ -197,9 +197,9 @@ export default function Header() {
             onClick={toggleTheme}
             className="h-10 w-10 inline-flex items-center justify-center rounded-lg border transition-all duration-300 hover:drop-shadow-lg"
             style={{
-              borderColor: isDark ? 'rgba(94, 234, 212, 0.32)' : 'rgba(14, 165, 233, 0.28)',
-              backgroundColor: isDark ? 'rgba(45, 212, 191, 0.12)' : 'rgba(14, 165, 233, 0.08)',
-              color: isDark ? 'rgb(165, 243, 252)' : 'rgb(15, 118, 110)',
+              borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+              backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
             }}
             aria-label="Toggle theme"
             title={isDark ? 'Mode clair' : 'Mode sombre'}
@@ -212,7 +212,7 @@ export default function Header() {
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-xl transition-colors duration-300"
             style={{
-              color: isDark ? 'rgb(165, 243, 252)' : 'rgb(15, 118, 110)',
+              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
             }}
             aria-label="Menu"
           >
@@ -226,15 +226,15 @@ export default function Header() {
         <div className="md:hidden navbar-mobile-panel pointer-events-auto">
           <div className="container-custom py-6 space-y-4">
             {/* Theme Toggle - Mobile */}
-            <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(94, 234, 212, 0.2)' : 'rgba(14, 165, 233, 0.15)' }}>
-              <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(165, 243, 252)' : 'rgb(15, 118, 110)' }}>Thème</span>
+            <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)' }}>
+              <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)' }}>Thème</span>
               <button
                 onClick={toggleTheme}
                 className="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-300"
                 style={{
-                  borderColor: isDark ? 'rgba(94, 234, 212, 0.32)' : 'rgba(14, 165, 233, 0.28)',
-                  backgroundColor: isDark ? 'rgba(45, 212, 191, 0.12)' : 'rgba(14, 165, 233, 0.08)',
-                  color: isDark ? 'rgb(165, 243, 252)' : 'rgb(15, 118, 110)',
+                  borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+                  color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
                 }}
                 aria-label="Toggle theme"
               >

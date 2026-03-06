@@ -29,32 +29,32 @@ export default function Button({
 
   const variants = {
     primary: `
-      bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950
-      border-cyan-200/25 shadow-[0_10px_26px_rgba(6,182,212,0.22)]
-      hover:border-cyan-100/40 hover:from-cyan-400 hover:to-teal-400
-      hover:-translate-y-[1px] hover:shadow-[0_14px_30px_rgba(6,182,212,0.28)]
-      focus-visible:outline-2 focus-visible:outline-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400/20
+      bg-gradient-to-b from-blue-500 to-blue-600 text-white
+      border-blue-400/30 shadow-lg hover:shadow-2xl
+      hover:border-blue-400/60 hover:from-blue-400 hover:to-blue-500
+      hover:brightness-110 hover:drop-shadow-lg
+      focus-visible:outline-2 focus-visible:outline-blue-400 focus-visible:ring-2 focus-visible:ring-blue-500/20
     `,
     secondary: `
-      bg-cyan-500/10 text-cyan-100 border-cyan-200/25
-      hover:bg-cyan-500/16 hover:border-cyan-100/35 hover:-translate-y-[1px] hover:shadow-[0_10px_24px_rgba(6,182,212,0.16)]
-      focus-visible:outline-2 focus-visible:outline-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400/20
+      bg-blue-500/10 text-blue-300 border-blue-400/30
+      hover:bg-blue-500/20 hover:border-blue-400/60 hover:shadow-lg
+      focus-visible:outline-2 focus-visible:outline-blue-400 focus-visible:ring-2 focus-visible:ring-blue-500/20
     `,
     soft: `
-      bg-slate-800/55 text-slate-100 border-cyan-200/16
-      hover:bg-slate-800/75 hover:border-cyan-200/28 hover:shadow-[0_10px_22px_rgba(8,145,178,0.14)]
-      focus-visible:outline-2 focus-visible:outline-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400/20
+      bg-blue-500/15 text-blue-200 border-blue-400/20
+      hover:bg-blue-500/25 hover:border-blue-400/50 hover:shadow-md
+      focus-visible:outline-2 focus-visible:outline-blue-400 focus-visible:ring-2 focus-visible:ring-blue-500/20
     `,
     danger: `
-      bg-rose-600 text-white hover:opacity-95 border-rose-400/50
-      shadow-[0_10px_24px_rgba(225,29,72,0.22)] hover:shadow-[0_14px_28px_rgba(225,29,72,0.28)]
-      focus-visible:outline-2 focus-visible:outline-rose-300 focus-visible:ring-2 focus-visible:ring-rose-400/20
+      bg-red-600 text-white hover:opacity-90 border-red-500
+      shadow-lg hover:shadow-2xl hover:drop-shadow-lg
+      focus-visible:outline-2 focus-visible:outline-red-400 focus-visible:ring-2 focus-visible:ring-red-500/20
     `,
     outline: `
-      bg-transparent text-cyan-100 border-cyan-200/30
-      hover:border-cyan-100/50 hover:bg-cyan-500/10 hover:text-cyan-50
-      hover:shadow-[0_10px_20px_rgba(8,145,178,0.14)]
-      focus-visible:outline-2 focus-visible:outline-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400/20
+      bg-transparent text-blue-300 border-blue-400/40
+      hover:border-blue-400/80 hover:bg-blue-500/10 hover:text-blue-200 
+      hover:shadow-lg hover:drop-shadow-md
+      focus-visible:outline-2 focus-visible:outline-blue-400 focus-visible:ring-2 focus-visible:ring-blue-500/20
     `,
   }
 
