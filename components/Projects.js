@@ -156,15 +156,15 @@ export default function Projects() {
 
       {/* Card Content */}
       <div className="flex flex-col flex-grow p-6">
-        {/* Title */}
-        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300">
+        {/* Title - Single line with ellipsis */}
+        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300 line-clamp-1">
           {project.title}
         </h3>
 
         {/* Status & Type Badges */}
         <div className="flex flex-wrap gap-1.5 mb-3">
           <span
-            className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm ${
+            className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm whitespace-nowrap ${
               project.status === 'Live' 
                 ? 'bg-green-500/30 text-green-200 border border-green-400/50' 
                 : 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
@@ -172,18 +172,18 @@ export default function Projects() {
           >
             {project.status}
           </span>
-          <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm">
+          <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm whitespace-nowrap">
             {project.type}
           </span>
           {project.technologies.length > 0 && (
-            <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/25 text-blue-100 border border-blue-400/35 backdrop-blur-sm">
+            <span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-blue-500/25 text-blue-100 border border-blue-400/35 backdrop-blur-sm whitespace-nowrap">
               {project.technologies[0]}
             </span>
           )}
         </div>
 
-        {/* Description */}
-        <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-2">
+        {/* Description - 2-3 lines with ellipsis */}
+        <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-3 opacity-90">
           {project.description}
         </p>
 
@@ -201,21 +201,21 @@ export default function Projects() {
           )}
         </div>
 
-        {/* Key Features - brief */}
-        <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2.5 mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300">
-          <p className="text-[10px] font-semibold text-blue-300 mb-1">
+        {/* Key Features - scrollable if too many */}
+        <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2.5 mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300 max-h-[140px] overflow-y-auto">
+          <p className="text-[10px] font-semibold text-blue-300 mb-1 sticky top-0 bg-gradient-to-br from-blue-500/15 to-cyan-500/10">
             Fonctionnalités :
           </p>
           <ul className="text-[10px] text-text space-y-0.5">
-            {project.features.slice(0, 2).map((feature, i) => (
-              <li key={i} className="flex items-center gap-1.5 truncate">
-                <span className="w-1 h-1 rounded-full bg-blue-400 flex-shrink-0" />
-                <span className="truncate">{feature}</span>
+            {project.features.slice(0, 3).map((feature, i) => (
+              <li key={i} className="flex items-center gap-1.5 break-words">
+                <span className="w-1 h-1 rounded-full bg-blue-400 flex-shrink-0 mt-0.5" />
+                <span className="opacity-90">{feature}</span>
               </li>
             ))}
-            {project.features.length > 2 && (
+            {project.features.length > 3 && (
               <li className="text-blue-400 font-medium text-[9px]">
-                +{project.features.length - 2} fonctionnalités...
+                +{project.features.length - 3} more...
               </li>
             )}
           </ul>

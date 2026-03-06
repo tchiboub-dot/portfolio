@@ -170,23 +170,34 @@ export default function StackedCardGroup({
         </button>
       </div>
 
-      {/* Pagination Dots */}
+      {/* Pagination Dots + Counter Indicator */}
       {totalItems > 1 && (
-        <div className="flex justify-center gap-2 mt-8">
-          {items.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToCard(index)}
-              disabled={isAnimating}
-              className={`transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-950/50 ${
-                index === activeIndex
-                  ? 'w-2.5 h-2.5 bg-blue-400'
-                  : 'w-2 h-2 bg-blue-400/40 hover:bg-blue-400/60'
-              }`}
-              aria-label={`Go to item ${index + 1}`}
-              aria-current={index === activeIndex ? 'true' : 'false'}
-            />
-          ))}
+        <div className="flex flex-col items-center gap-3 mt-8">
+          {/* Professional Counter + Dots in Glass Pill */}
+          <div className="flex items-center gap-4 px-4 py-2 rounded-full bg-blue-500/10 backdrop-blur-sm border border-blue-400/25 hover:border-blue-400/40 transition-colors duration-300">
+            {/* Pagination Dots */}
+            <div className="flex gap-1.5">
+              {items.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToCard(index)}
+                  disabled={isAnimating}
+                  className={`transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+                    index === activeIndex
+                      ? 'w-2 h-2 bg-blue-400'
+                      : 'w-1.5 h-1.5 bg-blue-400/40 hover:bg-blue-400/60'
+                  }`}
+                  aria-label={`Go to item ${index + 1}`}
+                  aria-current={index === activeIndex ? 'true' : 'false'}
+                />
+              ))}
+            </div>
+            
+            {/* Counter Text */}
+            <span className="text-xs font-semibold text-blue-300 ml-1">
+              {activeIndex + 1} / {totalItems}
+            </span>
+          </div>
         </div>
       )}
 
