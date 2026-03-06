@@ -283,12 +283,12 @@ export default function Contact() {
                 return (
                   <div
                     key={bubble.id}
-                    className="flex flex-col items-center transition-all duration-300"
+                    className="flex flex-col items-center transition-opacity duration-300"
                   >
                     {/* Bubble Circle */}
                     <button
                       onClick={() => setSelectedBubble(isSelected ? null : bubble.id)}
-                      className={`relative w-32 h-32 rounded-full flex flex-col items-center justify-center transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
+                      className={`relative w-32 h-32 rounded-full flex flex-col items-center justify-center transition-transform duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
                         isSelected
                           ? 'scale-110 shadow-2xl shadow-blue-500/40'
                           : 'scale-100 shadow-lg shadow-blue-500/20 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30'
@@ -298,6 +298,7 @@ export default function Contact() {
                         '--tw-gradient-stops': `var(--tw-gradient-start), var(--tw-gradient-end)`,
                         '--tw-gradient-start': bubble.color.split()[1],
                         '--tw-gradient-end': bubble.color.split()[3],
+                        willChange: 'transform',
                       }}
                       aria-label={`Select ${bubble.label}`}
                       aria-pressed={isSelected}
@@ -317,7 +318,7 @@ export default function Contact() {
                     </button>
 
                     {/* Value Text Below */}
-                    <p className={`text-xs font-medium text-blue-300 text-center mt-3 transition-all duration-300 max-w-32 line-clamp-2 ${
+                    <p className={`text-xs font-medium text-blue-300 text-center mt-3 transition-opacity duration-300 max-w-32 line-clamp-2 ${
                       isSelected ? 'opacity-100' : 'opacity-70'
                     }`}>
                       {bubble.value}
@@ -332,7 +333,7 @@ export default function Contact() {
                             <button
                               key={idx}
                               onClick={action.action}
-                              className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white text-xs font-medium transition-all duration-300 backdrop-blur-sm"
+                              className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white text-xs font-medium transition-colors duration-300 backdrop-blur-sm"
                               title={action.label}
                             >
                               {copiedState === bubble.id && action.icon === FaCopy ? (

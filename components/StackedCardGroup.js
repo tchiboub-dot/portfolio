@@ -124,8 +124,9 @@ export default function StackedCardGroup({
         <button
           onClick={() => navigate(-1)}
           disabled={isAnimating || totalItems === 0}
-          className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           aria-label="Previous item"
+          style={{ willChange: 'background-color, border-color' }}
         >
           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -138,10 +139,10 @@ export default function StackedCardGroup({
             return (
               <div
                 key={index}
-                className={`absolute left-0 top-0 w-full transition-all ease-out duration-300 cursor-${
+                className={`absolute left-0 top-0 w-full transition-opacity ease-out duration-300 cursor-${
                   isActive ? 'pointer' : 'default'
                 } ${isActive ? 'active-card' : ''}`}
-                style={style}
+                style={{ ...style, willChange: 'transform, opacity' }}
                 onClick={() => isActive && setIsDetailsOpen(true)}
               >
                 {renderCard(item, isActive)}
@@ -154,8 +155,9 @@ export default function StackedCardGroup({
         <button
           onClick={() => navigate(1)}
           disabled={isAnimating || totalItems === 0}
-          className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           aria-label="Next item"
+          style={{ willChange: 'background-color, border-color' }}
         >
           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -173,7 +175,7 @@ export default function StackedCardGroup({
                   key={index}
                   onClick={() => goToCard(index)}
                   disabled={isAnimating}
-                  className={`transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+                  className={`transition-opacity duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                     index === activeIndex
                       ? 'w-2 h-2 bg-blue-400'
                       : 'w-1.5 h-1.5 bg-blue-400/40 hover:bg-blue-400/60'

@@ -139,10 +139,11 @@ export default function Projects() {
 
   const renderCard = (project, isActive) => (
     <Card
-      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-all duration-300 ${
+      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-shadow duration-300 ${
         isActive ? 'shadow-2xl shadow-blue-500/30' : ''
       }`}
       hover={isActive}
+      style={{ willChange: 'transform' }}
     >
       {/* Project Image/Icon */}
       <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 h-48 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg">
@@ -157,7 +158,7 @@ export default function Projects() {
       {/* Card Content */}
       <div className="flex flex-col flex-grow p-6">
         {/* Title - Single line with ellipsis */}
-        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300 line-clamp-1">
+        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-colors duration-300 line-clamp-1">
           {project.title}
         </h3>
 
@@ -406,6 +407,9 @@ export default function Projects() {
           <Button href="#contact" size="lg">
             Parlons de votre projet
           </Button>
+          <p className="text-sm text-blue-300/70 mt-3 font-medium">
+            ⏱️ Réponse sous 24-48h
+          </p>
         </div>
       </div>
     </section>

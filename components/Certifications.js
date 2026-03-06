@@ -66,10 +66,11 @@ export default function Certifications() {
 
   const renderCard = (cert, isActive) => (
     <Card
-      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-all duration-300 ${
+      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-shadow duration-300 ${
         isActive ? 'shadow-2xl shadow-blue-500/30' : ''
       }`}
       hover={isActive}
+      style={{ willChange: 'transform' }}
     >
       {/* Certificate Image */}
       <div className="relative w-full h-64 overflow-hidden bg-gradient-to-br from-blue-950/40 to-slate-900/40">
@@ -91,7 +92,7 @@ export default function Certifications() {
       {/* Card Content */}
       <div className="flex flex-col flex-grow p-6">
         {/* Title */}
-        <h3 className="text-lg font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-all duration-300">
+        <h3 className="text-lg font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-colors duration-300">
           {cert.title}
         </h3>
 
@@ -163,14 +164,14 @@ export default function Certifications() {
           href={cert.image}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 text-sm font-medium text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="flex-1 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 text-sm font-medium text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
         >
           Voir en plein écran
         </a>
         <a
           href={cert.image}
           download={`${cert.title}-${cert.certificateId}`}
-          className="flex-1 px-4 py-2 rounded-lg bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/40 text-blue-100 transition-all duration-300 text-sm font-medium text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="flex-1 px-4 py-2 rounded-lg bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/40 text-blue-100 transition-colors duration-300 text-sm font-medium text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
         >
           Télécharger
         </a>
@@ -181,7 +182,7 @@ export default function Certifications() {
         <div className="flex items-center justify-between pt-4 border-t border-blue-400/20">
           <button
             onClick={nav.onPrev}
-            className="px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             aria-label="Certificat précédent"
           >
             ← Précédent
@@ -191,7 +192,7 @@ export default function Certifications() {
           </span>
           <button
             onClick={nav.onNext}
-            className="px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             aria-label="Certificat suivant"
           >
             Suivant →
