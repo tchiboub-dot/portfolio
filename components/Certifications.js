@@ -229,15 +229,15 @@ export default function Certifications() {
           align="center"
         />
 
-        {/* Stacked Card Group */}
+        {/* Stacked Card Group - Right-Offset Stack */}
         <div className="mt-16">
           <StackedCardGroup
             items={certificationsData}
             renderCard={renderCard}
             renderDetails={renderDetails}
             cardCount={5}
-            stackOffset={20}
-            stackScale={0.96}
+            rightOffset={20}
+            downOffset={12}
             onNavigate={(index) => {
               // Optional: analytics tracking
             }}

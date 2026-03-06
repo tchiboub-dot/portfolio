@@ -4,13 +4,14 @@ import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 /**
- * STACKED CARD GROUP COMPONENT
- * Reusable component for displaying items as a stacked card carousel
+ * RIGHT-OFFSET STACKED CARD COMPONENT
+ * Professional "stacked deck" where cards shift RIGHT with corner peek
  * Features:
- * - Stack appearance with offset cards
+ * - Right-offset positioning (cards shift right, edges visible)
+ * - Solid opaque cards (not transparent)
  * - Arrow navigation + pagination dots
- * - Click to expand with modal overlay
- * - Smooth transform/opacity animations (200-400ms)
+ * - Click to expand with solid modal
+ * - Smooth transform animations (250-400ms)
  * - Mobile swipe support
  * - Keyboard navigation
  * - Accessibility compliant
@@ -20,8 +21,8 @@ export default function StackedCardGroup({
   renderCard,
   renderDetails,
   cardCount = 3,
-  stackOffset = 24,
-  stackScale = 0.98,
+  rightOffset = 20,
+  downOffset = 12,
   onNavigate,
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -29,7 +30,6 @@ export default function StackedCardGroup({
   const [isAnimating, setIsAnimating] = useState(false)
   const touchStartX = useRef(null)
   const containerRef = useRef(null)
-  const prevIndexRef = useRef(0)
 
   const totalItems = items.length
   const visibleCards = Math.min(cardCount, totalItems)
@@ -39,7 +39,6 @@ export default function StackedCardGroup({
     if (isAnimating || totalItems === 0) return
 
     setIsAnimating(true)
-    prevIndexRef.current = activeIndex
 
     let newIndex = activeIndex + direction
     if (newIndex < 0) newIndex = totalItems - 1
@@ -54,7 +53,6 @@ export default function StackedCardGroup({
   const goToCard = (index) => {
     if (isAnimating || index === activeIndex) return
     setIsAnimating(true)
-    prevIndexRef.current = activeIndex
     setActiveIndex(index)
     onNavigate?.(index)
     setTimeout(() => setIsAnimating(false), 400)
@@ -84,8 +82,8 @@ export default function StackedCardGroup({
     const diff = touchStartX.current - touchEndX
 
     if (Math.abs(diff) > 50) {
-      if (diff > 0) navigate(1)
-      else navigate(-1)
+      if (diff > 0) navigate(1)  // Swiped left → next
+      else navigate(-1)            // Swiped right → prev
     }
     touchStartX.current = null
   }
@@ -94,29 +92,29 @@ export default function StackedCardGroup({
     const position = (index - activeIndex + totalItems) % totalItems
     
     if (position === 0) {
-      // Active card (front)
+      // Active card (fully visible)
       return {
-        zIndex: 30,
+        zIndex: 30 + visibleCards,
         opacity: 1,
-        transform: 'translateY(0) scale(1)',
+        transform: 'translateX(0) translateY(0)',
         pointerEvents: 'auto',
       }
     } else if (position < visibleCards) {
-      // Cards behind (visible edges)
-      const offset = position * stackOffset
-      const scale = 1 - position * (1 - stackScale)
+      // Cards behind (right-offset peek)
+      const offsetX = position * rightOffset
+      const offsetY = position * downOffset
       return {
-        zIndex: 30 - position,
-        opacity: 0.7,
-        transform: `translateY(${offset}px) scale(${scale})`,
+        zIndex: 30 + visibleCards - position,
+        opacity: 1,
+        transform: `translateX(${offsetX}px) translateY(${offsetY}px)`,
         pointerEvents: 'none',
       }
     } else {
-      // Hidden cards
+      // Hidden cards (off to the right, far down)
       return {
         zIndex: 0,
         opacity: 0,
-        transform: `translateY(${visibleCards * stackOffset}px) scale(${stackScale})`,
+        transform: `translateX(${visibleCards * rightOffset + 100}px) translateY(${visibleCards * downOffset + 50}px)`,
         pointerEvents: 'none',
       }
     }
@@ -124,22 +122,32 @@ export default function StackedCardGroup({
 
   return (
     <>
-      {/* Stack Container */}
+      {/* Stack Container with left/right arrows outside */}
       <div
         ref={containerRef}
-        className="relative mx-auto max-w-2xl"
+        className="relative mx-auto max-w-2xl px-16 md:px-20"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Stack Wrapper */}
-        <div className="relative h-96 md:h-[480px] perspective">
+        {/* Left Arrow - Outside Left */}
+        <button
+          onClick={() => navigate(-1)}
+          disabled={isAnimating || totalItems === 0}
+          className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          aria-label="Previous item"
+        >
+          <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
+
+        {/* Stack Wrapper - Right-offset positioning */}
+        <div className="relative h-96 md:h-[480px]">
           {items.map((item, index) => {
             const style = getCardStyle(index)
             const isActive = index === activeIndex
             return (
               <div
                 key={index}
-                className={`absolute inset-x-0 top-0 w-full transition-all ease-out duration-300 cursor-${
+                className={`absolute left-0 top-0 w-full transition-all ease-out duration-300 cursor-${
                   isActive ? 'pointer' : 'default'
                 }`}
                 style={style}
@@ -151,26 +159,15 @@ export default function StackedCardGroup({
           })}
         </div>
 
-        {/* Navigation Arrows */}
-        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-0 md:px-[-16px] pointer-events-none">
-          <button
-            onClick={() => navigate(-1)}
-            disabled={isAnimating || totalItems === 0}
-            className="pointer-events-auto flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-950/50"
-            aria-label="Previous item"
-          >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
-
-          <button
-            onClick={() => navigate(1)}
-            disabled={isAnimating || totalItems === 0}
-            className="pointer-events-auto flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-950/50"
-            aria-label="Next item"
-          >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
-        </div>
+        {/* Right Arrow - Outside Right */}
+        <button
+          onClick={() => navigate(1)}
+          disabled={isAnimating || totalItems === 0}
+          className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          aria-label="Next item"
+        >
+          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
       </div>
 
       {/* Pagination Dots */}
@@ -193,27 +190,27 @@ export default function StackedCardGroup({
         </div>
       )}
 
-      {/* Details Modal Overlay */}
+      {/* Details Modal - Solid, not transparent */}
       {isDetailsOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn"
           style={{
-            background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%), rgba(7, 11, 20, 0.92)',
+            background: 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%), rgba(7, 11, 20, 0.94)',
           }}
           onClick={() => setIsDetailsOpen(false)}
         >
           {/* Close Button */}
           <button
             onClick={() => setIsDetailsOpen(false)}
-            className="absolute top-4 right-4 z-60 w-12 h-12 flex items-center justify-center rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-all duration-300 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="absolute top-4 right-4 z-60 w-12 h-12 flex items-center justify-center rounded-full bg-blue-500/30 hover:bg-blue-500/50 border border-blue-400/40 text-blue-100 transition-all duration-300 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             aria-label="Close details"
           >
             <X className="w-6 h-6" />
           </button>
 
-          {/* Details Content */}
+          {/* Details Content - Solid glass panel */}
           <div
-            className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-2xl bg-gradient-to-br from-blue-950/40 to-slate-900/30 backdrop-blur-xl border border-blue-400/25 shadow-2xl shadow-black/50 p-6 md:p-8 animate-scaleIn"
+            className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-2xl bg-gradient-to-br from-blue-950/60 to-slate-900/50 backdrop-blur-xl border border-blue-400/30 shadow-2xl shadow-black/60 p-6 md:p-8 animate-scaleIn"
             onClick={(e) => e.stopPropagation()}
           >
             {renderDetails(items[activeIndex], activeIndex, {

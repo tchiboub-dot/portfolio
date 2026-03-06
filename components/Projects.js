@@ -361,15 +361,15 @@ export default function Projects() {
           align="center"
         />
 
-        {/* Stacked Card Group */}
-        <div className="mt-16">
+        {/* Stacked Card Group - Right-Offset Stack */}
+        <div className="mt-16" ref={containerRef}>
           <StackedCardGroup
             items={projectsData}
             renderCard={renderCard}
             renderDetails={renderDetails}
             cardCount={3}
-            stackOffset={24}
-            stackScale={0.98}
+            rightOffset={20}
+            downOffset={12}
             onNavigate={(index) => {
               // Optional: analytics tracking
             }}
