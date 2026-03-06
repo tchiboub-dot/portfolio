@@ -130,8 +130,8 @@ export default function StackedCardGroup({
           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
 
-        {/* Stack Wrapper - Right-offset positioning */}
-        <div className="relative h-96 md:h-[480px]">
+        {/* Stack Wrapper - Right-offset positioning with overflow constraint */}
+        <div className="relative h-96 md:h-[480px] overflow-hidden rounded-2xl">
           {items.map((item, index) => {
             const style = getCardStyle(index)
             const isActive = index === activeIndex
@@ -254,7 +254,7 @@ export default function StackedCardGroup({
           animation: scaleIn 0.3s ease-out;
         }
 
-        /* Stack Effect Using Pseudo-Elements */
+        /* Stack Effect Using Pseudo-Elements - No Blur Spillage */
         .active-card::before,
         .active-card::after {
           content: '';
@@ -262,10 +262,9 @@ export default function StackedCardGroup({
           width: 100%;
           height: 100%;
           border-radius: 1rem;
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(6, 182, 212, 0.08) 100%);
-          border: 1px solid rgba(59, 130, 246, 0.2);
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+          border: 1px solid rgba(59, 130, 246, 0.15);
           pointer-events: none;
-          backdrop-filter: blur(8px);
         }
 
         .active-card::before {
@@ -276,7 +275,7 @@ export default function StackedCardGroup({
         .active-card::after {
           z-index: -2;
           transform: translateX(24px) translateY(16px);
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(6, 182, 212, 0.02) 100%);
           border-color: rgba(59, 130, 246, 0.1);
         }
       `}</style>
