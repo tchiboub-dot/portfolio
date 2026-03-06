@@ -13,13 +13,13 @@ export default function Card({ children, className = '', hover = true, ...props 
     <div
       className={`
         relative rounded-[24px] 
-        bg-gradient-to-br from-blue-950/40 to-slate-900/30
+        bg-gradient-to-br from-slate-900/55 via-slate-900/45 to-cyan-950/20
         backdrop-filter backdrop-blur-xl
-        border border-blue-400/25
-        shadow-xl shadow-black/40
+        border border-cyan-200/12
+        shadow-[0_14px_34px_rgba(2,8,22,0.42)]
         p-7 md:p-8 
         transition-all ease-out duration-300
-        ${hover ? 'hover:border-blue-400 hover:shadow-[0_0_0_1px_rgba(59,130,246,1),0_0_14px_rgba(59,130,246,0.6),0_0_28px_rgba(59,130,246,0.28)]' : ''}
+        ${hover ? 'hover:border-cyan-200/24 hover:shadow-[0_16px_38px_rgba(2,8,22,0.46),0_0_0_1px_rgba(120,210,235,0.14)]' : ''}
         ${className}
       `}
       {...props}
