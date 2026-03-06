@@ -116,7 +116,7 @@ export default function StackedCardGroup({
       {/* Stack Container with left/right arrows outside */}
       <div
         ref={containerRef}
-        className="relative mx-auto max-w-2xl px-16 md:px-20"
+        className="relative mx-auto max-w-2xl px-6 sm:px-12 md:px-16 lg:px-20"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -124,15 +124,15 @@ export default function StackedCardGroup({
         <button
           onClick={() => navigate(-1)}
           disabled={isAnimating || totalItems === 0}
-          className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           aria-label="Previous item"
           style={{ willChange: 'background-color, border-color' }}
         >
-          <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
 
         {/* Stack Wrapper - Right-offset positioning with overflow constraint */}
-        <div className="relative h-96 md:h-[480px] overflow-hidden rounded-2xl">
+        <div className="relative h-[380px] sm:h-[420px] md:h-[480px] overflow-hidden rounded-2xl">
           {items.map((item, index) => {
             const style = getCardStyle(index)
             const isActive = index === activeIndex
@@ -155,11 +155,11 @@ export default function StackedCardGroup({
         <button
           onClick={() => navigate(1)}
           disabled={isAnimating || totalItems === 0}
-          className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-400/30 text-blue-100 transition-colors duration-300 backdrop-blur-sm hover:border-blue-400/60 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           aria-label="Next item"
           style={{ willChange: 'background-color, border-color' }}
         >
-          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
       </div>
 

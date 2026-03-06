@@ -156,9 +156,9 @@ export default function Projects() {
       </div>
 
       {/* Card Content */}
-      <div className="flex flex-col flex-grow p-6">
+      <div className="flex flex-col flex-grow p-4 sm:p-6">
         {/* Title - Single line with ellipsis */}
-        <h3 className="text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-colors duration-300 line-clamp-1">
+        <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent mb-2 group-hover:from-blue-200 group-hover:to-cyan-200 transition-colors duration-300 line-clamp-1">
           {project.title}
         </h3>
 
@@ -184,12 +184,12 @@ export default function Projects() {
         </div>
 
         {/* Description - 2-3 lines with ellipsis */}
-        <p className="text-text text-sm leading-relaxed mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-3 opacity-90">
+        <p className="text-text text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-3 opacity-90">
           {project.description}
         </p>
 
         {/* Technologies - compact for card view */}
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3">
           {project.technologies.slice(0, 2).map((tech, idx) => (
             <Badge key={idx} variant="default" className="text-xs bg-blue-500/30 text-blue-100 border border-blue-400/40 hover:border-blue-400/60 transition-colors backdrop-blur-sm">
               {tech}
@@ -203,11 +203,11 @@ export default function Projects() {
         </div>
 
         {/* Key Features - scrollable if too many */}
-        <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2.5 mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300 max-h-[140px] overflow-y-auto">
-          <p className="text-[10px] font-semibold text-blue-300 mb-1 sticky top-0 bg-gradient-to-br from-blue-500/15 to-cyan-500/10">
+        <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2 sm:p-2.5 mb-2 sm:mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300 max-h-[120px] sm:max-h-[140px] overflow-y-auto">
+          <p className="text-[9px] sm:text-[10px] font-semibold text-blue-300 mb-1 sticky top-0 bg-gradient-to-br from-blue-500/15 to-cyan-500/10">
             Fonctionnalités :
           </p>
-          <ul className="text-[10px] text-text space-y-0.5">
+          <ul className="text-[9px] sm:text-[10px] text-text space-y-0.5">
             {project.features.slice(0, 3).map((feature, i) => (
               <li key={i} className="flex items-center gap-1.5 break-words">
                 <span className="w-1 h-1 rounded-full bg-blue-400 flex-shrink-0 mt-0.5" />
@@ -226,20 +226,20 @@ export default function Projects() {
         <div className="flex gap-2 mt-auto">
           {project.demoLink ? (
             <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-              <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20">
+              <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20 text-xs sm:text-sm min-h-[44px]">
                 <FaExternalLinkAlt className="w-3 h-3" />
                 Live Demo
               </Button>
             </Link>
           ) : (
             <div className="flex-1">
-              <Button variant="outline" size="sm" className="w-full opacity-50 cursor-not-allowed" disabled>
+              <Button variant="outline" size="sm" className="w-full opacity-50 cursor-not-allowed text-xs sm:text-sm min-h-[44px]" disabled>
                 Demo
               </Button>
             </div>
           )}
           <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-            <Button variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="w-full text-xs sm:text-sm min-h-[44px]">
               <FaGithub className="w-3 h-3" />
               Code
             </Button>

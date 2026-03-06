@@ -265,7 +265,7 @@ export default function Contact() {
           align="center"
         />
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div>
             <h3 className="text-2xl font-bold text-heading mb-6">
               Restons en contact
@@ -275,7 +275,7 @@ export default function Contact() {
             </p>
 
             {/* Circular Glass Bubbles - Contact Info */}
-            <div className="flex flex-wrap justify-center gap-6 mb-8">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8">
               {bubbles.map((bubble) => {
                 const isSelected = selectedBubble === bubble.id
                 const Icon = bubble.icon
@@ -288,7 +288,7 @@ export default function Contact() {
                     {/* Bubble Circle */}
                     <button
                       onClick={() => setSelectedBubble(isSelected ? null : bubble.id)}
-                      className={`relative w-32 h-32 rounded-full flex flex-col items-center justify-center transition-transform duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
+                      className={`relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center transition-transform duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
                         isSelected
                           ? 'scale-110 shadow-2xl shadow-blue-500/40'
                           : 'scale-100 shadow-lg shadow-blue-500/20 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30'
@@ -307,18 +307,18 @@ export default function Contact() {
                       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/20" />
                       
                       {/* Content */}
-                      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
-                        <Icon className={`text-white text-3xl mb-2 transition-transform duration-300 ${
+                      <div className="relative z-10 flex flex-col items-center justify-center h-full px-3 sm:px-4 text-center">
+                        <Icon className={`text-white text-2xl sm:text-3xl mb-2 transition-transform duration-300 ${
                           isSelected ? 'scale-125' : 'scale-100'
                         }`} />
-                        <p className="text-xs font-semibold text-white/90 uppercase tracking-wider">
+                        <p className="text-[10px] sm:text-xs font-semibold text-white/90 uppercase tracking-wider">
                           {bubble.label}
                         </p>
                       </div>
                     </button>
 
                     {/* Value Text Below */}
-                    <p className={`text-xs font-medium text-blue-300 text-center mt-3 transition-opacity duration-300 max-w-32 line-clamp-2 ${
+                    <p className={`text-[10px] sm:text-xs font-medium text-blue-300 text-center mt-2 sm:mt-3 transition-opacity duration-300 max-w-28 sm:max-w-32 line-clamp-2 ${
                       isSelected ? 'opacity-100' : 'opacity-70'
                     }`}>
                       {bubble.value}

@@ -17,7 +17,7 @@ export default function Hero() {
   }
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-24 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">
       {/* Animated Radial Glow Behind Hero */}
       <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-blue-500/10 to-transparent rounded-full blur-3xl animate-ambient-breath pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-cyan-400/5 to-transparent rounded-full blur-2xl animate-parallax-slower pointer-events-none" />
@@ -29,10 +29,10 @@ export default function Hero() {
         <div className="absolute bottom-1/4 left-1/3 w-28 h-28 bg-blue-400/8 rounded-full blur-3xl animate-particle-3" />
       </div>
 
-      <div className="container-custom text-center relative z-10">
+      <div className="container-custom text-center relative z-10 px-4 sm:px-6">
         <div className="animate-fade-in-up">
           {/* Avatar with Enhanced Glow (NO FLOATING) */}
-          <div className="mb-8 flex justify-center">
+          <div className="mb-6 sm:mb-8 flex justify-center">
             <div className="relative">
               {/* Extended Glow Halo */}
               <div className="absolute inset-0 w-full h-full animate-hero-glow rounded-full" aria-hidden="true" />
@@ -44,47 +44,47 @@ export default function Hero() {
           </div>
 
           {/* Animated Name with Neon Glow */}
-          <h1 className="text-h1-mobile md:text-h1 font-bold text-heading mb-4 leading-tight animate-name-glow">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-3 sm:mb-4 leading-tight animate-name-glow px-4">
             {heroData.name}
           </h1>
 
           {/* Title with Premium Styling */}
-          <h2 className="text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-3">
+          <h2 className="text-lg sm:text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-2 sm:mb-3 px-4">
             {heroData.title}
           </h2>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-blue-100 mb-4 font-medium">
+          <p className="text-base sm:text-lg md:text-xl text-blue-100 mb-3 sm:mb-4 font-medium px-4">
             {heroData.subtitle}
           </p>
 
           {/* Value Proposition */}
-          <p className="text-md md:text-lg text-cyan-300/90 mb-6 font-semibold tracking-wide">
+          <p className="text-sm sm:text-base md:text-lg text-cyan-300/90 mb-4 sm:mb-6 font-semibold tracking-wide px-4">
             Transformer vos idées en solutions web performantes et sécurisées.
           </p>
 
           {/* Description */}
-          <p className="text-body text-text max-w-3xl mx-auto mb-8 leading-relaxed">
+          <p className="text-sm sm:text-base text-text max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
             {heroData.description}
           </p>
 
           {/* Elite CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button href="#projects" size="lg" className="group relative overflow-hidden shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-shadow duration-300">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
+            <Button href="#projects" size="lg" className="group relative overflow-hidden shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-shadow duration-300 min-h-[48px]">
               <span className="relative z-10">Voir mes projets</span>
             </Button>
-            <Button href="#contact" variant="outline" size="lg" className="group hover:border-cyan-400/60 transition-all duration-300">
+            <Button href="#contact" variant="outline" size="lg" className="group hover:border-cyan-400/60 transition-all duration-300 min-h-[48px]">
               Me contacter
             </Button>
           </div>
 
           {/* Premium Social Links */}
-          <div className="flex gap-8 justify-center items-center">
+          <div className="flex gap-6 sm:gap-8 justify-center items-center">
             <a
               href={heroData.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg"
+              className="text-2xl sm:text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg p-2"
               aria-label="GitHub"
             >
               <FaGithub />
@@ -93,7 +93,7 @@ export default function Hero() {
               href={heroData.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg"
+              className="text-2xl sm:text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg p-2"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
