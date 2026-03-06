@@ -92,29 +92,20 @@ export default function StackedCardGroup({
     const position = (index - activeIndex + totalItems) % totalItems
     
     if (position === 0) {
-      // Active card (fully visible)
+      // Active card (fully visible, highest z-index, no transform)
       return {
         zIndex: 30 + visibleCards,
         opacity: 1,
         transform: 'translateX(0) translateY(0)',
         pointerEvents: 'auto',
       }
-    } else if (position < visibleCards) {
-      // Cards behind (right-offset peek)
-      const offsetX = position * rightOffset
-      const offsetY = position * downOffset
-      return {
-        zIndex: 30 + visibleCards - position,
-        opacity: 1,
-        transform: `translateX(${offsetX}px) translateY(${offsetY}px)`,
-        pointerEvents: 'none',
-      }
     } else {
-      // Hidden cards (off to the right, far down)
+      // Hidden cards - positioned off-screen, minimal visual presence
+      // They're completely hidden so the active card is never covered
       return {
         zIndex: 0,
         opacity: 0,
-        transform: `translateX(${visibleCards * rightOffset + 100}px) translateY(${visibleCards * downOffset + 50}px)`,
+        transform: `translateX(150%) translateY(100%)`,
         pointerEvents: 'none',
       }
     }
@@ -149,7 +140,7 @@ export default function StackedCardGroup({
                 key={index}
                 className={`absolute left-0 top-0 w-full transition-all ease-out duration-300 cursor-${
                   isActive ? 'pointer' : 'default'
-                }`}
+                } ${isActive ? 'active-card' : ''}`}
                 style={style}
                 onClick={() => isActive && setIsDetailsOpen(true)}
               >
@@ -261,6 +252,32 @@ export default function StackedCardGroup({
 
         .animate-scaleIn {
           animation: scaleIn 0.3s ease-out;
+        }
+
+        /* Stack Effect Using Pseudo-Elements */
+        .active-card::before,
+        .active-card::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 1rem;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(6, 182, 212, 0.08) 100%);
+          border: 1px solid rgba(59, 130, 246, 0.2);
+          pointer-events: none;
+          backdrop-filter: blur(8px);
+        }
+
+        .active-card::before {
+          z-index: -1;
+          transform: translateX(12px) translateY(8px);
+        }
+
+        .active-card::after {
+          z-index: -2;
+          transform: translateX(24px) translateY(16px);
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+          border-color: rgba(59, 130, 246, 0.1);
         }
       `}</style>
     </>
