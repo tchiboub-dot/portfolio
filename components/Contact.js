@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle, FaExternalLinkAlt, FaCopy, FaCheck } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
@@ -24,6 +24,8 @@ export default function Contact() {
     subject: '',
     message: '',
   })
+  const [selectedBubble, setSelectedBubble] = useState(null)
+  const [copiedState, setCopiedState] = useState(null)
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -31,6 +33,64 @@ export default function Contact() {
     github: 'https://github.com/tchiboub-dot',
     availability: 'Ouvert aux opportunites de stage et missions freelance',
   }
+
+  const bubbles = [
+    {
+      id: 'email',
+      icon: FaEnvelope,
+      label: 'Email',
+      value: 'taha.adnane.chiboub@gmail.com',
+      color: 'from-blue-500 to-cyan-500',
+      actions: [
+        {
+          label: 'Copy email',
+          icon: FaCopy,
+          action: () => {
+            navigator.clipboard.writeText(contactData.email)
+            setCopiedState('email')
+            setTimeout(() => setCopiedState(null), 2000)
+          },
+        },
+        {
+          label: 'Open mail',
+          icon: FaExternalLinkAlt,
+          action: () => {
+            window.location.href = `mailto:${contactData.email}`
+          },
+        },
+      ],
+    },
+    {
+      id: 'linkedin',
+      icon: FaLinkedin,
+      label: 'LinkedIn',
+      value: 'Taha Adnane Chiboub',
+      color: 'from-blue-400 to-blue-600',
+      href: contactData.linkedin,
+      actions: [
+        {
+          label: 'Open profile',
+          icon: FaExternalLinkAlt,
+          action: () => window.open(contactData.linkedin, '_blank'),
+        },
+      ],
+    },
+    {
+      id: 'github',
+      icon: FaGithub,
+      label: 'GitHub',
+      value: 'tchiboub-dot',
+      color: 'from-slate-400 to-slate-600',
+      href: contactData.github,
+      actions: [
+        {
+          label: 'Open profile',
+          icon: FaExternalLinkAlt,
+          action: () => window.open(contactData.github, '_blank'),
+        },
+      ],
+    },
+  ]
 
   const validateForm = () => {
     const { name, email, message } = formData
@@ -210,47 +270,90 @@ export default function Contact() {
             <h3 className="text-2xl font-bold text-heading mb-6">
               Restons en contact
             </h3>
-            <p className="text-text mb-6 leading-relaxed">
+            <p className="text-text mb-8 leading-relaxed">
               {contactData.availability}
             </p>
 
-            <div className="space-y-4 mb-8">
-              <a
-                href={`mailto:${contactData.email}`}
-                className="flex items-center p-4 bg-primary-soft rounded-[16px] border border-border hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
-              >
-                <FaEnvelope className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
-                <div>
-                  <p className="font-semibold text-heading">Email</p>
-                  <p className="text-primary">{contactData.email}</p>
-                </div>
-              </a>
+            {/* Circular Glass Bubbles - Contact Info */}
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              {bubbles.map((bubble) => {
+                const isSelected = selectedBubble === bubble.id
+                const Icon = bubble.icon
 
-              <a
-                href={contactData.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft rounded-[16px] border border-border hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
-              >
-                <FaLinkedin className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
-                <div>
-                  <p className="font-semibold text-heading">LinkedIn</p>
-                  <p className="text-primary">Taha Adnane Chiboub</p>
-                </div>
-              </a>
+                return (
+                  <div
+                    key={bubble.id}
+                    className="flex flex-col items-center transition-all duration-300"
+                  >
+                    {/* Bubble Circle */}
+                    <button
+                      onClick={() => setSelectedBubble(isSelected ? null : bubble.id)}
+                      className={`relative w-32 h-32 rounded-full flex flex-col items-center justify-center transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
+                        isSelected
+                          ? 'scale-110 shadow-2xl shadow-blue-500/40'
+                          : 'scale-100 shadow-lg shadow-blue-500/20 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30'
+                      }`}
+                      style={{
+                        background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
+                        '--tw-gradient-stops': `var(--tw-gradient-start), var(--tw-gradient-end)`,
+                        '--tw-gradient-start': bubble.color.split()[1],
+                        '--tw-gradient-end': bubble.color.split()[3],
+                      }}
+                      aria-label={`Select ${bubble.label}`}
+                      aria-pressed={isSelected}
+                    >
+                      {/* Glass Effect Background */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/20" />
+                      
+                      {/* Content */}
+                      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
+                        <Icon className={`text-white text-3xl mb-2 transition-transform duration-300 ${
+                          isSelected ? 'scale-125' : 'scale-100'
+                        }`} />
+                        <p className="text-xs font-semibold text-white/90 uppercase tracking-wider">
+                          {bubble.label}
+                        </p>
+                      </div>
+                    </button>
 
-              <a
-                href={contactData.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-4 bg-primary-soft rounded-[16px] border border-border hover:border-primary/40 hover:shadow-sm transition-all duration-normal group"
-              >
-                <FaGithub className="text-3xl text-primary mr-4 group-hover:scale-110 transition-transform" />
-                <div>
-                  <p className="font-semibold text-heading">GitHub</p>
-                  <p className="text-primary">tchiboub-dot</p>
-                </div>
-              </a>
+                    {/* Value Text Below */}
+                    <p className={`text-xs font-medium text-blue-300 text-center mt-3 transition-all duration-300 max-w-32 line-clamp-2 ${
+                      isSelected ? 'opacity-100' : 'opacity-70'
+                    }`}>
+                      {bubble.value}
+                    </p>
+
+                    {/* Action Buttons - Appear when selected */}
+                    {isSelected && (
+                      <div className="flex flex-col gap-2 mt-4 animate-fadeIn w-full">
+                        {bubble.actions.map((action, idx) => {
+                          const ActionIcon = action.icon
+                          return (
+                            <button
+                              key={idx}
+                              onClick={action.action}
+                              className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white text-xs font-medium transition-all duration-300 backdrop-blur-sm"
+                              title={action.label}
+                            >
+                              {copiedState === bubble.id && action.icon === FaCopy ? (
+                                <>
+                                  <FaCheck className="w-3 h-3" />
+                                  <span>Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <ActionIcon className="w-3 h-3" />
+                                  <span>{action.label}</span>
+                                </>
+                              )}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
 
             <div className="bg-gradient-to-br from-primary to-accent text-white p-6 rounded-card shadow-medium">
@@ -450,6 +553,23 @@ export default function Contact() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </section>
   )
 }
