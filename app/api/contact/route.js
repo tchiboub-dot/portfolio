@@ -24,13 +24,14 @@ const cooldownStore = new Map()
 
 function validateEnvironment() {
   const errors = []
+  const resolvedToEmail = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL
 
   if (!process.env.RESEND_API_KEY) {
     errors.push('RESEND_API_KEY est manquante')
   }
 
-  if (!process.env.CONTACT_TO_EMAIL) {
-    errors.push('CONTACT_TO_EMAIL est manquante')
+  if (!resolvedToEmail) {
+    errors.push('CONTACT_TO_EMAIL/CONTACT_EMAIL est manquante')
   }
 
   if (!process.env.CONTACT_FROM_EMAIL) {
@@ -318,15 +319,15 @@ export async function POST(request) {
     }
 
     // 12. Valider les variables d'environnement (critiques)
-    const toEmail = process.env.CONTACT_TO_EMAIL
+    const toEmail = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL
     const fromEmail = process.env.CONTACT_FROM_EMAIL
 
     if (!toEmail) {
-      console.error('❌ CONTACT_TO_EMAIL not configured')
+      console.error('❌ CONTACT_TO_EMAIL/CONTACT_EMAIL not configured')
       return NextResponse.json(
         { 
           ok: false, 
-          error: 'Configuration serveur: destinataire email manquant. Admin: définir CONTACT_TO_EMAIL.'
+          error: 'Configuration serveur: destinataire email manquant. Admin: définir CONTACT_TO_EMAIL (ou CONTACT_EMAIL).'
         },
         { status: 500 }
       )
