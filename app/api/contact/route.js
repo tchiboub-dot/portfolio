@@ -14,18 +14,10 @@ const MAX_SUBJECT_LENGTH = 200
 const MAX_MESSAGE_LENGTH = 2000
 const MAX_BODY_SIZE = 10 * 1024 // 10KB max
 
-// Fallbacks de sécurité: permettent d'éviter une panne totale si les variables Vercel
-// ne sont pas encore configurées. Les variables d'environnement restent prioritaires.
-const DEFAULT_CONTACT_TO_EMAIL = 'taha.adnane.chiboub@gmail.com'
-const DEFAULT_CONTACT_FROM_EMAIL = 'onboarding@resend.dev'
-
 function resolveResendApiKey() {
   return (
     process.env.RESEND_API_KEY ||
     process.env.RESEND_KEY ||
-    process.env.RESEND_TOKEN ||
-    process.env.RESEND_API_TOKEN ||
-    process.env.NEXT_PUBLIC_RESEND_API_KEY ||
     ''
   ).trim()
 }
@@ -40,8 +32,8 @@ const cooldownStore = new Map()
 
 function validateEnvironment() {
   const errors = []
-  const resolvedToEmail = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL || DEFAULT_CONTACT_TO_EMAIL
-  const resolvedFromEmail = process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_FROM_EMAIL
+  const resolvedToEmail = process.env.CONTACT_TO_EMAIL
+  const resolvedFromEmail = process.env.CONTACT_FROM_EMAIL
   const resolvedApiKey = resolveResendApiKey()
 
   if (!resolvedApiKey) {
@@ -49,7 +41,7 @@ function validateEnvironment() {
   }
 
   if (!resolvedToEmail) {
-    errors.push('CONTACT_TO_EMAIL/CONTACT_EMAIL est manquante')
+    errors.push('CONTACT_TO_EMAIL est manquante')
   }
 
   if (!resolvedFromEmail) {
@@ -337,15 +329,29 @@ export async function POST(request) {
     }
 
     // 12. Valider les variables d'environnement (critiques)
-    const toEmail = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL || DEFAULT_CONTACT_TO_EMAIL
-    const fromEmail = process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_FROM_EMAIL
+    const toEmail = process.env.CONTACT_TO_EMAIL
+    const fromEmail = process.env.CONTACT_FROM_EMAIL
 
-    if (!process.env.CONTACT_TO_EMAIL && !process.env.CONTACT_EMAIL) {
-      console.warn('⚠️ CONTACT_TO_EMAIL/CONTACT_EMAIL absent: fallback recipient used')
+    if (!toEmail) {
+      console.error('❌ CONTACT_TO_EMAIL not configured')
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'Configuration serveur: destinataire email manquant. Admin: définir CONTACT_TO_EMAIL.'
+        },
+        { status: 500 }
+      )
     }
 
-    if (!process.env.CONTACT_FROM_EMAIL) {
-      console.warn('⚠️ CONTACT_FROM_EMAIL absent: fallback sender used')
+    if (!fromEmail) {
+      console.error('❌ CONTACT_FROM_EMAIL not configured')
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'Configuration serveur: adresse "from" manquante. Admin: définir CONTACT_FROM_EMAIL.'
+        },
+        { status: 500 }
+      )
     }
 
     if (!resolveResendApiKey()) {
