@@ -159,9 +159,15 @@ COOLDOWN_PERIOD = 30000      // 30s entre chaque message
 - Pas de stack trace en production
 - Logging minimal (pas de données sensibles)
 
-### 📨 Intégrer un service d'email
+### 📨 Service d'email (déjà intégré)
 
-Le formulaire actuel ne fait que valider. Pour envoyer des emails, décommentez dans `app/api/contact/route.js`:
+Le formulaire envoie déjà les emails via `app/api/contact/route.js` avec Resend.
+Configuration requise côté serveur:
+
+- `CONTACT_TO_EMAIL` (primaire)
+- `CONTACT_EMAIL` (fallback legacy)
+- `CONTACT_FROM_EMAIL` (sender vérifié Resend)
+- `RESEND_API_KEY`
 
 #### **Option 1: Resend (recommandé)**
 ```bash
@@ -176,7 +182,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 await resend.emails.send({
   from: 'contact@votredomaine.com',
-  to: process.env.CONTACT_EMAIL,
+  to: process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL,
   subject: `[Portfolio] ${safeSubject}`,
   html: `
     <h2>Nouveau message de ${safeName}</h2>
@@ -190,8 +196,11 @@ await resend.emails.send({
 **Configuration Vercel:**
 ```bash
 vercel env add RESEND_API_KEY
-vercel env add CONTACT_EMAIL
+vercel env add CONTACT_TO_EMAIL
+vercel env add CONTACT_FROM_EMAIL
 ```
+
+Après ajout/modification des variables d'environnement, faites un **Redeploy avec Clear cache** sur Vercel.
 
 #### **Option 2: SendGrid**
 ```bash
@@ -203,7 +212,7 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 await sgMail.send({
-  to: process.env.CONTACT_EMAIL,
+  to: process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL,
   from: process.env.SENDGRID_FROM_EMAIL,
   subject: `[Portfolio] ${safeSubject}`,
   text: `De: ${safeName} (${email})\n\n${safeMessage}`

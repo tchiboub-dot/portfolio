@@ -54,6 +54,7 @@ Cliquer **"Add New"** pour chacune :
 |-----|--------|---------|
 | `RESEND_API_KEY` | Votre clé Resend (`re_...`) | `re_1234567890abcdef` |
 | `CONTACT_TO_EMAIL` | Votre email de réception | `votre.email@gmail.com` |
+| `CONTACT_EMAIL` | Fallback legacy (optionnel) | `votre.email@gmail.com` |
 | `CONTACT_FROM_EMAIL` | Adresse "From" validée | `onboarding@resend.dev` ou `contact@votredomaine.com` |
 
 **Important** : Ces variables doivent être disponibles en **Production** ET **Preview**.
@@ -118,9 +119,17 @@ npm run dev
 
 ### ❌ "Configuration serveur: destinataire email manquant"
 
-**Cause** : `CONTACT_TO_EMAIL` non définie
+**Cause** : `CONTACT_TO_EMAIL` et `CONTACT_EMAIL` non définies
 
-**Solution** : Vercel → Ajouter `CONTACT_TO_EMAIL` = votre email
+**Solution** : Vercel → Ajouter `CONTACT_TO_EMAIL` = votre email (et `CONTACT_EMAIL` si vous gardez l'ancien nom)
+
+### ✅ Vérification production après fix
+
+1. Vercel → `Settings` → `Environment Variables`
+2. Vérifier: `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `RESEND_API_KEY`
+3. `Deployments` → `...` → `Redeploy` → cocher `Use existing Build Cache` = **off** (clear cache)
+4. Ouvrir le site en production et envoyer un message test
+5. Vérifier réponse API `ok: true` et réception de l'email
 
 ### ❌ L'email n'est pas reçu
 
