@@ -19,6 +19,17 @@ const MAX_BODY_SIZE = 10 * 1024 // 10KB max
 const DEFAULT_CONTACT_TO_EMAIL = 'taha.adnane.chiboub@gmail.com'
 const DEFAULT_CONTACT_FROM_EMAIL = 'onboarding@resend.dev'
 
+function resolveResendApiKey() {
+  return (
+    process.env.RESEND_API_KEY ||
+    process.env.RESEND_KEY ||
+    process.env.RESEND_TOKEN ||
+    process.env.RESEND_API_TOKEN ||
+    process.env.NEXT_PUBLIC_RESEND_API_KEY ||
+    ''
+  ).trim()
+}
+
 // Store en mémoire pour le rate limiting (à remplacer par Redis en prod)
 const requestStore = new Map()
 const cooldownStore = new Map()
@@ -31,9 +42,10 @@ function validateEnvironment() {
   const errors = []
   const resolvedToEmail = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_EMAIL || DEFAULT_CONTACT_TO_EMAIL
   const resolvedFromEmail = process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_FROM_EMAIL
+  const resolvedApiKey = resolveResendApiKey()
 
-  if (!process.env.RESEND_API_KEY) {
-    errors.push('RESEND_API_KEY est manquante')
+  if (!resolvedApiKey) {
+    errors.push('RESEND_API_KEY/RESEND_KEY est manquante')
   }
 
   if (!resolvedToEmail) {
@@ -156,10 +168,10 @@ function getClientIP(request) {
  * Envoyer email via Resend (SDK)
  */
 async function sendEmailViaResend({ fromEmail, toEmail, replyTo, subject, html }) {
-  const apiKey = process.env.RESEND_API_KEY
+  const apiKey = resolveResendApiKey()
 
   if (!apiKey) {
-    throw new Error('RESEND_API_KEY is not configured')
+    throw new Error('RESEND_API_KEY (or RESEND_KEY) is not configured')
   }
 
   const resend = new Resend(apiKey)
@@ -336,12 +348,12 @@ export async function POST(request) {
       console.warn('⚠️ CONTACT_FROM_EMAIL absent: fallback sender used')
     }
 
-    if (!process.env.RESEND_API_KEY) {
-      console.error('❌ RESEND_API_KEY not configured')
+    if (!resolveResendApiKey()) {
+      console.error('❌ RESEND_API_KEY/RESEND_KEY not configured')
       return NextResponse.json(
         { 
           ok: false, 
-          error: 'Configuration serveur: clé Resend manquante. Admin: définir RESEND_API_KEY.'
+          error: 'Configuration serveur: clé Resend manquante. Admin: définir RESEND_API_KEY (ou RESEND_KEY).'
         },
         { status: 500 }
       )
