@@ -140,7 +140,7 @@ export default function Header() {
               height: '44px',
               borderRadius: '50%',
               border: '1px solid',
-              borderColor: isDark ? 'rgba(92, 157, 237, 0.4)' : 'rgba(59, 130, 246, 0.3)',
+              borderColor: isDark ? 'rgba(96, 165, 250, 0.4)' : 'rgba(59, 130, 246, 0.3)',
               boxShadow: isDark
                 ? '0 0 12px rgba(96, 165, 250, 0.15), inset 0 0 12px rgba(96, 165, 250, 0.1)'
                 : '0 0 8px rgba(59, 130, 246, 0.1), inset 0 0 8px rgba(59, 130, 246, 0.05)',

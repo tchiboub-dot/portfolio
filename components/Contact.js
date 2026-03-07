@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle, FaExternalLinkAlt, FaCopy, FaCheck } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
@@ -24,6 +24,8 @@ export default function Contact() {
     subject: '',
     message: '',
   })
+  const [selectedBubble, setSelectedBubble] = useState(null)
+  const [copiedState, setCopiedState] = useState(null)
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -39,9 +41,24 @@ export default function Contact() {
       label: 'Email',
       value: 'taha.adnane.chiboub@gmail.com',
       color: 'from-blue-500 to-cyan-500',
-      href: `mailto:${contactData.email}`,
-      target: '_self',
-      rel: '',
+      actions: [
+        {
+          label: 'Copy email',
+          icon: FaCopy,
+          action: () => {
+            navigator.clipboard.writeText(contactData.email)
+            setCopiedState('email')
+            setTimeout(() => setCopiedState(null), 2000)
+          },
+        },
+        {
+          label: 'Open mail',
+          icon: FaExternalLinkAlt,
+          action: () => {
+            window.location.href = `mailto:${contactData.email}`
+          },
+        },
+      ],
     },
     {
       id: 'linkedin',
@@ -50,8 +67,13 @@ export default function Contact() {
       value: 'Taha Adnane Chiboub',
       color: 'from-blue-400 to-blue-600',
       href: contactData.linkedin,
-      target: '_blank',
-      rel: 'noopener noreferrer',
+      actions: [
+        {
+          label: 'Open profile',
+          icon: FaExternalLinkAlt,
+          action: () => window.open(contactData.linkedin, '_blank'),
+        },
+      ],
     },
     {
       id: 'github',
@@ -60,8 +82,13 @@ export default function Contact() {
       value: 'tchiboub-dot',
       color: 'from-slate-400 to-slate-600',
       href: contactData.github,
-      target: '_blank',
-      rel: 'noopener noreferrer',
+      actions: [
+        {
+          label: 'Open profile',
+          icon: FaExternalLinkAlt,
+          action: () => window.open(contactData.github, '_blank'),
+        },
+      ],
     },
   ]
 
@@ -250,20 +277,22 @@ export default function Contact() {
             {/* Circular Glass Bubbles - Contact Info */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8">
               {bubbles.map((bubble) => {
+                const isSelected = selectedBubble === bubble.id
                 const Icon = bubble.icon
 
                 return (
                   <div
                     key={bubble.id}
-                    className="flex flex-col items-center"
+                    className="flex flex-col items-center transition-opacity duration-300"
                   >
-                    {/* Clickable Bubble Circle */}
-                    <a
-                      href={bubble.href}
-                      target={bubble.target}
-                      rel={bubble.rel}
-                      aria-label={`Contact via ${bubble.label}`}
-                      className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center transition-all duration-300 ease-out cursor-pointer hover:scale-110 hover:shadow-2xl hover:shadow-blue-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-blue-950"
+                    {/* Bubble Circle */}
+                    <button
+                      onClick={() => setSelectedBubble(isSelected ? null : bubble.id)}
+                      className={`relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center transition-transform duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 ${
+                        isSelected
+                          ? 'scale-110 shadow-2xl shadow-blue-500/40'
+                          : 'scale-100 shadow-lg shadow-blue-500/20 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30'
+                      }`}
                       style={{
                         background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
                         '--tw-gradient-stops': `var(--tw-gradient-start), var(--tw-gradient-end)`,
@@ -271,24 +300,58 @@ export default function Contact() {
                         '--tw-gradient-end': bubble.color.split()[3],
                         willChange: 'transform',
                       }}
-                      title={`Contact via ${bubble.label}`}
+                      aria-label={`Select ${bubble.label}`}
+                      aria-pressed={isSelected}
                     >
                       {/* Glass Effect Background */}
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-colors duration-300" />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/20" />
                       
                       {/* Content */}
                       <div className="relative z-10 flex flex-col items-center justify-center h-full px-3 sm:px-4 text-center">
-                        <Icon className="text-white text-2xl sm:text-3xl mb-2 transition-transform duration-300 hover:scale-125" />
+                        <Icon className={`text-white text-2xl sm:text-3xl mb-2 transition-transform duration-300 ${
+                          isSelected ? 'scale-125' : 'scale-100'
+                        }`} />
                         <p className="text-[10px] sm:text-xs font-semibold text-white/90 uppercase tracking-wider">
                           {bubble.label}
                         </p>
                       </div>
-                    </a>
+                    </button>
 
                     {/* Value Text Below */}
-                    <p className="text-[10px] sm:text-xs font-medium text-blue-300 text-center mt-2 sm:mt-3 opacity-70 max-w-28 sm:max-w-32 line-clamp-2">
+                    <p className={`text-[10px] sm:text-xs font-medium text-blue-300 text-center mt-2 sm:mt-3 transition-opacity duration-300 max-w-28 sm:max-w-32 line-clamp-2 ${
+                      isSelected ? 'opacity-100' : 'opacity-70'
+                    }`}>
                       {bubble.value}
                     </p>
+
+                    {/* Action Buttons - Appear when selected */}
+                    {isSelected && (
+                      <div className="flex flex-col gap-2 mt-4 animate-fadeIn w-full">
+                        {bubble.actions.map((action, idx) => {
+                          const ActionIcon = action.icon
+                          return (
+                            <button
+                              key={idx}
+                              onClick={action.action}
+                              className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white text-xs font-medium transition-colors duration-300 backdrop-blur-sm"
+                              title={action.label}
+                            >
+                              {copiedState === bubble.id && action.icon === FaCopy ? (
+                                <>
+                                  <FaCheck className="w-3 h-3" />
+                                  <span>Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <ActionIcon className="w-3 h-3" />
+                                  <span>{action.label}</span>
+                                </>
+                              )}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 )
               })}
