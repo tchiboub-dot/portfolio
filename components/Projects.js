@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
@@ -23,6 +24,30 @@ export default function Projects() {
   const containerRef = useRef(null)
 
   const projectsData = [
+    {
+      id: 0,
+      title: 'Parfume Store',
+      description: 'A premium full-stack perfume e-commerce platform with a luxury dark/light design, multilingual support, animated star background, product catalog, elegant UI, and modern shopping experience.',
+      fullDescription: 'Parfume Store est une plateforme e-commerce full-stack orientee luxe, concue pour une experience shopping moderne, rapide et immersive. Le projet combine une interface premium dark/light, un support multilingue, des animations fluides, un catalogue produits soigne et une architecture moderne deploiable a grande echelle.',
+      technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Full-stack architecture', 'Vercel deployment'],
+      demoLink: 'https://parfume-store-eta.vercel.app/en',
+      githubLink: 'https://github.com/tchiboub-dot/parfume',
+      status: 'Live',
+      type: 'Featured Full-stack',
+      featured: true,
+      live: true,
+      tags: ['E-commerce', 'Multilingual', 'Premium UI', 'Animation'],
+      features: [
+        'Luxury dark/light visual system',
+        'Multilingual shopping experience',
+        'Premium animated interactions',
+        'Full product catalog flow',
+        'Responsive and polished UX',
+        'Production deployment on Vercel',
+      ],
+      image: '🌌',
+      thumbnail: '/projects/parfume-store-preview.svg',
+    },
     {
       id: 1,
       title: 'Maison Élégance',
@@ -141,18 +166,70 @@ export default function Projects() {
     <Card
       className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-shadow duration-300 ${
         isActive ? 'shadow-2xl shadow-blue-500/30' : ''
+      } ${
+        project.featured
+          ? 'ring-1 ring-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.35),0_0_28px_rgba(59,130,246,0.25)]'
+          : ''
       }`}
       hover={isActive}
       style={{ willChange: 'transform' }}
     >
       {/* Project Image/Icon */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 h-48 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg">
-        <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
-        }} />
-        <div className="relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-          {project.image}
-        </div>
+      <div
+        className={`h-48 flex items-center justify-center text-6xl relative overflow-hidden transition-all duration-300 group-hover:shadow-lg ${
+          project.featured
+            ? 'bg-gradient-to-br from-slate-950 via-blue-950 to-cyan-950'
+            : 'bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500'
+        }`}
+      >
+        {project.thumbnail ? (
+          <>
+            <Image
+              src={project.thumbnail}
+              alt={`${project.title} preview`}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover object-center opacity-95 group-hover:scale-[1.03] transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/80 via-[#0b1636]/35 to-transparent" />
+            <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-20">
+              {project.featured && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-400/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-md">
+                  Featured Project
+                </span>
+              )}
+              {project.live && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-400/20 text-emerald-100 border border-emerald-300/40 backdrop-blur-md">
+                  Live
+                </span>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"
+              style={{
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+              }}
+            />
+            <div className="relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+              {project.image}
+            </div>
+          </>
+        )}
+
+        {project.demoLink && (
+          <Link
+            href={project.demoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-3 right-3 z-20 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-blue-500/30 hover:bg-blue-500/45 text-blue-100 border border-blue-300/40 backdrop-blur-md transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Open Live Preview
+          </Link>
+        )}
       </div>
 
       {/* Card Content */}
@@ -164,6 +241,11 @@ export default function Projects() {
 
         {/* Status & Type Badges */}
         <div className="flex flex-wrap gap-1.5 mb-3">
+          {project.featured && (
+            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-sm whitespace-nowrap">
+              Featured
+            </span>
+          )}
           <span
             className={`text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm whitespace-nowrap ${
               project.status === 'Live' 
@@ -182,6 +264,19 @@ export default function Projects() {
             </span>
           )}
         </div>
+
+        {project.tags?.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {project.tags.slice(0, 3).map((tag, idx) => (
+              <span
+                key={idx}
+                className="text-[10px] font-medium px-2 py-1 rounded-full bg-slate-700/35 text-slate-100 border border-slate-300/20"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Description - 2-3 lines with ellipsis */}
         <p className="text-text text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-3 opacity-90">
@@ -260,6 +355,11 @@ export default function Projects() {
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
+              {project.featured && (
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-sm">
+                  Featured Project
+                </span>
+              )}
               <span
                 className={`text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm ${
                   project.status === 'Live' 
@@ -272,10 +372,28 @@ export default function Projects() {
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/35 backdrop-blur-sm">
                 {project.type}
               </span>
+              {project.live && (
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-100 border border-emerald-400/35 backdrop-blur-sm">
+                  Live
+                </span>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {project.tags?.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Tags</h3>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag, idx) => (
+              <Badge key={idx} variant="secondary" className="bg-slate-700/30 text-slate-100 border border-slate-300/20 backdrop-blur-sm">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Full Description */}
       <div>
