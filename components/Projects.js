@@ -21,14 +21,54 @@ import StackedCardGroup from './StackedCardGroup'
  */
 export default function Projects() {
   const [visibleCards, setVisibleCards] = useState(new Set())
+  const [uiLocale, setUiLocale] = useState('fr')
   const containerRef = useRef(null)
+
+  const labels = {
+    fr: {
+      featuredProject: 'Projet vedette',
+      live: 'Live',
+      openLivePreview: 'Ouvrir la preview live',
+      features: 'Fonctionnalités',
+      more: 'de plus',
+      aboutProject: 'À propos du projet',
+      technologiesUsed: 'Technologies utilisées',
+      fullFeatures: 'Fonctionnalités complètes',
+      tags: 'Tags',
+      liveDemo: 'Voir la démo en direct',
+      code: 'Code source',
+    },
+    en: {
+      featuredProject: 'Featured Project',
+      live: 'Live',
+      openLivePreview: 'Open Live Preview',
+      features: 'Features',
+      more: 'more',
+      aboutProject: 'About the project',
+      technologiesUsed: 'Technologies used',
+      fullFeatures: 'Complete features',
+      tags: 'Tags',
+      liveDemo: 'View live demo',
+      code: 'Source code',
+    },
+  }
+
+  const t = labels[uiLocale] || labels.fr
+
+  const localizeProjectText = (project, key) => {
+    if (uiLocale === 'en' && project[`${key}En`]) return project[`${key}En`]
+    if (uiLocale === 'fr' && project[`${key}Fr`]) return project[`${key}Fr`]
+    return project[key]
+  }
 
   const projectsData = [
     {
       id: 0,
       title: 'Parfume Store',
-      description: 'A premium full-stack perfume e-commerce platform with a luxury dark/light design, multilingual support, animated star background, product catalog, elegant UI, and modern shopping experience.',
-      fullDescription: 'Parfume Store est une plateforme e-commerce full-stack orientee luxe, concue pour une experience shopping moderne, rapide et immersive. Le projet combine une interface premium dark/light, un support multilingue, des animations fluides, un catalogue produits soigne et une architecture moderne deploiable a grande echelle.',
+      descriptionFr: 'Une plateforme e-commerce parfum full-stack premium avec design dark/light de luxe, support multilingue, fond étoilé animé, catalogue produits élégant et expérience shopping moderne.',
+      descriptionEn: 'A premium full-stack perfume e-commerce platform with a luxury dark/light design, multilingual support, animated star background, product catalog, elegant UI, and a modern shopping experience.',
+      fullDescriptionFr: 'Parfume Store est une plateforme e-commerce full-stack orientée luxe, conçue pour une expérience shopping moderne, rapide et immersive. Le projet combine une interface premium dark/light, un support multilingue, des animations fluides, un catalogue produits soigné et une architecture moderne déployée sur Vercel.',
+      fullDescriptionEn: 'Parfume Store is a luxury-oriented full-stack e-commerce platform designed for a modern, fast, and immersive shopping experience. The project combines a premium dark/light interface, multilingual support, smooth animations, a curated product catalog, and a modern architecture deployed on Vercel.',
       technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Full-stack architecture', 'Vercel deployment'],
       demoLink: 'https://parfume-store-eta.vercel.app/en',
       githubLink: 'https://github.com/tchiboub-dot/parfume',
@@ -46,7 +86,7 @@ export default function Projects() {
         'Production deployment on Vercel',
       ],
       image: '🌌',
-      thumbnail: '/projects/parfume-store-preview.svg',
+      thumbnail: '/projects/parfume-store-preview-real.jpg',
     },
     {
       id: 1,
@@ -138,6 +178,16 @@ export default function Projects() {
     },
   ]
 
+  // Locale detection for FR/EN project texts
+  useEffect(() => {
+    const htmlLang = (document.documentElement.lang || '').toLowerCase()
+    const path = window.location.pathname.toLowerCase()
+    const browserLang = (window.navigator.language || '').toLowerCase()
+
+    const isEnglish = htmlLang.startsWith('en') || path.startsWith('/en') || browserLang.startsWith('en')
+    setUiLocale(isEnglish ? 'en' : 'fr')
+  }, [])
+
   // Intersection Observer for scroll reveals
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -164,11 +214,11 @@ export default function Projects() {
 
   const renderCard = (project, isActive) => (
     <Card
-      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-shadow duration-300 ${
+      className={`h-full overflow-hidden p-0 card-interactive group flex flex-col transition-all duration-300 ${
         isActive ? 'shadow-2xl shadow-blue-500/30' : ''
       } ${
         project.featured
-          ? 'ring-1 ring-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.35),0_0_28px_rgba(59,130,246,0.25)]'
+          ? 'ring-1 ring-cyan-300/50 border-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.3),0_0_24px_rgba(56,189,248,0.24)] hover:shadow-[0_0_0_1px_rgba(34,211,238,0.45),0_0_32px_rgba(56,189,248,0.34)]'
           : ''
       }`}
       hover={isActive}
@@ -182,6 +232,9 @@ export default function Projects() {
             : 'bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500'
         }`}
       >
+        {project.featured && (
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-cyan-300/0 via-cyan-200/85 to-cyan-300/0 z-20" />
+        )}
         {project.thumbnail ? (
           <>
             <Image
@@ -195,12 +248,12 @@ export default function Projects() {
             <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-20">
               {project.featured && (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-400/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-md">
-                  Featured Project
+                  {t.featuredProject}
                 </span>
               )}
               {project.live && (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-400/20 text-emerald-100 border border-emerald-300/40 backdrop-blur-md">
-                  Live
+                  {t.live}
                 </span>
               )}
             </div>
@@ -227,7 +280,7 @@ export default function Projects() {
             className="absolute bottom-3 right-3 z-20 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-blue-500/30 hover:bg-blue-500/45 text-blue-100 border border-blue-300/40 backdrop-blur-md transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            Open Live Preview
+            {t.openLivePreview}
           </Link>
         )}
       </div>
@@ -243,7 +296,7 @@ export default function Projects() {
         <div className="flex flex-wrap gap-1.5 mb-3">
           {project.featured && (
             <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-sm whitespace-nowrap">
-              Featured
+              {t.featuredProject}
             </span>
           )}
           <span
@@ -280,7 +333,7 @@ export default function Projects() {
 
         {/* Description - 2-3 lines with ellipsis */}
         <p className="text-text text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 flex-grow group-hover:text-text transition-colors duration-300 line-clamp-3 opacity-90">
-          {project.description}
+          {localizeProjectText(project, 'description')}
         </p>
 
         {/* Technologies - compact for card view */}
@@ -300,7 +353,7 @@ export default function Projects() {
         {/* Key Features - scrollable if too many */}
         <div className="bg-gradient-to-br from-blue-500/15 to-cyan-500/10 rounded-lg p-2 sm:p-2.5 mb-2 sm:mb-3 border border-blue-400/20 group-hover:border-blue-400/40 transition-colors duration-300 max-h-[120px] sm:max-h-[140px] overflow-y-auto">
           <p className="text-[9px] sm:text-[10px] font-semibold text-blue-300 mb-1 sticky top-0 bg-gradient-to-br from-blue-500/15 to-cyan-500/10">
-            Fonctionnalités :
+            {t.features}:
           </p>
           <ul className="text-[9px] sm:text-[10px] text-text space-y-0.5">
             {project.features.slice(0, 3).map((feature, i) => (
@@ -311,7 +364,7 @@ export default function Projects() {
             ))}
             {project.features.length > 3 && (
               <li className="text-blue-400 font-medium text-[9px]">
-                +{project.features.length - 3} more...
+                +{project.features.length - 3} {t.more}...
               </li>
             )}
           </ul>
@@ -323,7 +376,7 @@ export default function Projects() {
             <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
               <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20 text-xs sm:text-sm min-h-[44px]">
                 <FaExternalLinkAlt className="w-3 h-3" />
-                Live Demo
+                {t.liveDemo}
               </Button>
             </Link>
           ) : (
@@ -336,7 +389,7 @@ export default function Projects() {
           <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex-1">
             <Button variant="outline" size="sm" className="w-full text-xs sm:text-sm min-h-[44px]">
               <FaGithub className="w-3 h-3" />
-              Code
+              {t.code}
             </Button>
           </Link>
         </div>
@@ -357,7 +410,7 @@ export default function Projects() {
             <div className="flex flex-wrap gap-2">
               {project.featured && (
                 <span className="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-100 border border-cyan-300/40 backdrop-blur-sm">
-                  Featured Project
+                  {t.featuredProject}
                 </span>
               )}
               <span
@@ -374,7 +427,7 @@ export default function Projects() {
               </span>
               {project.live && (
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-100 border border-emerald-400/35 backdrop-blur-sm">
-                  Live
+                  {t.live}
                 </span>
               )}
             </div>
@@ -384,7 +437,7 @@ export default function Projects() {
 
       {project.tags?.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Tags</h3>
+          <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">{t.tags}</h3>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag, idx) => (
               <Badge key={idx} variant="secondary" className="bg-slate-700/30 text-slate-100 border border-slate-300/20 backdrop-blur-sm">
@@ -397,15 +450,15 @@ export default function Projects() {
 
       {/* Full Description */}
       <div>
-        <h3 className="text-sm font-semibold text-blue-300 mb-2 uppercase tracking-wider">À propos du projet</h3>
+        <h3 className="text-sm font-semibold text-blue-300 mb-2 uppercase tracking-wider">{t.aboutProject}</h3>
         <p className="text-text/90 leading-relaxed text-base">
-          {project.fullDescription}
+          {localizeProjectText(project, 'fullDescription')}
         </p>
       </div>
 
       {/* All Technologies */}
       <div>
-        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Technologies utilisées</h3>
+        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">{t.technologiesUsed}</h3>
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech, idx) => (
             <Badge key={idx} variant="default" className="bg-blue-500/30 text-blue-100 border border-blue-400/40 backdrop-blur-sm">
@@ -417,7 +470,7 @@ export default function Projects() {
 
       {/* All Features */}
       <div>
-        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">Fonctionnalités complètes</h3>
+        <h3 className="text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wider">{t.fullFeatures}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {project.features.map((feature, i) => (
             <div key={i} className="flex items-start gap-3 bg-blue-500/10 rounded-lg p-3 border border-blue-400/20">
@@ -434,14 +487,14 @@ export default function Projects() {
           <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
             <Button variant="primary" size="sm" className="w-full shadow-md shadow-blue-500/20">
               <FaExternalLinkAlt className="w-4 h-4" />
-              Voir la démo en direct
+              {t.liveDemo}
             </Button>
           </Link>
         )}
         <Link href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex-1">
           <Button variant="outline" size="sm" className="w-full">
             <FaGithub className="w-4 h-4" />
-            Code source
+            {t.code}
           </Button>
         </Link>
       </div>
