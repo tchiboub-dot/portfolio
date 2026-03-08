@@ -140,10 +140,10 @@ html {
 }
 
 /* ============================================
-   CINEMATIC STARFIELD - AUTONOMOUS MULTI-LAYER
+   CINEMATIC STARFIELD - CANVAS ENGINE
    ============================================ */
 
-.starfield {
+.starfield-canvas {
   position: fixed;
   inset: 0;
   overflow: hidden;
@@ -154,79 +154,24 @@ html {
   isolation: isolate;
 }
 
-.starfield__atmosphere {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(1200px 760px at 18% 16%, color-mix(in srgb, var(--star-glow-soft) 54%, transparent), transparent 70%),
-    radial-gradient(900px 700px at 76% 24%, color-mix(in srgb, var(--star-glow-warm) 40%, transparent), transparent 72%),
-    radial-gradient(ellipse at center, transparent 56%, rgba(2, 8, 24, 0.1) 100%);
-}
-
-.starfield__stars {
+.starfield-canvas__layer {
   position: absolute;
   inset: 0;
   z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-.starfield__star {
+.starfield-canvas__atmosphere {
   position: absolute;
-  left: var(--star-x);
-  top: var(--star-y);
-  opacity: 1;
-  transition:
-    left 1.15s cubic-bezier(0.25, 0.9, 0.36, 1),
-    top 1.15s cubic-bezier(0.25, 0.9, 0.36, 1),
-    opacity var(--star-fade-duration, 2.4s) cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: left, top, opacity;
-}
-
-.starfield__star.is-renewing {
-  opacity: 0;
-}
-
-.starfield__star.is-reappearing {
-  opacity: 1;
-}
-
-.starfield__drift {
-  display: block;
-  animation: star-drift var(--star-drift-duration, 16s) ease-in-out var(--star-drift-delay, 0s) infinite alternate;
-  will-change: transform;
-}
-
-.starfield__dot {
-  display: block;
-  width: var(--star-size, 1.4px);
-  height: var(--star-size, 1.4px);
-  border-radius: 999px;
+  inset: 0;
+  z-index: 2;
   background:
-    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.96) 0%, var(--star-core-color, var(--star-color-silver)) 48%, transparent 100%);
-  box-shadow:
-    0 0 calc(var(--star-size, 1.4px) * 2.7) color-mix(in srgb, var(--star-glow-color, var(--star-glow-soft)) calc(var(--star-glow, 0.4) * 100%), transparent),
-    0 0 calc(var(--star-size, 1.4px) * 6.2) color-mix(in srgb, var(--star-glow-color, var(--star-glow-soft)) calc(var(--star-glow, 0.4) * 42%), transparent);
-  opacity: var(--star-opacity, 0.62);
-  transform-origin: center center;
-  animation:
-    star-twinkle var(--star-twinkle-duration, 5.8s) ease-in-out var(--star-twinkle-delay, 0s) infinite,
-    star-pulse var(--star-pulse-duration, 7s) ease-in-out var(--star-pulse-delay, 0s) infinite;
-  will-change: opacity, transform, box-shadow;
-}
-
-.starfield__star--far .starfield__dot {
-  --star-core-color: var(--star-color-far);
-  --star-glow-color: var(--star-glow-soft);
-}
-
-.starfield__star--medium .starfield__dot {
-  --star-core-color: color-mix(in srgb, var(--star-color-medium) 76%, var(--star-color-cool));
-  --star-glow-color: color-mix(in srgb, var(--star-glow-soft) 74%, var(--star-glow-warm));
-}
-
-.starfield__star--bright .starfield__dot {
-  --star-core-color: color-mix(in srgb, var(--star-color-bright) 68%, var(--star-color-silver));
-  --star-glow-color: color-mix(in srgb, var(--star-glow-warm) 72%, var(--star-glow-soft));
+    radial-gradient(1200px 800px at 16% 14%, color-mix(in srgb, var(--star-glow-soft) 58%, transparent), transparent 70%),
+    radial-gradient(960px 760px at 78% 24%, color-mix(in srgb, var(--star-glow-warm) 43%, transparent), transparent 72%),
+    radial-gradient(ellipse at center, transparent 52%, rgba(2, 8, 24, 0.12) 100%);
+  mix-blend-mode: normal;
 }
 
 body {
@@ -478,43 +423,6 @@ textarea::placeholder {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes star-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(var(--star-drift-x, 22px), var(--star-drift-y, -40px), 0);
-  }
-}
-
-@keyframes star-twinkle {
-  0%,
-  100% {
-    opacity: calc(var(--star-opacity, 0.62) * 0.74);
-  }
-  22% {
-    opacity: calc(var(--star-opacity, 0.62) * 1.02);
-  }
-  48% {
-    opacity: calc(var(--star-opacity, 0.62) * 0.62);
-  }
-  72% {
-    opacity: calc(var(--star-opacity, 0.62) * 1.12);
-  }
-}
-
-@keyframes star-pulse {
-  0%,
-  100% {
-    transform: scale(0.95);
-    filter: brightness(0.97);
-  }
-  50% {
-    transform: scale(1.09);
-    filter: brightness(1.08);
   }
 }
 
@@ -940,13 +848,12 @@ textarea::placeholder {
   .glass-card::after,
   .avatar-glow-ring,
   body::before,
-  .starfield__drift,
-  .starfield__dot {
+  .starfield-canvas__atmosphere {
     animation: none;
   }
 
-  .starfield__star {
-    transition: none;
+  .starfield-canvas {
+    opacity: calc(var(--star-layer-opacity) * 0.85);
   }
 
   .glass-card::after {
