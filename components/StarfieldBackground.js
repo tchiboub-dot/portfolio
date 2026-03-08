@@ -5,57 +5,63 @@ import { useEffect, useRef } from 'react'
 const LAYERS = [
   {
     id: 'far',
-    density: 0.00006,
-    minSize: 0.55,
-    maxSize: 1.35,
-    speedMin: 0.55,
-    speedMax: 1.15,
-    driftRadius: 10,
-    twinkleMin: 0.24,
-    twinkleMax: 0.56,
-    pulseMin: 0.03,
-    pulseMax: 0.08,
-    glowChance: 0.08,
-    renewableChance: 0.07,
-    renewalMin: 28,
-    renewalMax: 54,
+    density: 0.00008,
+    minSize: 0.45,
+    maxSize: 1.1,
+    speedMin: 0.35,
+    speedMax: 0.85,
+    driftRadius: 8,
+    twinkleMin: 0.15,
+    twinkleMax: 0.42,
+    pulseMin: 0.02,
+    pulseMax: 0.06,
+    glowChance: 0.05,
+    renewableChance: 0.12,
+    renewalMin: 18,
+    renewalMax: 42,
     colorKey: 'far',
+    colorMixChance: 0.25,
+    colorMixKey: 'cool',
   },
   {
     id: 'mid',
-    density: 0.000032,
-    minSize: 1.1,
-    maxSize: 2.1,
-    speedMin: 0.9,
-    speedMax: 1.9,
-    driftRadius: 16,
-    twinkleMin: 0.3,
-    twinkleMax: 0.7,
-    pulseMin: 0.05,
-    pulseMax: 0.12,
-    glowChance: 0.18,
-    renewableChance: 0.11,
-    renewalMin: 24,
-    renewalMax: 46,
+    density: 0.000042,
+    minSize: 1.0,
+    maxSize: 1.9,
+    speedMin: 0.65,
+    speedMax: 1.45,
+    driftRadius: 14,
+    twinkleMin: 0.22,
+    twinkleMax: 0.58,
+    pulseMin: 0.04,
+    pulseMax: 0.10,
+    glowChance: 0.22,
+    renewableChance: 0.18,
+    renewalMin: 14,
+    renewalMax: 36,
     colorKey: 'mid',
+    colorMixChance: 0.35,
+    colorMixKey: 'silver',
   },
   {
     id: 'accent',
-    density: 0.000011,
-    minSize: 1.9,
-    maxSize: 3.4,
-    speedMin: 1.05,
-    speedMax: 2.2,
-    driftRadius: 20,
-    twinkleMin: 0.34,
-    twinkleMax: 0.75,
-    pulseMin: 0.07,
-    pulseMax: 0.15,
-    glowChance: 0.42,
-    renewableChance: 0.08,
-    renewalMin: 30,
-    renewalMax: 58,
-    colorKey: 'accent',
+    density: 0.000015,
+    minSize: 1.6,
+    maxSize: 2.9,
+    speedMin: 0.85,
+    speedMax: 1.75,
+    driftRadius: 18,
+    twinkleMin: 0.28,
+    twinkleMax: 0.68,
+    pulseMin: 0.06,
+    pulseMax: 0.13,
+    glowChance: 0.52,
+    renewableChance: 0.15,
+    renewalMin: 16,
+    renewalMax: 38,
+    colorKey: 'bright',
+    colorMixChance: 0.28,
+    colorMixKey: 'silver',
   },
 ]
 
@@ -89,7 +95,7 @@ function nextRenewalDelay(layer) {
 }
 
 function createStar(width, height, layer) {
-  const direction = randomBetween(-0.35, 0.35)
+  const direction = randomBetween(-0.25, 0.25)
   const phase = randomBetween(0, Math.PI * 2)
 
   return {
@@ -97,23 +103,23 @@ function createStar(width, height, layer) {
     y: randomBetween(0, height),
     size: randomBetween(layer.minSize, layer.maxSize),
     speedY: randomBetween(layer.speedMin, layer.speedMax),
-    speedX: randomBetween(-0.22, 0.22),
+    speedX: randomBetween(-0.18, 0.18),
     direction,
-    driftRadius: randomBetween(layer.driftRadius * 0.5, layer.driftRadius),
+    driftRadius: randomBetween(layer.driftRadius * 0.6, layer.driftRadius),
     twinkleAmp: randomBetween(layer.twinkleMin, layer.twinkleMax),
-    twinkleSpeed: randomBetween(0.55, 1.35),
+    twinkleSpeed: randomBetween(0.45, 1.15),
     pulseAmp: randomBetween(layer.pulseMin, layer.pulseMax),
-    pulseSpeed: randomBetween(0.25, 0.8),
-    baseAlpha: randomBetween(0.32, 0.92),
+    pulseSpeed: randomBetween(0.2, 0.65),
+    baseAlpha: randomBetween(0.42, 0.96),
     phase,
     isGlow: Math.random() < layer.glowChance,
-    accentBlend: Math.random(),
+    colorMix: Math.random() < layer.colorMixChance,
     isRenewable: Math.random() < layer.renewableChance,
     renewalDelay: nextRenewalDelay(layer),
     renewalState: 'idle',
     renewalProgress: 0,
-    fadeDuration: randomBetween(2.2, 4),
-    fadeInDuration: randomBetween(1.8, 3.2),
+    fadeDuration: randomBetween(2.5, 5),
+    fadeInDuration: randomBetween(2, 4.2),
   }
 }
 
@@ -177,38 +183,37 @@ export default function StarfieldBackground() {
     }
 
     const respawnStar = (star, layer) => {
-      const fromTop = Math.random() < 0.7
       star.x = randomBetween(0, width)
-      star.y = fromTop ? randomBetween(-height * 0.15, height * 0.1) : randomBetween(0, height)
+      star.y = randomBetween(0, height)
       star.size = randomBetween(layer.minSize, layer.maxSize)
       star.speedY = randomBetween(layer.speedMin, layer.speedMax)
-      star.speedX = randomBetween(-0.22, 0.22)
-      star.driftRadius = randomBetween(layer.driftRadius * 0.5, layer.driftRadius)
+      star.speedX = randomBetween(-0.18, 0.18)
+      star.driftRadius = randomBetween(layer.driftRadius * 0.6, layer.driftRadius)
       star.twinkleAmp = randomBetween(layer.twinkleMin, layer.twinkleMax)
-      star.twinkleSpeed = randomBetween(0.55, 1.35)
+      star.twinkleSpeed = randomBetween(0.45, 1.15)
       star.pulseAmp = randomBetween(layer.pulseMin, layer.pulseMax)
-      star.pulseSpeed = randomBetween(0.25, 0.8)
-      star.baseAlpha = randomBetween(0.32, 0.92)
+      star.pulseSpeed = randomBetween(0.2, 0.65)
+      star.baseAlpha = randomBetween(0.42, 0.96)
       star.phase = randomBetween(0, Math.PI * 2)
-      star.direction = randomBetween(-0.35, 0.35)
+      star.direction = randomBetween(-0.25, 0.25)
       star.isGlow = Math.random() < layer.glowChance
-      star.accentBlend = Math.random()
-      star.fadeDuration = randomBetween(2.2, 4)
-      star.fadeInDuration = randomBetween(1.8, 3.2)
+      star.colorMix = Math.random() < layer.colorMixChance
+      star.fadeDuration = randomBetween(2.5, 5)
+      star.fadeInDuration = randomBetween(2, 4.2)
     }
 
     const updateStar = (star, layer, elapsed, deltaFactor, deltaSeconds) => {
-      const drift = Math.sin(elapsed * 0.00024 + star.phase) * star.driftRadius
-      const driftX = Math.cos(elapsed * 0.00019 + star.phase * 1.1) * (star.driftRadius * 0.46)
+      const drift = Math.sin(elapsed * 0.0002 + star.phase) * star.driftRadius
+      const driftX = Math.cos(elapsed * 0.00016 + star.phase * 1.15) * (star.driftRadius * 0.5)
 
-      star.x += (star.speedX + star.direction * 0.09) * deltaFactor + driftX * 0.0012
-      star.y -= star.speedY * deltaFactor * 0.28
-      star.y += drift * 0.0016
+      star.x += (star.speedX + star.direction * 0.08) * deltaFactor + driftX * 0.001
+      star.y -= star.speedY * deltaFactor * 0.22
+      star.y += drift * 0.0014
 
       if (star.x < -40) star.x = width + 40
       if (star.x > width + 40) star.x = -40
       if (star.y < -50) {
-        star.y = height + randomBetween(6, 48)
+        star.y = height + randomBetween(8, 55)
         star.x = randomBetween(0, width)
       }
 
@@ -238,29 +243,33 @@ export default function StarfieldBackground() {
     }
 
     const alphaForStar = (star, elapsed) => {
-      const twinkle = Math.sin(elapsed * 0.0011 * star.twinkleSpeed + star.phase) * star.twinkleAmp
-      const pulse = Math.sin(elapsed * 0.00055 * star.pulseSpeed + star.phase * 0.7) * star.pulseAmp
-      let alpha = star.baseAlpha * (0.74 + twinkle * 0.24 + pulse * 0.35)
+      const twinkle = Math.sin(elapsed * 0.0009 * star.twinkleSpeed + star.phase) * star.twinkleAmp
+      const pulse = Math.sin(elapsed * 0.00048 * star.pulseSpeed + star.phase * 0.75) * star.pulseAmp
+      let alpha = star.baseAlpha * (0.68 + twinkle * 0.28 + pulse * 0.32)
 
       if (star.renewalState === 'fadeOut') {
-        alpha *= Math.max(0, 1 - star.renewalProgress)
+        const easeOut = 1 - Math.pow(star.renewalProgress, 1.8)
+        alpha *= Math.max(0, easeOut)
       } else if (star.renewalState === 'fadeIn') {
-        alpha *= Math.min(1, star.renewalProgress)
+        const easeIn = Math.pow(star.renewalProgress, 0.65)
+        alpha *= Math.min(1, easeIn)
       }
 
-      return Math.max(0.03, Math.min(1, alpha))
+      return Math.max(0.02, Math.min(1, alpha))
     }
 
     const drawStar = (star, layer, elapsed) => {
       const alpha = alphaForStar(star, elapsed)
-      const layerColor = layer.colorKey === 'far' ? palette.far : layer.colorKey === 'mid' ? palette.mid : palette.accent
-      const mixedColor = layer.colorKey === 'accent' && star.accentBlend < 0.24 ? palette.silver : layerColor
+      const baseColor = palette[layer.colorKey] || palette.mid
+      const mixColor = palette[layer.colorMixKey] || palette.silver
+      const finalColor = star.colorMix ? mixColor : baseColor
 
       if (star.isGlow) {
-        const glowRadius = star.size * (layer.id === 'accent' ? 8 : 5.2)
+        const glowRadius = star.size * (layer.id === 'accent' ? 9 : 6)
+        const glowAlpha = alpha * (layer.id === 'accent' ? 0.20 : 0.14)
         const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius)
-        gradient.addColorStop(0, rgbaToString(palette.cool, alpha * 0.18))
-        gradient.addColorStop(0.45, rgbaToString(mixedColor, alpha * 0.1))
+        gradient.addColorStop(0, rgbaToString(finalColor, glowAlpha))
+        gradient.addColorStop(0.35, rgbaToString(finalColor, glowAlpha * 0.55))
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
         ctx.fillStyle = gradient
         ctx.beginPath()
@@ -268,7 +277,7 @@ export default function StarfieldBackground() {
         ctx.fill()
       }
 
-      ctx.fillStyle = rgbaToString(mixedColor, alpha)
+      ctx.fillStyle = rgbaToString(finalColor, alpha)
       ctx.beginPath()
       ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2)
       ctx.fill()
