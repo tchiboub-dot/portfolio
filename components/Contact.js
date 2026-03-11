@@ -6,6 +6,56 @@ import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
 
+// ── Email validation ─────────────────────────────────────────────────────────
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/
+
+const DOMAIN_TYPOS = {
+  'gemail.com': 'gmail.com',
+  'gmal.com': 'gmail.com',
+  'gmial.com': 'gmail.com',
+  'gmail.co': 'gmail.com',
+  'gnail.com': 'gmail.com',
+  'hotnail.com': 'hotmail.com',
+  'hotmal.com': 'hotmail.com',
+  'hotmai.com': 'hotmail.com',
+  'hotmail.co': 'hotmail.com',
+  'hootmail.com': 'hotmail.com',
+  'outlok.com': 'outlook.com',
+  'outook.com': 'outlook.com',
+  'outlook.co': 'outlook.com',
+  'outloook.com': 'outlook.com',
+  'yaho.com': 'yahoo.com',
+  'yahooo.com': 'yahoo.com',
+  'yahoo.co': 'yahoo.com',
+  'protonmai.com': 'protonmail.com',
+  'protonmal.com': 'protonmail.com',
+}
+
+function validateEmail(email) {
+  const trimmed = email.trim()
+  if (!trimmed) {
+    return { valid: false, error: 'Email is required.', suggestion: null }
+  }
+  if (!EMAIL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: 'Invalid email address. Please enter a valid email such as example@gmail.com.',
+      suggestion: null,
+    }
+  }
+  const domain = trimmed.split('@')[1].toLowerCase()
+  if (DOMAIN_TYPOS[domain]) {
+    const local = trimmed.split('@')[0]
+    const corrected = `${local}@${DOMAIN_TYPOS[domain]}`
+    return {
+      valid: false,
+      error: `Email domain looks incorrect. Did you mean ${corrected}?`,
+      suggestion: corrected,
+    }
+  }
+  return { valid: true, error: null, suggestion: null }
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -16,6 +66,7 @@ export default function Contact() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState({ type: '', title: '', detail: '' })
+  const [emailError, setEmailError] = useState('')
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -34,10 +85,35 @@ export default function Contact() {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
     if (status.type) setStatus({ type: '', title: '', detail: '' })
+    if (name === 'email' && emailError) setEmailError('')
+  }
+
+  const onEmailBlur = () => {
+    if (!formData.email) return
+    const result = validateEmail(formData.email)
+    if (!result.valid) setEmailError(result.error)
+  }
+
+  const applyEmailSuggestion = (suggestion) => {
+    setFormData((prev) => ({ ...prev, email: suggestion }))
+    setEmailError('')
   }
 
   const onSubmit = async (event) => {
     event.preventDefault()
+
+    // Client-side email validation before sending
+    const emailResult = validateEmail(formData.email)
+    if (!emailResult.valid) {
+      setEmailError(emailResult.error)
+      setStatus({
+        type: 'error',
+        title: 'Please fix the email field before sending.',
+        detail: emailResult.error,
+      })
+      return
+    }
+
     setIsSubmitting(true)
     setStatus({ type: '', title: '', detail: '' })
 
@@ -126,7 +202,7 @@ export default function Contact() {
             className={`transition-all duration-300 ${
               status.type === 'success'
                 ? 'border-green-400/45 shadow-[0_0_0_1px_rgba(74,222,128,0.26),0_0_26px_rgba(74,222,128,0.22)]'
-                : status.type === 'error'
+                : status.type === 'error' || emailError
                 ? 'border-red-400/45 shadow-[0_0_0_1px_rgba(248,113,113,0.26),0_0_26px_rgba(248,113,113,0.2)]'
                 : ''
             }`}
@@ -172,13 +248,38 @@ export default function Contact() {
                 <input
                   id="email"
                   name="email"
-                  type="email"
+                  type="text"
                   value={formData.email}
                   onChange={onChange}
+                  onBlur={onEmailBlur}
                   required
-                  className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text"
+                  className={`w-full px-4 py-3 bg-surface rounded-[14px] text-text transition-all duration-300 ${
+                    emailError
+                      ? 'border-2 border-red-400/70 focus:border-red-400 focus:ring-2 focus:ring-red-400/30'
+                      : 'border border-border focus:border-primary focus:ring-2 focus:ring-primary/30'
+                  }`}
                   placeholder="you@example.com"
+                  aria-invalid={!!emailError}
+                  aria-describedby={emailError ? 'email-error' : undefined}
                 />
+                {emailError && (
+                  <div id="email-error" className="mt-1.5 flex flex-wrap items-center gap-2 alert-slide-fade">
+                    <p className="text-xs text-red-300">{emailError}</p>
+                    {(() => {
+                      const match = emailError.match(/Did you mean (.+[^?])/)
+                      const suggestion = match ? match[1] : null
+                      return suggestion ? (
+                        <button
+                          type="button"
+                          onClick={() => applyEmailSuggestion(suggestion)}
+                          className="text-xs text-cyan-300 underline hover:text-cyan-100 transition-colors"
+                        >
+                          Use {suggestion}
+                        </button>
+                      ) : null
+                    })()}
+                  </div>
+                )}
               </div>
 
               <div>

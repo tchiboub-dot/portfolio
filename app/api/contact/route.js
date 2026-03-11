@@ -65,7 +65,8 @@ if (envErrors.length > 0 && process.env.NODE_ENV === 'production') {
  * Validation stricte d'email (RFC 5322 simplifié)
  */
 function isValidEmail(email) {
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  // Requires local@domain.tld — TLD (2+ letters) is mandatory, rejects bare domains like user@gemail
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/
   return emailRegex.test(email) && email.length <= MAX_EMAIL_LENGTH
 }
 
