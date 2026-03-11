@@ -176,15 +176,16 @@ export default function Certifications() {
                           : 'border-blue-400/25'
                       }`}
                     >
-                      <div className="relative h-56 w-full bg-blue-950/40 overflow-hidden">
+                      <div className="relative h-56 w-full bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.22),_rgba(7,11,20,0.92)_70%)] overflow-hidden">
+                        <div className="absolute inset-3 rounded-2xl border border-blue-300/15 bg-slate-950/35" />
                         <Image
                           src={cert.preview}
                           alt={`${cert.name} preview`}
                           fill
                           sizes="(max-width: 1024px) 92vw, 560px"
-                          className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                          className="object-contain object-center p-3 transition-transform duration-300 group-hover:scale-[1.02]"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/70 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/55 via-transparent to-transparent" />
                         <span className="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/40 bg-blue-500/20 text-blue-100 backdrop-blur-sm">
                           {String(index + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
                         </span>
