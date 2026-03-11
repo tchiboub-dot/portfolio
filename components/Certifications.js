@@ -7,82 +7,119 @@ import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 
+const CERTIFICATIONS = [
+  {
+    id: 'cert-ai-business',
+    image: '/certificates/cert-ai-business.jpeg',
+    title: 'AI Business Certificate',
+    issuer: 'HP LIFE / HP Foundation',
+    year: '2026',
+    summary:
+      'Credential focused on practical AI applications in business workflows and decision-making contexts.',
+    verification: 'Credential verified through HP LIFE completion records.',
+    skills: ['AI Business Use Cases', 'Decision Workflows', 'Digital Strategy'],
+    description:
+      'Builds practical understanding of applying AI to business processes, communication, and decision support.',
+  },
+  {
+    id: 'cert-prompt-engineering',
+    image: '/certificates/cert-prompt-engineering.jpeg',
+    title: 'Prompt Engineering Certificate',
+    issuer: 'Simplilearn SkillUp',
+    year: '2026',
+    summary:
+      'Certification on designing effective prompts, prompt patterns, and reliable AI-assisted output workflows.',
+    verification: 'Credential ID: 9808496',
+    skills: ['Prompt Design', 'Context Structuring', 'Output Quality Control'],
+    description:
+      'Covers prompt design structure, response quality control, and repeatable prompt strategies for AI tools.',
+  },
+  {
+    id: 'cert-cybersecurity',
+    image: '/certificates/cert-cybersecurity.jpeg',
+    title: 'Cybersecurity Fundamentals',
+    issuer: 'HP LIFE / HP Foundation',
+    year: '2026',
+    summary:
+      'Covers modern cybersecurity principles, risk awareness, and secure digital best practices.',
+    verification: 'Credential verified through HP LIFE completion records.',
+    skills: ['Security Basics', 'Threat Awareness', 'Secure Practices'],
+    description:
+      'Validates foundational cybersecurity literacy, including risk awareness and safer digital operational habits.',
+  },
+  {
+    id: 'cert-c-programming',
+    image: '/certificates/cert-c-programming.png',
+    title: 'C Programming Certificate',
+    issuer: 'Simplilearn SkillUp',
+    year: '2026',
+    summary:
+      'Fundamental-to-advanced C programming concepts including control flow, memory, and structured design.',
+    verification: 'Credential ID: 9698550',
+    skills: ['C Language', 'Memory Concepts', 'Structured Programming'],
+    description:
+      'Confirms competence in core C language principles, memory concepts, and structured problem-solving patterns.',
+  },
+  {
+    id: 'cert-agile',
+    image: '/certificates/cert-agile.jpeg',
+    title: 'Agile Project Management',
+    issuer: 'HP LIFE / HP Foundation',
+    year: '2026',
+    summary:
+      'Training in agile project delivery, iterative planning, collaboration, and product execution discipline.',
+    verification: 'Credential verified through HP LIFE completion records.',
+    skills: ['Agile Delivery', 'Collaboration', 'Iteration Planning'],
+    description:
+      'Demonstrates practical agile planning and collaboration methods for iterative, delivery-focused execution.',
+  },
+]
+
+const REQUIRED_FIELDS = ['id', 'image', 'title', 'issuer', 'year', 'summary', 'verification', 'skills']
+
 export default function Certifications() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [touchStartX, setTouchStartX] = useState(null)
+  const certifications = useMemo(() => {
+    return CERTIFICATIONS.filter((item) => {
+      const hasAllRequiredFields = REQUIRED_FIELDS.every((field) => {
+        if (field === 'skills') return Array.isArray(item.skills) && item.skills.length > 0
+        return Boolean(item[field])
+      })
 
-  const certifications = [
-    {
-      name: 'AI Business Certificate',
-      organization: 'HP LIFE / HP Foundation',
-      year: '2026',
-      preview: '/certificates/cert-ai-business.jpeg',
-      description:
-        'Credential focused on practical AI applications in business workflows and decision-making contexts.',
-      verification: 'Credential verified through HP LIFE completion records.',
-      skills: ['AI Business Use Cases', 'Decision Workflows', 'Digital Strategy'],
-    },
-    {
-      name: 'Prompt Engineering Certificate',
-      organization: 'Simplilearn SkillUp',
-      year: '2026',
-      preview: '/certificates/cert-prompt-engineering.jpeg',
-      description:
-        'Certification on designing effective prompts, prompt patterns, and reliable AI-assisted output workflows.',
-      verification: 'Credential ID: 9808496',
-      skills: ['Prompt Design', 'Context Structuring', 'Output Quality Control'],
-    },
-    {
-      name: 'Cybersecurity Fundamentals',
-      organization: 'HP LIFE / HP Foundation',
-      year: '2026',
-      preview: '/certificates/cert-cybersecurity.jpeg',
-      description:
-        'Covers modern cybersecurity principles, risk awareness, and secure digital best practices.',
-      verification: 'Credential verified through HP LIFE completion records.',
-      skills: ['Security Basics', 'Threat Awareness', 'Secure Practices'],
-    },
-    {
-      name: 'C Programming Certificate',
-      organization: 'Simplilearn SkillUp',
-      year: '2026',
-      preview: '/certificates/cert-c-programming.png',
-      description:
-        'Fundamental-to-advanced C programming concepts including control flow, memory, and structured design.',
-      verification: 'Credential ID: 9698550',
-      skills: ['C Language', 'Memory Concepts', 'Structured Programming'],
-    },
-    {
-      name: 'Agile Project Management',
-      organization: 'HP LIFE / HP Foundation',
-      year: '2026',
-      preview: '/certificates/cert-agile.jpeg',
-      description:
-        'Training in agile project delivery, iterative planning, collaboration, and product execution discipline.',
-      verification: 'Credential verified through HP LIFE completion records.',
-      skills: ['Agile Delivery', 'Collaboration', 'Iteration Planning'],
-    },
-  ]
+      if (!hasAllRequiredFields) {
+        console.warn('Invalid certification object skipped:', item)
+      }
+
+      return hasAllRequiredFields
+    })
+  }, [])
 
   const totalCount = certifications.length
-  const activeCert = certifications[activeIndex]
+  const normalizedActiveIndex = totalCount ? ((activeIndex % totalCount) + totalCount) % totalCount : 0
+  const activeCert = certifications[normalizedActiveIndex]
+
+  const setActiveByIndex = (nextIndex) => {
+    if (!totalCount) return
+    setActiveIndex(((nextIndex % totalCount) + totalCount) % totalCount)
+  }
 
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + totalCount) % totalCount)
+    setActiveByIndex(normalizedActiveIndex - 1)
   }
 
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % totalCount)
+    setActiveByIndex(normalizedActiveIndex + 1)
   }
 
   const orderedCards = useMemo(() => {
     return certifications.map((cert, index) => {
-      let offset = index - activeIndex
+      let offset = index - normalizedActiveIndex
       if (offset > totalCount / 2) offset -= totalCount
       if (offset < -totalCount / 2) offset += totalCount
       return { cert, index, offset }
     })
-  }, [activeIndex, certifications, totalCount])
+  }, [normalizedActiveIndex, certifications, totalCount])
 
   const onTouchStart = (event) => {
     setTouchStartX(event.touches[0]?.clientX || null)
@@ -101,6 +138,8 @@ export default function Certifications() {
 
     setTouchStartX(null)
   }
+
+  if (!activeCert) return null
 
   return (
     <section id="certifications" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
@@ -155,9 +194,9 @@ export default function Certifications() {
 
               return (
                 <button
-                  key={cert.name}
+                  key={cert.id}
                   type="button"
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => setActiveByIndex(index)}
                   className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[86%] sm:w-[72%] md:w-[62%] lg:w-[50%] max-w-[580px]"
                   style={{
                     transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale})`,
@@ -165,7 +204,7 @@ export default function Certifications() {
                     zIndex,
                     transition: 'transform 340ms ease, opacity 340ms ease',
                   }}
-                  aria-label={`Select certificate: ${cert.name}`}
+                  aria-label={`Select certificate: ${cert.title}`}
                 >
                   <div className="relative group h-full">
                     <div className="absolute inset-0 rounded-[24px] border border-blue-400/15 bg-blue-900/10 translate-x-1.5 translate-y-1.5" />
@@ -179,8 +218,8 @@ export default function Certifications() {
                       <div className="relative h-56 w-full bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.22),_rgba(7,11,20,0.92)_70%)] overflow-hidden">
                         <div className="absolute inset-3 rounded-2xl border border-blue-300/15 bg-slate-950/35" />
                         <Image
-                          src={cert.preview}
-                          alt={`${cert.name} preview`}
+                          src={cert.image}
+                          alt={`${cert.title} preview`}
                           fill
                           sizes="(max-width: 1024px) 92vw, 560px"
                           className="object-contain object-center p-3 transition-transform duration-300 group-hover:scale-[1.02]"
@@ -192,8 +231,8 @@ export default function Certifications() {
                       </div>
 
                       <div className="p-5 space-y-3 text-left">
-                        <h3 className="text-lg font-bold text-heading leading-snug min-h-[52px]">{cert.name}</h3>
-                        <p className="text-sm text-blue-200/90 font-medium">{cert.organization}</p>
+                        <h3 className="text-lg font-bold text-heading leading-snug min-h-[52px]">{cert.title}</h3>
+                        <p className="text-sm text-blue-200/90 font-medium">{cert.issuer}</p>
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-cyan-100 border border-blue-400/40">
                           {cert.year}
                         </span>
@@ -209,15 +248,15 @@ export default function Certifications() {
         <Card className="mt-8 border-cyan-300/35 shadow-[0_0_0_1px_rgba(34,211,238,0.14),0_0_26px_rgba(34,211,238,0.14)]" hover={false}>
           <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
             <div>
-              <h3 className="text-2xl font-bold text-heading">{activeCert.name}</h3>
-              <p className="text-sm text-blue-200/90 font-medium mt-1">{activeCert.organization}</p>
+              <h3 className="text-2xl font-bold text-heading">{activeCert.title}</h3>
+              <p className="text-sm text-blue-200/90 font-medium mt-1">{activeCert.issuer}</p>
             </div>
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-cyan-100 border border-blue-400/40">
                 {activeCert.year}
               </span>
               <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-100 border border-blue-400/35">
-                {String(activeIndex + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
+                {String(normalizedActiveIndex + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
               </span>
             </div>
           </div>
@@ -225,7 +264,7 @@ export default function Certifications() {
           <div className="grid md:grid-cols-2 gap-5">
             <div>
               <p className="text-sm font-semibold text-blue-100 mb-2">Credential Summary</p>
-              <p className="text-sm text-text leading-relaxed">{activeCert.description}</p>
+              <p className="text-sm text-text leading-relaxed">{activeCert.summary}</p>
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-100 mb-2">Verification</p>
@@ -249,7 +288,7 @@ export default function Certifications() {
 
           <div className="mt-5 pt-4 border-t border-blue-400/20">
             <Link
-              href={activeCert.preview}
+              href={activeCert.credentialLink || activeCert.image}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
