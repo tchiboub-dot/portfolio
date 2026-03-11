@@ -3,23 +3,22 @@
 import { FaUser, FaLanguage, FaLaptopCode } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
-import Badge from './ui/Badge'
 import Button from './ui/Button'
 
 export default function About() {
   const aboutData = {
-    title: 'À propos de moi',
-    subtitle: 'Étudiant en informatique passionné par le développement web, la cybersécurité et l\'IA',
-    introduction: 'Je suis Chiboub Taha Adnane, 19 ans, étudiant en 1ère année Informatique à ESISA Fes. Je développe des projets concrets pour transformer ce que j\'apprends (algorithmique, programmation, systèmes) en applications web utiles, propres et agréables à utiliser.',
-    description: 'Je m\'intéresse particulièrement au développement web (interfaces claires, responsive, expérience utilisateur) et je renforce progressivement mes bases en backend afin de construire des applications plus complètes. En parallèle, je garde un intérêt fort pour la cybersécurité et l\'usage de l\'IA.',
+    title: 'About Me',
+    subtitle: 'Computer science engineering student focused on impactful products, scalable architecture, and polished user experience',
+    introduction: 'I am a computer science engineering student passionate about building modern digital products.',
+    description: 'I enjoy turning ideas into production-ready web experiences by combining strong frontend execution with practical backend fundamentals.',
     interests: [
-      'Développement Web Front-end & Back-end',
-      'Cybersécurité & Protection des données',
-      'Intelligence Artificielle & Prompt Engineering',
-      'UI/UX Design & Expérience utilisateur',
+      'Full-stack web development',
+      'Cloud architecture',
+      'User-focused design',
+      'AI-powered applications',
     ],
     languages: ['Arabe (Natif)', 'Français (Courant)', 'Anglais (Intermédiaire)'],
-    availability: 'Ouvert aux opportunités de stage et missions freelance',
+    availability: 'Available for internships, freelance work, and collaborative product building.',
   }
 
   return (
@@ -37,9 +36,12 @@ export default function About() {
               <div className="flex items-start gap-4">
                 <FaUser className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-heading mb-3">Qui suis-je ?</h3>
+                  <h3 className="text-xl font-semibold text-heading mb-3">Who I am</h3>
                   <p className="text-text leading-relaxed mb-3">{aboutData.introduction}</p>
-                  <p className="text-text leading-relaxed">{aboutData.description}</p>
+                  <p className="text-text leading-relaxed mb-3">{aboutData.description}</p>
+                  <p className="text-text leading-relaxed">
+                    My approach blends <strong>engineering discipline</strong>, <strong>clean interfaces</strong>, and <strong>business-oriented delivery</strong> to create solutions recruiters and teams can trust.
+                  </p>
                 </div>
               </div>
             </Card>
@@ -48,7 +50,7 @@ export default function About() {
               <div className="flex items-start gap-4">
                 <FaLanguage className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-heading mb-4">Langues</h3>
+                  <h3 className="text-xl font-semibold text-heading mb-4">Languages</h3>
                   <div className="space-y-2">
                     {aboutData.languages.map((language, i) => (
                       <div key={i} className="flex items-center gap-2">
@@ -67,11 +69,12 @@ export default function About() {
               <div className="flex items-start gap-4">
                 <FaLaptopCode className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-heading mb-4">Centres d'intérêt</h3>
+                  <h3 className="text-xl font-semibold text-heading mb-4">My interests include</h3>
                   <div className="space-y-2">
                     {aboutData.interests.map((interest, i) => (
-                      <div key={i} className="bg-primary-soft text-text p-3 rounded-lg text-sm">
-                        ✨ {interest}
+                      <div key={i} className="flex items-center gap-2 bg-primary-soft text-text p-3 rounded-lg text-sm">
+                        <span className="text-primary font-bold">•</span>
+                        <span><strong>{interest}</strong></span>
                       </div>
                     ))}
                   </div>
@@ -84,9 +87,9 @@ export default function About() {
                 <div className="absolute top-0 right-0 w-40 h-40 bg-surface rounded-full -mr-20 -mt-20" />
               </div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-heading mb-2">Prêt à collaborer ?</h3>
+                <h3 className="text-2xl font-bold text-heading mb-2">Open to collaboration</h3>
                 <p className="text-text mb-6 leading-relaxed">{aboutData.availability}</p>
-                <Button href="#contact">Démarrer une conversation</Button>
+                <Button href="#contact">Start a conversation</Button>
               </div>
             </div>
           </div>

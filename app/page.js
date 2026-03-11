@@ -26,8 +26,12 @@ import About from '@/components/About'
 import Education from '@/components/Education'
 import Experience from '@/components/Experience'
 import Projects from '@/components/Projects'
+import Announcements from '@/components/Announcements'
 import Certifications from '@/components/Certifications'
 import Skills from '@/components/Skills'
+import Technologies from '@/components/Technologies'
+import Stats from '@/components/Stats'
+import GithubActivity from '@/components/GithubActivity'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
@@ -52,11 +56,23 @@ export default function Home() {
       {/* Section Projets */}
       <Projects />
 
+      {/* Section En cours / WIP */}
+      <Announcements />
+
       {/* Section Certifications */}
       <Certifications />
 
       {/* Section Compétences */}
       <Skills />
+
+      {/* Section Technologies */}
+      <Technologies />
+
+      {/* Section Statistiques */}
+      <Stats />
+
+      {/* Section GitHub */}
+      <GithubActivity />
 
       {/* Section Contact */}
       <Contact />

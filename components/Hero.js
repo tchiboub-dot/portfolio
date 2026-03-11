@@ -7,13 +7,16 @@ import Avatar from './ui/Avatar'
 export default function Hero() {
   const heroData = {
     name: 'Chiboub Taha Adnane',
-    title: 'Étudiant en Informatique (1ère année) — ESISA Fes',
-    subtitle: 'Développeur Web Junior | Passionné par la Cybersécurité & l\'IA',
-    description: 'Je crée des applications web modernes, responsives et centrées sur l\'expérience utilisateur. Ouvert aux opportunités de stage et missions freelance.',
+    title: 'Software Engineer Student',
+    subtitle: 'Full-Stack Developer | Cloud & AI Enthusiast',
+    valueStatement: 'I design and build modern web applications with scalable architecture and polished user experiences.',
+    description: 'Focused on shipping clean, high-quality digital products with strong frontend foundations, practical backend logic, and reliable deployment workflows.',
+    highlights: ['⚡ Web Development', '☁️ Cloud Applications', '🤖 AI Tools'],
     email: 'taha.adnane.chiboub@gmail.com',
     github: 'https://github.com/tchiboub-dot',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
     photo: '/photo-profil.jpg',
+    cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
 
   return (
@@ -59,9 +62,21 @@ export default function Hero() {
           </p>
 
           {/* Value Proposition */}
-          <p className="text-sm sm:text-base md:text-lg text-cyan-300/90 mb-4 sm:mb-6 font-semibold tracking-wide px-4">
-            Transformer vos idées en solutions web performantes et sécurisées.
+          <p className="text-sm sm:text-base md:text-lg text-cyan-300/90 mb-4 sm:mb-6 font-semibold tracking-wide px-4 max-w-3xl mx-auto">
+            {heroData.valueStatement}
           </p>
+
+          {/* Quick Skill Highlights */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-5 sm:mb-6 px-4">
+            {heroData.highlights.map((highlight) => (
+              <span
+                key={highlight}
+                className="text-xs sm:text-sm md:text-base px-3 py-1.5 rounded-full bg-blue-500/15 border border-blue-400/30 text-blue-100 backdrop-blur-sm"
+              >
+                {highlight}
+              </span>
+            ))}
+          </div>
 
           {/* Description */}
           <p className="text-sm sm:text-base text-text max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
@@ -71,11 +86,15 @@ export default function Hero() {
           {/* Elite CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
             <Button href="#projects" size="lg" className="group relative overflow-hidden shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-shadow duration-300 min-h-[48px]">
-              <span className="relative z-10">Voir mes projets</span>
+              <span className="relative z-10">View My Projects</span>
             </Button>
-            <Button href="#contact" variant="outline" size="lg" className="group hover:border-cyan-400/60 transition-all duration-300 min-h-[48px]">
-              Me contacter
-            </Button>
+            <a
+              href={heroData.cvPath}
+              download
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold rounded-[16px] border border-blue-400/40 text-blue-300 bg-transparent hover:border-cyan-400/60 hover:bg-blue-500/10 transition-all duration-300 min-h-[48px]"
+            >
+              Download CV
+            </a>
           </div>
 
           {/* Premium Social Links */}

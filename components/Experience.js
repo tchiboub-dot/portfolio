@@ -13,16 +13,16 @@ import Badge from './ui/Badge'
 export default function Experience() {
   const experienceData = [
     {
-      title: 'Développeur Web Junior',
-      company: 'Projets personnels & académiques (ESISA)',
+      title: 'Full-Stack Developer (Junior)',
+      company: 'Personal & Academic Projects (ESISA)',
       location: 'Fès, Maroc',
       period: '2025/2026 – Présent',
-      type: 'Projets personnels',
-      responsibilities: [
-        'Réalisation de sites et d\'applications web orientées utilisateur (UI claire, responsive)',
-        'Implémentation de fonctionnalités : formulaires, validation, navigation, logique front-end, CRUD, authentification basique',
-        'Déploiement de démos en ligne et amélioration continue via itérations',
-        'Utilisation de technologies modernes : HTML5, CSS3, JavaScript, React, Next.js',
+      type: 'Hands-on Product Building',
+      achievements: [
+        'Developed responsive web applications using React, Next.js, and Node.js patterns.',
+        'Improved UI consistency by building reusable component blocks for faster iteration.',
+        'Optimized API and form flows to reduce friction and improve user task completion.',
+        'Shipped and maintained demo deployments with iterative UX and performance enhancements.',
       ],
       current: true,
     },
@@ -34,7 +34,7 @@ export default function Experience() {
         {/* Titre principal */}
         <SectionTitle 
           title="Expérience"
-          subtitle="Mes réalisations et projets professionnels"
+          subtitle="Impact-oriented contributions and practical engineering experience"
           align="center"
         />
 
@@ -45,7 +45,7 @@ export default function Experience() {
               {/* En-tête */}
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 pb-4 border-b border-border ">
                 <div className="flex-1 mb-4 md:mb-0">
-                  {/* Titre du poste */}
+                  {/* Role */}
                   <div className="flex items-start gap-3 mb-3">
                     <FaBriefcase className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
@@ -63,7 +63,7 @@ export default function Experience() {
                     </div>
                   </div>
 
-                  {/* Entreprise */}
+                  {/* Company */}
                   <p className="text-lg font-semibold text-primary mb-2">
                     {exp.company}
                   </p>
@@ -82,13 +82,13 @@ export default function Experience() {
                 </div>
               </div>
 
-              {/* Responsabilités */}
+              {/* Achievements */}
               <div>
                 <p className="text-sm font-semibold text-heading mb-3">
-                  Responsabilités & réalisations :
+                  Key achievements:
                 </p>
                 <ul className="space-y-2">
-                  {exp.responsibilities.map((resp, i) => (
+                  {exp.achievements.map((resp, i) => (
                     <li
                       key={i}
                       className="flex items-start gap-3"

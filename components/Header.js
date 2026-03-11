@@ -15,12 +15,16 @@ export default function Header() {
   const hiddenRef = useRef(false)
 
   const navLinks = [
-    { name: 'Accueil', href: '#home' },
-    { name: 'À propos', href: '#about' },
-    { name: 'Éducation', href: '#education' },
-    { name: 'Expérience', href: '#experience' },
-    { name: 'Projets', href: '#projects' },
-    { name: 'Compétences', href: '#skills' },
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Education', href: '#education' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'WIP', href: '#announcements' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Tech', href: '#technologies' },
+    { name: 'Stats', href: '#stats' },
+    { name: 'GitHub', href: '#github' },
     { name: 'Contact', href: '#contact' },
   ]
 

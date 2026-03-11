@@ -1,0 +1,73 @@
+%PDF-1.1
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 883 >>
+stream
+BT
+/F1 16 Tf
+72 760 Td
+(Taha Adnane Chiboub - Curriculum Vitae) Tj
+0 -28 Td
+/F1 11 Tf
+(Email: taha.adnane.chiboub@gmail.com) Tj
+0 -18 Td
+(LinkedIn: linkedin.com/in/taha-adnane-chiboub-1a5ab939a) Tj
+0 -18 Td
+(GitHub: github.com/tchiboub-dot) Tj
+0 -30 Td
+/F1 13 Tf
+(Profile) Tj
+0 -18 Td
+/F1 11 Tf
+(Software Engineer Student, Full-Stack Developer, Cloud and AI Enthusiast.) Tj
+0 -16 Td
+(Builds modern web applications with scalable architecture and polished UX.) Tj
+0 -30 Td
+/F1 13 Tf
+(Skills) Tj
+0 -18 Td
+/F1 11 Tf
+(Frontend: HTML, CSS, JavaScript, React, Next.js) Tj
+0 -16 Td
+(Backend: Node.js, Express, Python, MongoDB, PostgreSQL) Tj
+0 -16 Td
+(Tools: Git, Docker, Vercel, Figma) Tj
+0 -16 Td
+(AI/Cloud: OpenAI API, Cloud Deployment, WebRTC) Tj
+0 -30 Td
+/F1 13 Tf
+(Highlights) Tj
+0 -18 Td
+/F1 11 Tf
+(- Developed and deployed multiple responsive full-stack applications.) Tj
+0 -16 Td
+(- Built reusable UI systems and optimized workflows for better UX.) Tj
+0 -16 Td
+(- Continuously learning through certifications and project delivery.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000063 00000 n 
+0000000122 00000 n 
+0000000251 00000 n 
+0000001186 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1256
+%%EOF

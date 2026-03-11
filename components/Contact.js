@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaDownload } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
@@ -14,216 +14,50 @@ export default function Contact() {
     message: '',
     website: '',
   })
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isError, setIsError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [fieldErrors, setFieldErrors] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
+  const [status, setStatus] = useState({ type: '', message: '' })
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
     github: 'https://github.com/tchiboub-dot',
-    availability: 'Ouvert aux opportunites de stage et missions freelance',
+    cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
 
-  const bubbles = [
-    {
-      id: 'email',
-      icon: FaEnvelope,
-      label: 'Email',
-      value: 'taha.adnane.chiboub@gmail.com',
-      color: 'from-blue-500 to-cyan-500',
-      href: `mailto:${contactData.email}`,
-      target: '_self',
-      rel: '',
-    },
-    {
-      id: 'linkedin',
-      icon: FaLinkedin,
-      label: 'LinkedIn',
-      value: 'Taha Adnane Chiboub',
-      color: 'from-blue-400 to-blue-600',
-      href: contactData.linkedin,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    },
-    {
-      id: 'github',
-      icon: FaGithub,
-      label: 'GitHub',
-      value: 'tchiboub-dot',
-      color: 'from-slate-400 to-slate-600',
-      href: contactData.github,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    },
+  const quickContacts = [
+    { label: 'Email', icon: FaEnvelope, href: `mailto:${contactData.email}` },
+    { label: 'LinkedIn', icon: FaLinkedin, href: contactData.linkedin },
+    { label: 'GitHub', icon: FaGithub, href: contactData.github },
   ]
 
-  const validateForm = () => {
-    const { name, email, message } = formData
-    const nextErrors = {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    }
-
-    const trimmedName = name.trim()
-    const trimmedEmail = email.trim()
-    const trimmedMessage = message.trim()
-
-    if (!trimmedName) {
-      nextErrors.name = 'Le nom est requis'
-    } else if (trimmedName.length > 100) {
-      nextErrors.name = 'Le nom est trop long (max 100)'
-    }
-
-    if (!trimmedEmail) {
-      nextErrors.email = 'Email requis'
-    } else if (trimmedEmail.length > 150) {
-      nextErrors.email = 'Email trop long'
-    } else {
-      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-      if (!emailRegex.test(trimmedEmail)) {
-        nextErrors.email = 'Email invalide'
-      }
-    }
-
-    if (!trimmedMessage) {
-      nextErrors.message = 'Le message est requis'
-    } else if (trimmedMessage.length < 10) {
-      nextErrors.message = 'Min 10 caracteres'
-    } else if (trimmedMessage.length > 2000) {
-      nextErrors.message = 'Max 2000 caracteres'
-    }
-
-    if (formData.subject && formData.subject.length > 200) {
-      nextErrors.subject = 'Sujet trop long (max 200)'
-    }
-
-    const spamPatterns = /(viagra|cialis|casino|lottery)/i
-    if (spamPatterns.test(trimmedName + (formData.subject || '') + trimmedMessage)) {
-      setErrorMessage('Contenu suspecte')
-      setFieldErrors(nextErrors)
-      return false
-    }
-
-    const hasFieldError = Object.values(nextErrors).some(Boolean)
-    setFieldErrors(nextErrors)
-
-    if (hasFieldError) {
-      return false
-    }
-
-    return true
+  const onChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    if (status.type) setStatus({ type: '', message: '' })
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-
-    if (fieldErrors[name]) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        [name]: '',
-      }))
-    }
-
-    if (isError) {
-      setIsError(false)
-      setErrorMessage('')
-    }
-
-    if (isSubmitted) {
-      setIsSubmitted(false)
-    }
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    setIsError(false)
-    setErrorMessage('')
-    setFieldErrors({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    })
-
-    if (!validateForm()) {
-      setIsError(true)
-      setErrorMessage('Veuillez corriger les champs')
-      return
-    }
-
+  const onSubmit = async (event) => {
+    event.preventDefault()
     setIsSubmitting(true)
+    setStatus({ type: '', message: '' })
 
     try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 15000)
-
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          subject: formData.subject.trim(),
-          message: formData.message.trim(),
-          website: formData.website,
-        }),
-        signal: controller.signal,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       })
 
-      clearTimeout(timeoutId)
       const data = await response.json()
 
       if (response.ok && data.ok) {
-        setIsSubmitted(true)
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-          website: '',
-        })
-
-        setTimeout(() => {
-          setIsSubmitted(false)
-        }, 5000)
+        setStatus({ type: 'success', message: 'Message sent successfully. I will reply soon.' })
+        setFormData({ name: '', email: '', subject: '', message: '', website: '' })
       } else {
-        setIsError(true)
-        setErrorMessage(data.error || 'Une erreur est survenue')
-        if (process.env.NODE_ENV === 'development') {
-          console.error('API error:', data)
-        }
+        setStatus({ type: 'error', message: data.error || 'Unable to send your message right now.' })
       }
-    } catch (error) {
-      setIsError(true)
-
-      if (error.name === 'AbortError') {
-        setErrorMessage('Timeout. Verifiez votre connexion.')
-      } else if (error instanceof TypeError) {
-        setErrorMessage('Impossible de contacter le serveur.')
-      } else {
-        setErrorMessage('Une erreur est survenue.')
-      }
-
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Network error:', error)
-      }
+    } catch {
+      setStatus({ type: 'error', message: 'Network error. Please try again.' })
     } finally {
       setIsSubmitting(false)
     }
@@ -234,287 +68,129 @@ export default function Contact() {
       <div className="container-custom">
         <SectionTitle
           title="Contact"
-          subtitle="Ne hesitez pas a me contacter pour toute opportunite"
+          subtitle="Open to internships, collaboration, and product-focused freelance opportunities"
           align="center"
         />
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-          <div>
-            <h3 className="text-2xl font-bold text-heading mb-6">
-              Restons en contact
-            </h3>
-            <p className="text-text mb-8 leading-relaxed">
-              {contactData.availability}
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 mt-10">
+          <Card>
+            <h3 className="text-2xl font-bold text-heading mb-4">Let&apos;s connect</h3>
+            <p className="text-text leading-relaxed mb-6">
+              Reach out for internships, collaboration opportunities, or to discuss how I can contribute to your next product.
             </p>
 
-            {/* Circular Glass Bubbles - Contact Info */}
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8">
-              {bubbles.map((bubble) => {
-                const Icon = bubble.icon
-
+            <div className="flex flex-wrap gap-3 mb-6">
+              {quickContacts.map((item) => {
+                const Icon = item.icon
                 return (
-                  <div
-                    key={bubble.id}
-                    className="flex flex-col items-center"
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.label === 'Email' ? '_self' : '_blank'}
+                    rel={item.label === 'Email' ? undefined : 'noopener noreferrer'}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-blue-400/35 text-blue-100 bg-blue-500/10 hover:bg-blue-500/20 transition-colors duration-300"
                   >
-                    {/* Bubble Circle - Direct Link */}
-                    <a
-                      href={bubble.href}
-                      target={bubble.target}
-                      rel={bubble.rel}
-                      aria-label={`Contact via ${bubble.label}`}
-                      className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center transition-all duration-300 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400 focus-visible:ring-offset-blue-950 scale-100 shadow-lg shadow-blue-500/20 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30"
-                      style={{
-                        background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-                        '--tw-gradient-stops': `var(--tw-gradient-start), var(--tw-gradient-end)`,
-                        '--tw-gradient-start': bubble.color.split()[1],
-                        '--tw-gradient-end': bubble.color.split()[3],
-                        willChange: 'transform',
-                      }}
-                      title={`Open ${bubble.label}`}
-                    >
-                      {/* Glass Effect Background */}
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/20 pointer-events-none" />
-                      
-                      {/* Content */}
-                      <div className="relative z-10 flex flex-col items-center justify-center h-full px-3 sm:px-4 text-center">
-                        <Icon className="text-white text-2xl sm:text-3xl mb-2 transition-transform duration-300" />
-                        <p className="text-[10px] sm:text-xs font-semibold text-white/90 uppercase tracking-wider">
-                          {bubble.label}
-                        </p>
-                      </div>
-                    </a>
-
-                    {/* Value Text Below */}
-                    <p className="text-[10px] sm:text-xs font-medium text-blue-300 text-center mt-2 sm:mt-3 opacity-70 max-w-28 sm:max-w-32 line-clamp-2">
-                      {bubble.value}
-                    </p>
-                  </div>
+                    <Icon className="w-4 h-4" />
+                    {item.label}
+                  </a>
                 )
               })}
             </div>
 
-            <div className="bg-gradient-to-br from-primary to-accent text-white p-6 rounded-card shadow-medium">
-              <h4 className="text-xl font-semibold mb-3">Vous avez un projet ?</h4>
-              <p className="mb-4">
-                Je suis disponible pour des stages, missions freelance et collaborations.
-              </p>
-              <div className="flex gap-2 text-sm">
-                <span className="bg-white/20 px-3 py-1 rounded-full">Stage</span>
-                <span className="bg-white/20 px-3 py-1 rounded-full">Freelance</span>
-                <span className="bg-white/20 px-3 py-1 rounded-full">Collaboration</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-2xl font-bold text-heading mb-2">
-              Envoyez-moi un message
-            </h3>
-            <p className="text-sm text-muted mb-6">
-              ⏱️ Réponse sous 24-48h en moyenne
-            </p>
-
-            {isSubmitted && (
-              <Card hover={false} className="bg-success/10 border-success/30 text-center mb-6">
-                <FaCheckCircle className="text-5xl text-success mx-auto mb-4" />
-                <h4 className="text-xl font-semibold text-success mb-2">
-                  Message envoye
-                </h4>
-                <p className="text-text">
-                  Merci. Je vous repondrai rapidement.
-                </p>
-              </Card>
-            )}
-
-            {isError && (
-              <Card 
-                hover={false} 
-                className="bg-danger/10 border-danger/30 mb-6"
-                role="alert"
-                aria-live="polite"
-              >
-                <div className="flex items-start gap-3">
-                  <FaExclamationTriangle className="text-2xl text-danger flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <h4 className="font-semibold text-danger mb-1">
-                      Erreur
-                    </h4>
-                    <p className="text-text text-sm">{errorMessage}</p>
-                  </div>
-                </div>
-              </Card>
-            )}
-
-            <Card 
-              hover={false}
-              className={`transition-all duration-300 ${
-                isSubmitted ? 'contact-status--success' : 
-                isError ? 'contact-status--error' : 
-                isSubmitting ? 'contact-status--loading' : ''
-              }`}
+            <a
+              href={contactData.cvPath}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
             >
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
-                  <label htmlFor="website">Do not fill</label>
-                  <input
-                    type="text"
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    tabIndex="-1"
-                    autoComplete="off"
-                  />
-                </div>
+              <FaDownload className="w-4 h-4" />
+              Download CV
+            </a>
 
-                <div>
-                  <label htmlFor="name" className="block text-heading font-semibold mb-2">
-                    Nom complet *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    maxLength={100}
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-3 bg-surface border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed ${
-                      fieldErrors.name ? 'border-danger' : 'border-border'
-                    }`}
-                    placeholder="Votre nom"
-                    aria-invalid={!!fieldErrors.name}
-                    aria-describedby={fieldErrors.name ? 'name-error' : undefined}
-                  />
-                  {fieldErrors.name && (
-                    <p id="name-error" className="mt-1 text-xs text-danger">{fieldErrors.name}</p>
-                  )}
-                </div>
+            <p className="text-sm text-blue-200/85 mt-5">Response time: usually within 24 hours.</p>
+          </Card>
 
-                <div>
-                  <label htmlFor="email" className="block text-heading font-semibold mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    maxLength={150}
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-3 bg-surface border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed ${
-                      fieldErrors.email ? 'border-danger' : 'border-border'
-                    }`}
-                    placeholder="votre.email@exemple.com"
-                    aria-invalid={!!fieldErrors.email}
-                    aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-                  />
-                  {fieldErrors.email && (
-                    <p id="email-error" className="mt-1 text-xs text-danger">{fieldErrors.email}</p>
-                  )}
-                </div>
+          <Card hover={false}>
+            <h3 className="text-2xl font-bold text-heading mb-5">Professional contact form</h3>
 
-                <div>
-                  <label htmlFor="subject" className="block text-heading font-semibold mb-2">
-                    Sujet
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    maxLength={200}
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-3 bg-surface border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal disabled:opacity-50 disabled:cursor-not-allowed ${
-                      fieldErrors.subject ? 'border-danger' : 'border-border'
-                    }`}
-                    placeholder="Sujet de votre message"
-                    aria-invalid={!!fieldErrors.subject}
-                    aria-describedby={fieldErrors.subject ? 'subject-error' : undefined}
-                  />
-                  {fieldErrors.subject && (
-                    <p id="subject-error" className="mt-1 text-xs text-danger">{fieldErrors.subject}</p>
-                  )}
-                </div>
+            {status.type && (
+              <div
+                className={`mb-4 p-3 rounded-xl border text-sm ${
+                  status.type === 'success'
+                    ? 'bg-green-500/15 border-green-400/30 text-green-100'
+                    : 'bg-red-500/15 border-red-400/30 text-red-100'
+                }`}
+                role="alert"
+              >
+                {status.message}
+              </div>
+            )}
 
-                <div>
-                  <label htmlFor="message" className="block text-heading font-semibold mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows="5"
-                    minLength={10}
-                    maxLength={2000}
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-3 bg-surface border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text placeholder-muted transition-all duration-normal resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
-                      fieldErrors.message ? 'border-danger' : 'border-border'
-                    }`}
-                    placeholder="Votre message..."
-                    aria-invalid={!!fieldErrors.message}
-                    aria-describedby={fieldErrors.message ? 'message-error' : undefined}
-                  ></textarea>
-                  {fieldErrors.message && (
-                    <p id="message-error" className="mt-1 text-xs text-danger">{fieldErrors.message}</p>
-                  )}
-                  <div className="text-right text-xs text-muted mt-1">
-                    {formData.message.length} / 2000
-                  </div>
-                </div>
+            <form onSubmit={onSubmit} className="space-y-4">
+              <div className="hidden">
+                <label htmlFor="website">Leave empty</label>
+                <input id="website" name="website" value={formData.website} onChange={onChange} />
+              </div>
 
-                <p className="text-xs text-muted">
-                  Vos donnees sont protegees et cryptees en transit.
-                </p>
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-blue-100 mb-1.5">Full Name *</label>
+                <input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={onChange}
+                  required
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text"
+                  placeholder="Your full name"
+                />
+              </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isSubmitting}
-                  aria-busy={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="inline-block animate-spin mr-2" aria-hidden="true">...</span>
-                      Envoi en cours
-                    </>
-                  ) : (
-                    <>
-                      <FaPaperPlane className="mr-2" />
-                      Envoyer le message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Card>
-          </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-semibold text-blue-100 mb-1.5">Email *</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={onChange}
+                  required
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="subject" className="block text-sm font-semibold text-blue-100 mb-1.5">Subject</label>
+                <input
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={onChange}
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text"
+                  placeholder="Subject of your message"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-semibold text-blue-100 mb-1.5">Message *</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={onChange}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-[14px] focus:border-primary focus:ring-2 focus:ring-primary/30 text-text resize-none"
+                  placeholder="Write your message..."
+                />
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                <FaPaperPlane className="w-4 h-4" />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </form>
+          </Card>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
     </section>
   )
 }

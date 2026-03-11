@@ -19,6 +19,12 @@ export default function Education() {
         'Systèmes d\'exploitation et réseaux',
         'Développement d\'applications web',
       ],
+      keySkillsDeveloped: [
+        'Algorithms and data structures',
+        'Software architecture',
+        'System design',
+        'Programming best practices',
+      ],
       current: true,
     },
   ]
@@ -76,6 +82,18 @@ export default function Education() {
                       <div key={j} className="flex items-start gap-2 p-3 rounded-lg bg-primary-soft">
                         <span className="text-primary font-bold">✓</span>
                         <span className="text-sm text-text">{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <p className="text-sm font-semibold text-heading mb-3">Key Skills Developed:</p>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    {edu.keySkillsDeveloped.map((skill, j) => (
+                      <div key={j} className="flex items-start gap-2 p-3 rounded-lg bg-blue-500/10 border border-blue-400/20">
+                        <span className="text-cyan-300 font-bold">•</span>
+                        <span className="text-sm text-text">{skill}</span>
                       </div>
                     ))}
                   </div>
