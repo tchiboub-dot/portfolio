@@ -1,3 +1,109 @@
+# Portfolio Fixes Applied - Latest Release (March 11, 2026)
+
+## ✅ Recruiter-Focused Portfolio Redesign Published
+
+### Deployment / Version Control
+- Changes pushed to GitHub successfully.
+- Repository: `https://github.com/tchiboub-dot/portfolio.git`
+- Branch: `main`
+- Commit: `6442de3`
+
+---
+
+## 🚀 New Sections Added
+
+1. **Announcements / Currently Building**
+   - Added glowing cards for in-progress work.
+   - Includes status badges: `In Development`, `Prototype`, `Coming Soon`.
+
+2. **Technologies**
+   - Added visual logo grid for core stack.
+   - Hover interactions preserved with futuristic style.
+
+3. **Stats**
+   - Added animated counters on section reveal.
+   - Metrics include projects built, certifications, and coding experience.
+
+4. **GitHub Activity**
+   - Added latest repositories fetch.
+   - Added contribution graph preview and profile CTA.
+
+---
+
+## 🧩 Major Section Upgrades
+
+### Hero
+- Clear role headline and recruiter-readable positioning.
+- Value statement added.
+- Quick skill highlights added.
+- CTA structure updated: `View My Projects` + `Download CV`.
+
+### About
+- Content rewritten for scanability.
+- Structured short paragraphs and clearer bullet-style interests.
+- Key terms emphasized to improve hiring readability.
+
+### Education
+- Added explicit **Key Skills Developed** subsection.
+
+### Experience
+- Reframed entries into impact-focused achievements.
+- Structure aligned to role/company/period + measurable contribution style.
+
+### Projects
+- Rebuilt into recruiter-friendly filter system:
+  - `All`, `Web Apps`, `AI`, `Tools`
+- Each card now includes:
+  - preview image
+  - concise description
+  - tech stack badges
+  - GitHub link
+  - Live demo link
+
+### Certifications
+- Reorganized into credibility-focused cards with:
+  - certificate name
+  - issuing organization
+  - completion year
+  - certificate preview
+
+### Skills / Competences
+- Reorganized into required categories:
+  - Frontend
+  - Backend
+  - Tools
+  - AI / Cloud
+- Added progress bars for skill levels.
+
+### Contact
+- Added quick contact icons and professional form layout.
+- Added CV download action.
+- Added response time line (`usually within 24 hours`).
+
+### Footer
+- Added availability statement for internships and collaboration.
+- Added explicit GitHub, LinkedIn, Email links.
+- Added required copyright:
+  - `© 2026 Taha Adnane Chiboub. All rights reserved.`
+
+---
+
+## 🔧 Additional Technical Fixes
+
+- Added downloadable CV file:
+  - `public/cv-taha-adnane-chiboub.pdf`
+- Fixed project action semantics (removed nested button-inside-link pattern).
+- Updated navigation to include new sections.
+- Full production build verified successfully after redesign.
+
+---
+
+## ✅ Outcome
+
+Portfolio now presents a stronger recruiter narrative with clearer structure, modern interaction patterns, and future-facing project visibility while preserving the dark futuristic visual identity.
+
+---
+
 # Portfolio Fixes Applied - Starfield & Enhancements
 
 ## ✅ All Issues Fixed Successfully
