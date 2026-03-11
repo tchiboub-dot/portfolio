@@ -1,16 +1,19 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All')
-  const [selectedProject, setSelectedProject] = useState(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeProjectTitle, setActiveProjectTitle] = useState('Parfume Store')
+  const [touchStartX, setTouchStartX] = useState(null)
+  const [panelHighlighted, setPanelHighlighted] = useState(false)
+  const [pressedProjectTitle, setPressedProjectTitle] = useState(null)
+  const detailsRef = useRef(null)
 
   const filters = ['All', 'Web Apps', 'Tools']
 
@@ -97,33 +100,93 @@ export default function Projects() {
     },
   ]
 
-  const totalCount = projectsData.length
-
   const displayedProjects = useMemo(() => {
     if (activeFilter === 'All') return projectsData
     return projectsData.filter((project) => project.category === activeFilter)
   }, [activeFilter])
 
-  const openProject = (project) => {
-    setSelectedProject(project)
-    setIsModalOpen(true)
-  }
-
-  const closeProject = () => {
-    setIsModalOpen(false)
-    setTimeout(() => setSelectedProject(null), 220)
-  }
-
   useEffect(() => {
-    if (!isModalOpen) return
+    if (!displayedProjects.some((project) => project.title === activeProjectTitle)) {
+      setActiveProjectTitle(displayedProjects[0]?.title || null)
+    }
+  }, [activeProjectTitle, displayedProjects])
 
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') closeProject()
+  const totalCount = displayedProjects.length
+  const activeIndex = Math.max(
+    displayedProjects.findIndex((project) => project.title === activeProjectTitle),
+    0
+  )
+  const activeProject = displayedProjects[activeIndex] || null
+
+  const orderedCards = useMemo(() => {
+    return displayedProjects.map((project, index) => {
+      let offset = index - activeIndex
+      if (offset > totalCount / 2) offset -= totalCount
+      if (offset < -totalCount / 2) offset += totalCount
+      return { project, index, offset }
+    })
+  }, [activeIndex, displayedProjects, totalCount])
+
+  const triggerPanelFocus = () => {
+    setPanelHighlighted(true)
+    window.setTimeout(() => setPanelHighlighted(false), 700)
+    detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const setProjectByIndex = (index, options = {}) => {
+    const nextProject = displayedProjects[index]
+    if (!nextProject) return
+
+    setActiveProjectTitle(nextProject.title)
+
+    if (options.scrollToDetails) {
+      window.setTimeout(() => {
+        triggerPanelFocus()
+      }, 180)
+    }
+  }
+
+  const prevSlide = () => {
+    if (!totalCount) return
+    setProjectByIndex((activeIndex - 1 + totalCount) % totalCount)
+  }
+
+  const nextSlide = () => {
+    if (!totalCount) return
+    setProjectByIndex((activeIndex + 1) % totalCount)
+  }
+
+  const onTouchStart = (event) => {
+    setTouchStartX(event.touches[0]?.clientX || null)
+  }
+
+  const onTouchEnd = (event) => {
+    if (touchStartX === null) return
+
+    const endX = event.changedTouches[0]?.clientX
+    if (typeof endX !== 'number') return
+
+    const delta = touchStartX - endX
+    if (Math.abs(delta) > 50) {
+      if (delta > 0) nextSlide()
+      else prevSlide()
     }
 
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [isModalOpen])
+    setTouchStartX(null)
+  }
+
+  const onCardClick = (index, isActive) => {
+    if (isActive) {
+      setPressedProjectTitle(displayedProjects[index].title)
+      window.setTimeout(() => setPressedProjectTitle(null), 260)
+      triggerPanelFocus()
+      return
+    }
+
+    setProjectByIndex(index, { scrollToDetails: true })
+  }
+
+  if (!activeProject) return null
 
   return (
     <section id="projects" className="section py-24 md:py-32 bg-bg relative overflow-hidden">
@@ -155,144 +218,166 @@ export default function Projects() {
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {displayedProjects.map((project) => {
-            const absoluteIndex = projectsData.findIndex((item) => item.title === project.title)
-            return (
-              <div key={project.title} className="relative group h-full">
-                <div className="absolute inset-0 rounded-[24px] border border-blue-400/15 bg-blue-900/10 translate-x-1.5 translate-y-1.5 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2" />
-                <Card className="relative z-10 overflow-hidden p-0 h-full min-h-[440px] card-interactive transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-[1.01] group-hover:shadow-[0_0_0_1px_rgba(59,130,246,0.28),0_0_34px_rgba(59,130,246,0.2)]">
-                  <button type="button" onClick={() => openProject(project)} className="w-full h-full text-left">
-                    <div className="relative h-52 w-full overflow-hidden">
-                      <Image
-                        src={project.preview}
-                        alt={`${project.title} preview`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/80 via-[#0b1636]/30 to-transparent" />
-                      <span className="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/40 bg-blue-500/20 text-blue-100 backdrop-blur-sm">
-                        {String(absoluteIndex + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
-                      </span>
-                      <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/40">
-                        {project.category}
-                      </span>
-                    </div>
+        <div className="relative mt-12">
+          <div className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-30">
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
+              aria-label="Previous project"
+            >
+              <FaChevronLeft className="w-4 h-4" />
+            </button>
+          </div>
 
-                    <div className="p-5 flex flex-col gap-4">
-                      <h3 className="text-xl font-bold text-heading">{project.title}</h3>
-                      <p className="text-sm text-text leading-relaxed">{project.summary}</p>
+          <div className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-30">
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
+              aria-label="Next project"
+            >
+              <FaChevronRight className="w-4 h-4" />
+            </button>
+          </div>
 
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-100 border border-blue-400/35"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </button>
-
-                  <div className="px-5 pb-5 pt-1 mt-auto">
-                    <div className="flex gap-3">
-                      <Link
-                        href={project.githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-blue-400/40 text-blue-100 hover:bg-blue-500/20 transition-colors duration-300"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        <FaGithub className="w-4 h-4" />
-                        GitHub
-                      </Link>
-                      {project.liveLink && (
-                        <Link
-                          href={project.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          <FaExternalLinkAlt className="w-3.5 h-3.5" />
-                          Live Demo
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {selectedProject && (
-        <div
-          className={`fixed inset-0 z-[80] p-4 md:p-8 flex items-center justify-center transition-all duration-300 ${
-            isModalOpen ? 'bg-slate-950/75 opacity-100' : 'bg-slate-950/0 opacity-0'
-          }`}
-          onClick={closeProject}
-        >
           <div
-            className={`w-full max-w-5xl rounded-[24px] border border-blue-400/30 bg-gradient-to-br from-blue-950/55 to-slate-900/55 backdrop-blur-xl shadow-[0_0_0_1px_rgba(59,130,246,0.18),0_0_34px_rgba(59,130,246,0.2)] overflow-hidden transition-all duration-300 ${
-              isModalOpen ? 'translate-y-0 scale-100' : 'translate-y-2 scale-[0.98]'
-            }`}
-            onClick={(event) => event.stopPropagation()}
+            className="relative h-[500px] sm:h-[520px] md:h-[540px] overflow-hidden"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
-            <div className="flex items-center justify-between px-5 md:px-7 py-4 border-b border-blue-400/20">
-              <p className="text-sm text-blue-200/90 font-medium">Project Details</p>
-              <button
-                type="button"
-                onClick={closeProject}
-                className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-blue-400/35 bg-blue-500/10 text-blue-100 hover:bg-blue-500/20 transition-all duration-300"
-                aria-label="Close project details"
-              >
-                ✕
-              </button>
+            {orderedCards.map(({ project, index, offset }) => {
+              const isActive = offset === 0
+              const absOffset = Math.abs(offset)
+              if (absOffset > 2) return null
+
+              const translateX = offset * 34
+              const scale = isActive ? (pressedProjectTitle === project.title ? 1.03 : 1) : absOffset === 1 ? 0.9 : 0.8
+              const opacity = isActive ? 1 : absOffset === 1 ? 0.5 : 0.25
+              const blur = isActive ? 'blur(0px)' : absOffset === 1 ? 'blur(1.5px)' : 'blur(3px)'
+              const zIndex = isActive ? 20 : absOffset === 1 ? 12 : 6
+
+              return (
+                <button
+                  key={project.title}
+                  type="button"
+                  onClick={() => onCardClick(index, isActive)}
+                  className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[90%] sm:w-[78%] md:w-[66%] lg:w-[54%] xl:w-[48%] max-w-[620px] text-left"
+                  style={{
+                    transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale})`,
+                    opacity,
+                    zIndex,
+                    filter: blur,
+                    transition: 'transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 520ms ease, filter 520ms ease',
+                  }}
+                  aria-label={`Select project: ${project.title}`}
+                >
+                  <div className="relative group h-full">
+                    <div className="absolute inset-0 rounded-[24px] border border-blue-400/15 bg-blue-900/10 translate-x-1.5 translate-y-1.5" />
+                    <Card
+                      className={`relative z-10 overflow-hidden p-0 min-h-[430px] transition-all duration-500 ${
+                        isActive
+                          ? 'border-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.22),0_0_30px_rgba(34,211,238,0.18)]'
+                          : 'border-blue-400/25'
+                      }`}
+                    >
+                      <div className="relative h-56 w-full overflow-hidden bg-blue-950/40">
+                        <Image
+                          src={project.preview}
+                          alt={`${project.title} preview`}
+                          fill
+                          sizes="(max-width: 768px) 92vw, (max-width: 1280px) 70vw, 620px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/85 via-[#0b1636]/35 to-transparent" />
+                        <span className="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/40 bg-blue-500/20 text-blue-100 backdrop-blur-sm">
+                          {String(index + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
+                        </span>
+                        <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/40">
+                          {project.category}
+                        </span>
+                      </div>
+
+                      <div className="p-5 flex flex-col gap-4">
+                        <h3 className="text-xl font-bold text-heading">{project.title}</h3>
+                        <p className="text-sm text-text leading-relaxed">{project.summary}</p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {project.techStack.map((tech) => (
+                            <span
+                              key={tech}
+                              className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-100 border border-blue-400/35"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="px-5 pb-5 pt-1 mt-auto flex items-center justify-between gap-3">
+                        <div className="text-xs uppercase tracking-[0.24em] text-blue-200/70">
+                          Click to inspect project
+                        </div>
+                        <div className="inline-flex items-center px-3 py-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-xs font-semibold text-cyan-100">
+                          Active Focus
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <Card
+          className={`mt-8 border-cyan-300/35 transition-all duration-500 ${
+            panelHighlighted
+              ? 'shadow-[0_0_0_1px_rgba(34,211,238,0.22),0_0_34px_rgba(34,211,238,0.18)]'
+              : 'shadow-[0_0_0_1px_rgba(34,211,238,0.14),0_0_26px_rgba(34,211,238,0.14)]'
+          }`}
+          hover={false}
+          ref={detailsRef}
+        >
+          <div className={`transition-all duration-500 ${panelHighlighted ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-100'}`}>
+            <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+              <div>
+                <h3 className="text-2xl font-bold text-heading">{activeProject.title}</h3>
+                <p className="text-sm text-blue-200/90 font-medium mt-1">Portfolio Project / {activeProject.category}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-cyan-100 border border-blue-400/40">
+                  {activeProject.category}
+                </span>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-100 border border-blue-400/35">
+                  {String(activeIndex + 1).padStart(2, '0')} / {String(totalCount).padStart(2, '0')}
+                </span>
+              </div>
             </div>
 
-            <div className="grid lg:grid-cols-[1.2fr_1fr] gap-0 max-h-[80vh] overflow-y-auto">
-              <div className="relative min-h-[280px] md:min-h-[420px] bg-blue-950/40">
-                <Image
-                  src={selectedProject.preview}
-                  alt={`${selectedProject.title} full preview`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="p-5 md:p-7 space-y-5">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="text-2xl md:text-3xl font-bold text-heading">{selectedProject.title}</h3>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-500/25 text-cyan-100 border border-cyan-400/40">
-                    {selectedProject.category}
-                  </span>
+            <div className="grid lg:grid-cols-[1.05fr_1fr] gap-6 items-start">
+              <div className="space-y-5">
+                <div>
+                  <p className="text-sm font-semibold text-blue-100 mb-2">Project Summary</p>
+                  <p className="text-sm text-text leading-relaxed">{activeProject.detailedDescription}</p>
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-blue-100 mb-2">Detailed Description</p>
-                  <p className="text-sm text-text leading-relaxed">{selectedProject.detailedDescription}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold text-blue-100 mb-2">Business Value / Purpose</p>
-                  <p className="text-sm text-text/95 leading-relaxed">{selectedProject.businessValue}</p>
+                  <p className="text-sm font-semibold text-blue-100 mb-2">Business Value</p>
+                  <p className="text-sm text-text/95 leading-relaxed">{activeProject.businessValue}</p>
                 </div>
 
                 <div>
                   <p className="text-sm font-semibold text-blue-100 mb-2">Implementation Notes</p>
-                  <p className="text-sm text-text/95 leading-relaxed">{selectedProject.implementationNotes}</p>
+                  <p className="text-sm text-text/95 leading-relaxed">{activeProject.implementationNotes}</p>
                 </div>
+              </div>
 
+              <div className="space-y-5">
                 <div>
                   <p className="text-sm font-semibold text-blue-100 mb-2">Key Features</p>
                   <ul className="space-y-2">
-                    {selectedProject.features.map((feature) => (
+                    {activeProject.features.map((feature) => (
                       <li key={feature} className="text-sm text-text/95 leading-relaxed flex items-start gap-2">
                         <span className="text-cyan-300 mt-0.5">•</span>
                         <span>{feature}</span>
@@ -302,9 +387,9 @@ export default function Projects() {
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-blue-100 mb-2">Technologies Used</p>
+                  <p className="text-sm font-semibold text-blue-100 mb-2">Technologies</p>
                   <div className="flex flex-wrap gap-2">
-                    {selectedProject.techStack.map((tech) => (
+                    {activeProject.techStack.map((tech) => (
                       <span
                         key={tech}
                         className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-100 border border-blue-400/35"
@@ -314,34 +399,34 @@ export default function Projects() {
                     ))}
                   </div>
                 </div>
-
-                <div className="flex gap-3 pt-2">
-                  <Link
-                    href={selectedProject.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-blue-400/40 text-blue-100 hover:bg-blue-500/20 transition-colors duration-300"
-                  >
-                    <FaGithub className="w-4 h-4" />
-                    GitHub
-                  </Link>
-                  {selectedProject.liveLink && (
-                    <Link
-                      href={selectedProject.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
-                    >
-                      <FaExternalLinkAlt className="w-3.5 h-3.5" />
-                      Live Demo
-                    </Link>
-                  )}
-                </div>
               </div>
             </div>
+
+            <div className="mt-6 pt-5 border-t border-blue-400/20 flex flex-col sm:flex-row gap-3">
+              <Link
+                href={activeProject.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-blue-400/40 text-blue-100 hover:bg-blue-500/20 transition-colors duration-300"
+              >
+                <FaGithub className="w-4 h-4" />
+                Open GitHub
+              </Link>
+              {activeProject.liveLink && (
+                <Link
+                  href={activeProject.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
+                >
+                  <FaExternalLinkAlt className="w-3.5 h-3.5" />
+                  View Live Demo
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        </Card>
+      </div>
     </section>
   )
 }
