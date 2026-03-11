@@ -15,7 +15,7 @@ export default function Contact() {
     website: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState({ type: '', message: '' })
+  const [status, setStatus] = useState({ type: '', title: '', detail: '' })
 
   const contactData = {
     email: 'taha.adnane.chiboub@gmail.com',
@@ -33,13 +33,13 @@ export default function Contact() {
   const onChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    if (status.type) setStatus({ type: '', message: '' })
+    if (status.type) setStatus({ type: '', title: '', detail: '' })
   }
 
   const onSubmit = async (event) => {
     event.preventDefault()
     setIsSubmitting(true)
-    setStatus({ type: '', message: '' })
+    setStatus({ type: '', title: '', detail: '' })
 
     try {
       const response = await fetch('/api/contact', {
@@ -51,13 +51,25 @@ export default function Contact() {
       const data = await response.json()
 
       if (response.ok && data.ok) {
-        setStatus({ type: 'success', message: 'Message sent successfully. I will reply soon.' })
+        setStatus({
+          type: 'success',
+          title: 'Your message has been sent successfully.',
+          detail: 'Thank you for reaching out. I will get back to you soon.',
+        })
         setFormData({ name: '', email: '', subject: '', message: '', website: '' })
       } else {
-        setStatus({ type: 'error', message: data.error || 'Unable to send your message right now.' })
+        setStatus({
+          type: 'error',
+          title: 'Failed to send message.',
+          detail: data?.error ? `${data.error} Please try again.` : 'Please try again.',
+        })
       }
     } catch {
-      setStatus({ type: 'error', message: 'Network error. Please try again.' })
+      setStatus({
+        type: 'error',
+        title: 'Failed to send message.',
+        detail: 'Please try again.',
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -79,7 +91,7 @@ export default function Contact() {
               Reach out for internships, collaboration opportunities, or to discuss how I can contribute to your next product.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
               {quickContacts.map((item) => {
                 const Icon = item.icon
                 return (
@@ -88,7 +100,7 @@ export default function Contact() {
                     href={item.href}
                     target={item.label === 'Email' ? '_self' : '_blank'}
                     rel={item.label === 'Email' ? undefined : 'noopener noreferrer'}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-blue-400/35 text-blue-100 bg-blue-500/10 hover:bg-blue-500/20 transition-colors duration-300"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-400/35 text-blue-100 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.12)] hover:bg-blue-500/20 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.2),0_0_22px_rgba(59,130,246,0.24)] transition-all duration-300"
                   >
                     <Icon className="w-4 h-4" />
                     {item.label}
@@ -99,7 +111,7 @@ export default function Contact() {
 
             <a
               href={contactData.cvPath}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/40 text-cyan-100 bg-cyan-500/10 shadow-[0_0_0_1px_rgba(34,211,238,0.12)] hover:bg-cyan-500/20 hover:shadow-[0_0_0_1px_rgba(34,211,238,0.2),0_0_22px_rgba(34,211,238,0.2)] transition-all duration-300"
             >
               <FaDownload className="w-4 h-4" />
               Download CV
@@ -108,19 +120,30 @@ export default function Contact() {
             <p className="text-sm text-blue-200/85 mt-5">Response time: usually within 24 hours.</p>
           </Card>
 
-          <Card hover={false}>
+          <Card
+            hover={false}
+            className={`transition-all duration-300 ${
+              status.type === 'success'
+                ? 'border-green-400/45 shadow-[0_0_0_1px_rgba(74,222,128,0.26),0_0_26px_rgba(74,222,128,0.22)]'
+                : status.type === 'error'
+                ? 'border-red-400/45 shadow-[0_0_0_1px_rgba(248,113,113,0.26),0_0_26px_rgba(248,113,113,0.2)]'
+                : ''
+            }`}
+          >
             <h3 className="text-2xl font-bold text-heading mb-5">Professional contact form</h3>
 
             {status.type && (
               <div
-                className={`mb-4 p-3 rounded-xl border text-sm ${
+                role="alert"
+                aria-live="polite"
+                className={`mb-4 p-3 rounded-xl border text-sm alert-slide-fade ${
                   status.type === 'success'
                     ? 'bg-green-500/15 border-green-400/30 text-green-100'
                     : 'bg-red-500/15 border-red-400/30 text-red-100'
                 }`}
-                role="alert"
               >
-                {status.message}
+                <p className="font-semibold">{status.title}</p>
+                {status.detail && <p className="mt-1 opacity-90">{status.detail}</p>}
               </div>
             )}
 
@@ -191,6 +214,23 @@ export default function Contact() {
           </Card>
         </div>
       </div>
+
+      <style jsx>{`
+        .alert-slide-fade {
+          animation: alertSlideFade 0.32s ease-out;
+        }
+
+        @keyframes alertSlideFade {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   )
 }
