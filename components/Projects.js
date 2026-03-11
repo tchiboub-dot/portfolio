@@ -12,7 +12,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const filters = ['All', 'Web Apps', 'AI', 'Tools']
+  const filters = ['All', 'Web Apps', 'Tools']
 
   const projectsData = [
     {
@@ -54,26 +54,6 @@ export default function Projects() {
       githubLink: 'https://github.com/tchiboub-dot',
       liveLink: 'https://student-management5.vercel.app/',
       preview: '/projects/student-management-preview.svg',
-    },
-    {
-      title: 'AI Workflow Assistant',
-      category: 'AI',
-      summary: 'Interface for AI-assisted productivity routines, prompt operations, and smart task generation.',
-      detailedDescription:
-        'AI Workflow Assistant is designed to centralize intelligent task guidance, structured prompt usage, and operational productivity in one adaptive workspace.',
-      businessValue:
-        'Supports teams and creators by reducing repetitive operations and enabling faster idea-to-execution workflows.',
-      implementationNotes:
-        'Built around modular AI interaction blocks, scalable dashboard composition, and UX clarity for daily productivity actions.',
-      features: [
-        'AI-guided prompt and task generation patterns',
-        'Workflow-oriented productivity dashboard layout',
-        'Expandable assistant modules for future integrations',
-      ],
-      techStack: ['Next.js', 'OpenAI API', 'Tailwind', 'Vercel'],
-      githubLink: 'https://github.com/tchiboub-dot',
-      liveLink: 'https://github.com/tchiboub-dot',
-      preview: '/projects/ai-workflow-preview.svg',
     },
     {
       title: 'Security Headers Verifier',
