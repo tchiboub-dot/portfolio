@@ -56,7 +56,7 @@ export default function Projects() {
       techStack: ['React', 'Node.js', 'MongoDB', 'JavaScript'],
       githubLink: 'https://github.com/tchiboub-dot',
       liveLink: 'https://student-management5.vercel.app/',
-      preview: '/projects/student-management-preview.svg',
+      preview: '/projects/student-management-preview.png',
     },
     {
       title: 'Security Headers Verifier',
@@ -76,7 +76,7 @@ export default function Projects() {
       techStack: ['Next.js', 'Node.js', 'Security Headers', 'Vercel'],
       githubLink: 'https://github.com/tchiboub-dot/security-headers',
       liveLink: 'https://security-headers-2owb.vercel.app/',
-      preview: '/projects/security-headers-preview.svg',
+      preview: '/projects/security-headers-preview.png',
     },
     {
       title: 'Maison Élégance',
@@ -96,7 +96,7 @@ export default function Projects() {
       techStack: ['HTML', 'CSS', 'JavaScript', 'Responsive UI'],
       githubLink: 'https://github.com/tchiboub-dot',
       liveLink: 'https://maisonelegance-one.vercel.app/',
-      preview: '/projects/maison-elegance-preview.svg',
+      preview: '/projects/maison-elegance-preview.png',
     },
   ]
 
@@ -286,6 +286,7 @@ export default function Projects() {
                           src={project.preview}
                           alt={`${project.title} preview`}
                           fill
+                          unoptimized
                           sizes="(max-width: 768px) 92vw, (max-width: 1280px) 70vw, 620px"
                           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
