@@ -214,7 +214,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-xl transition-colors duration-300"
+            className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-blue-400/30 text-xl transition-colors duration-300"
             style={{
               color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
             }}
@@ -228,7 +228,7 @@ export default function Header() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden navbar-mobile-panel pointer-events-auto">
-          <div className="container-custom py-6 space-y-4">
+          <div className="container-custom py-5 space-y-4">
             {/* Theme Toggle - Mobile */}
             <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)' }}>
               <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)' }}>Thème</span>
@@ -247,13 +247,13 @@ export default function Header() {
             </div>
 
             {/* Mobile Navigation */}
-            <ul className="flex flex-col space-y-3">
+            <ul className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="block font-medium text-sm uppercase tracking-wide"
+                    className="block rounded-lg px-2 py-2.5 font-medium text-sm uppercase tracking-wide"
                     style={{
                       color: isDark ? '#EAF0FF' : '#0B1220',
                       transition: 'color 240ms ease',

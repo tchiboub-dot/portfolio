@@ -47,12 +47,12 @@ export default function Hero() {
           </div>
 
           {/* Animated Name with Neon Glow */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-3 sm:mb-4 leading-tight animate-name-glow px-4">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-3 sm:mb-4 leading-tight animate-name-glow px-4">
             {heroData.name}
           </h1>
 
           {/* Title with Premium Styling */}
-          <h2 className="text-lg sm:text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-2 sm:mb-3 px-4">
+          <h2 className="text-base sm:text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-2 sm:mb-3 px-4">
             {heroData.title}
           </h2>
 
@@ -119,7 +119,7 @@ export default function Hero() {
             </a>
             <a
               href={`mailto:${heroData.email}`}
-              className="text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg"
+              className="text-2xl sm:text-3xl text-blue-200 hover:text-cyan-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg p-2"
               aria-label="Email"
             >
               <FaEnvelope />

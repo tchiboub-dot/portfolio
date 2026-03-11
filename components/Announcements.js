@@ -112,7 +112,7 @@ export default function Announcements() {
           align="center"
         />
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 mt-10 sm:mt-12">
           {items.map((item) => (
             <button
               key={item.title}
@@ -121,15 +121,15 @@ export default function Announcements() {
               className="text-left"
             >
               <Card className="card-interactive border-cyan-400/35 shadow-[0_0_0_1px_rgba(34,211,238,0.2),0_0_30px_rgba(34,211,238,0.12)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-[0_0_0_1px_rgba(34,211,238,0.28),0_0_34px_rgba(34,211,238,0.18)]">
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <span className="text-[10px] sm:text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">
                     {item.category}
                   </span>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[item.status]}`}>
+                  <span className={`text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[item.status]}`}>
                     {item.status}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-heading mb-3">{item.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-heading mb-3">{item.title}</h3>
                 <p className="text-text leading-relaxed text-sm">{item.description}</p>
               </Card>
             </button>
@@ -153,8 +153,8 @@ export default function Announcements() {
             aria-modal="true"
             aria-label="Announcement details"
           >
-            <div className="sticky top-0 z-20 flex items-center justify-between gap-3 px-5 md:px-7 py-4 border-b border-blue-400/20 bg-[#091126]/85 backdrop-blur-md">
-              <p className="text-sm text-blue-200/90 font-medium">Currently Building — Project Details</p>
+            <div className="sticky top-0 z-20 flex items-center justify-between gap-2 px-4 sm:px-5 md:px-7 py-3.5 sm:py-4 border-b border-blue-400/20 bg-[#091126]/85 backdrop-blur-md">
+              <p className="text-xs sm:text-sm text-blue-200/90 font-medium">Currently Building — Project Details</p>
               <button
                 type="button"
                 onClick={closeDetails}
@@ -165,9 +165,9 @@ export default function Announcements() {
               </button>
             </div>
 
-            <div className="p-5 md:p-7 lg:p-8 space-y-7 overflow-y-auto overscroll-contain">
+            <div className="p-4 sm:p-5 md:p-7 lg:p-8 space-y-6 sm:space-y-7 overflow-y-auto overscroll-contain">
               <div className="space-y-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-heading leading-tight">{selectedProject.title}</h3>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-heading leading-tight">{selectedProject.title}</h3>
                 <div className="flex flex-wrap items-center gap-2.5">
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[selectedProject.status]}`}>
                     {selectedProject.status}

@@ -43,15 +43,15 @@ export default function SectionTitle({
   }
 
   return (
-    <div ref={sectionTitleRef} className={`mb-12 md:mb-16 ${className} animate-section-reveal`}>
-      <h2 className={`text-h2 md:text-h1-mobile font-bold bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent mb-3 drop-shadow-lg ${
+    <div ref={sectionTitleRef} className={`mb-10 md:mb-16 ${className} animate-section-reveal`}>
+      <h2 className={`text-2xl sm:text-h2 md:text-h1-mobile font-bold bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent mb-3 drop-shadow-lg ${
         align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'
       }`}>
         {title}
       </h2>
 
       {subtitle && (
-        <p className={`text-blue-200/80 text-lg max-w-2xl font-medium ${
+        <p className={`text-blue-200/80 text-sm sm:text-base md:text-lg max-w-2xl font-medium ${
           align === 'center' ? 'mx-auto' : ''
         }`}>
           {subtitle}

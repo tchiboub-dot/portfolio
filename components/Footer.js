@@ -16,9 +16,9 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-blue-950/30 to-slate-950/50 border-t border-blue-400/20 py-12 backdrop-blur-sm">
       <div className="container-custom">
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="grid md:grid-cols-2 gap-7 md:gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3">
+            <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-3">
               Taha Adnane Chiboub
             </h3>
             <p className="text-blue-100/90 leading-relaxed">
@@ -67,7 +67,7 @@ export default function Footer() {
 
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-8 right-8 bg-gradient-to-b from-blue-500/85 to-blue-600/85 text-white p-3.5 rounded-full border border-blue-300/25 shadow-lg shadow-blue-500/25 backdrop-blur-sm transition-all duration-300 z-40 ${showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-3 pointer-events-none'}`}
+        className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-gradient-to-b from-blue-500/85 to-blue-600/85 text-white p-3.5 rounded-full border border-blue-300/25 shadow-lg shadow-blue-500/25 backdrop-blur-sm transition-all duration-300 z-40 ${showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-3 pointer-events-none'}`}
         aria-label="Back to top"
       >
         <FaArrowUp />

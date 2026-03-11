@@ -218,22 +218,22 @@ export default function Projects() {
         </div>
 
         <div className="relative mt-12">
-          <div className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-30">
+          <div className="absolute left-1 md:-left-6 top-1/2 -translate-y-1/2 z-30">
             <button
               type="button"
               onClick={prevSlide}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
               aria-label="Previous project"
             >
               <FaChevronLeft className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-30">
+          <div className="absolute right-1 md:-right-6 top-1/2 -translate-y-1/2 z-30">
             <button
               type="button"
               onClick={nextSlide}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.22)] transition-all duration-300"
               aria-label="Next project"
             >
               <FaChevronRight className="w-4 h-4" />
@@ -241,7 +241,7 @@ export default function Projects() {
           </div>
 
           <div
-            className="relative h-[500px] sm:h-[520px] md:h-[540px] overflow-hidden"
+            className="relative h-[520px] sm:h-[520px] md:h-[540px] overflow-hidden"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
@@ -261,7 +261,7 @@ export default function Projects() {
                   key={project.title}
                   type="button"
                   onClick={() => onCardClick(index, isActive)}
-                  className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[90%] sm:w-[78%] md:w-[66%] lg:w-[54%] xl:w-[48%] max-w-[620px] text-left"
+                  className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[88%] sm:w-[78%] md:w-[66%] lg:w-[54%] xl:w-[48%] max-w-[620px] text-left"
                   style={{
                     transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale})`,
                     opacity,
@@ -274,7 +274,7 @@ export default function Projects() {
                   <div className="relative group h-full">
                     <div className="absolute inset-0 rounded-[24px] border border-blue-400/15 bg-blue-900/10 translate-x-1.5 translate-y-1.5" />
                     <Card
-                      className={`relative z-10 overflow-hidden p-0 min-h-[430px] transition-all duration-500 ${
+                      className={`relative z-10 overflow-hidden p-0 min-h-[440px] sm:min-h-[430px] transition-all duration-500 ${
                         isActive
                           ? 'border-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.22),0_0_30px_rgba(34,211,238,0.18)]'
                           : 'border-blue-400/25'
@@ -317,8 +317,8 @@ export default function Projects() {
                         </div>
                       </div>
 
-                      <div className="px-5 pb-5 pt-1 mt-auto flex items-center justify-between gap-3">
-                        <div className="text-xs uppercase tracking-[0.24em] text-blue-200/70">
+                      <div className="px-5 pb-5 pt-1 mt-auto flex flex-col items-start sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="text-[11px] sm:text-xs uppercase tracking-[0.16em] sm:tracking-[0.24em] text-blue-200/70">
                           Click to inspect project
                         </div>
                         <div className="inline-flex items-center px-3 py-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-xs font-semibold text-cyan-100">

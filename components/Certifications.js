@@ -154,22 +154,22 @@ export default function Certifications() {
         />
 
         <div className="relative mt-12">
-          <div className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-30">
+          <div className="absolute left-1 md:-left-6 top-1/2 -translate-y-1/2 z-30">
             <button
               type="button"
               onClick={prevSlide}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 transition-all duration-300"
               aria-label="Previous certificate"
             >
               <FaChevronLeft className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-30">
+          <div className="absolute right-1 md:-right-6 top-1/2 -translate-y-1/2 z-30">
             <button
               type="button"
               onClick={nextSlide}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25 hover:scale-105 transition-all duration-300"
               aria-label="Next certificate"
             >
               <FaChevronRight className="w-4 h-4" />
@@ -177,7 +177,7 @@ export default function Certifications() {
           </div>
 
           <div
-            className="relative h-[440px] md:h-[500px] overflow-hidden"
+            className="relative h-[500px] sm:h-[460px] md:h-[500px] overflow-hidden"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
@@ -196,7 +196,7 @@ export default function Certifications() {
                   key={cert.id}
                   type="button"
                   onClick={() => setActiveByIndex(index)}
-                  className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[86%] sm:w-[72%] md:w-[62%] lg:w-[50%] max-w-[580px]"
+                  className="absolute left-1/2 top-1/2 -translate-y-1/2 w-[88%] sm:w-[72%] md:w-[62%] lg:w-[50%] max-w-[580px]"
                   style={{
                     transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale})`,
                     opacity,
@@ -208,7 +208,7 @@ export default function Certifications() {
                   <div className="relative group h-full">
                     <div className="absolute inset-0 rounded-[24px] border border-blue-400/15 bg-blue-900/10 translate-x-1.5 translate-y-1.5" />
                     <Card
-                      className={`relative z-10 overflow-hidden p-0 min-h-[390px] transition-all duration-300 ${
+                      className={`relative z-10 overflow-hidden p-0 min-h-[410px] sm:min-h-[390px] transition-all duration-300 ${
                         isActive
                           ? 'border-cyan-300/45 shadow-[0_0_0_1px_rgba(34,211,238,0.22),0_0_30px_rgba(34,211,238,0.18)]'
                           : 'border-blue-400/25'
@@ -228,8 +228,8 @@ export default function Certifications() {
                         </span>
                       </div>
 
-                      <div className="p-5 space-y-3 text-left">
-                        <h3 className="text-lg font-bold text-heading leading-snug min-h-[52px]">{cert.title}</h3>
+                      <div className="p-4 sm:p-5 space-y-3 text-left">
+                        <h3 className="text-base sm:text-lg font-bold text-heading leading-snug min-h-[48px] sm:min-h-[52px]">{cert.title}</h3>
                         <p className="text-sm text-blue-200/90 font-medium">{cert.issuer}</p>
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-cyan-100 border border-blue-400/40">
                           {cert.year}
@@ -246,7 +246,7 @@ export default function Certifications() {
         <Card className="mt-8 border-cyan-300/35 shadow-[0_0_0_1px_rgba(34,211,238,0.14),0_0_26px_rgba(34,211,238,0.14)]" hover={false}>
           <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
             <div>
-              <h3 className="text-2xl font-bold text-heading">{activeCert.title}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-heading">{activeCert.title}</h3>
               <p className="text-sm text-blue-200/90 font-medium mt-1">{activeCert.issuer}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -289,7 +289,7 @@ export default function Certifications() {
               href={activeCert.image}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
             >
               <FaExternalLinkAlt className="w-3.5 h-3.5" />
               Open Certificate Image

@@ -162,12 +162,12 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 mt-10">
           <Card>
-            <h3 className="text-2xl font-bold text-heading mb-4">Let&apos;s connect</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-heading mb-4">Let&apos;s connect</h3>
             <p className="text-text leading-relaxed mb-6">
               Reach out for internships, collaboration opportunities, or to discuss how I can contribute to your next product.
             </p>
 
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-4 mb-6">
+            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-3 sm:gap-4 mb-6">
               {quickContacts.map((item) => {
                 const Icon = item.icon
                 return (
@@ -207,7 +207,7 @@ export default function Contact() {
                 : ''
             }`}
           >
-            <h3 className="text-2xl font-bold text-heading mb-5">Professional contact form</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-heading mb-5">Professional contact form</h3>
 
             {status.type && (
               <div
