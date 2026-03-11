@@ -10,11 +10,23 @@ import { NextResponse } from 'next/server'
  */
 
 // Configuration
-const ALLOWED_ORIGINS = [
-  'https://portfolio-flame-two-94.vercel.app',
-  // Ajouter votre domaine custom ici si vous en avez un
-  // 'https://votredomaine.com',
-]
+const ALLOWED_ORIGINS = []
+
+const explicitSiteUrl = process.env.NEXT_PUBLIC_SITE_URL
+if (explicitSiteUrl) {
+  try {
+    ALLOWED_ORIGINS.push(new URL(explicitSiteUrl).origin)
+  } catch {
+    // ignore invalid URL format
+  }
+}
+
+if (process.env.VERCEL_URL) {
+  ALLOWED_ORIGINS.push(`https://${process.env.VERCEL_URL}`)
+}
+
+// fallback historique
+ALLOWED_ORIGINS.push('https://portfolio-flame-two-94.vercel.app')
 
 // Permettre localhost en développement
 if (process.env.NODE_ENV === 'development') {

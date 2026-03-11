@@ -169,6 +169,28 @@ theme: {
 
 ## 🚀 Déploiement sur Vercel
 
+### ✅ Où se trouve la vraie app
+
+- L'application frontend est à la racine du repo (`./`), pas dans un sous-dossier `frontend/`.
+- `package.json` est à la racine.
+- Ne pas utiliser des commandes du type `cd frontend && npm install`.
+
+### ✅ Vercel Settings (exact)
+
+- **Framework Preset**: `Next.js`
+- **Root Directory**: `.`
+- **Install Command**: `npm ci`
+- **Build Command**: `npm run build`
+- **Output Directory**: laisser vide (auto Next.js)
+- **Node.js Version**: `18.x` ou `20.x`
+
+### Environment Variables (Production + Preview)
+
+- `NEXT_PUBLIC_SITE_URL` = URL publique du site (ex: `https://portfolio.vercel.app`)
+- `RESEND_API_KEY` = clé API Resend
+- `CONTACT_FROM_EMAIL` = email validé côté Resend
+- `CONTACT_TO_EMAIL` = email de réception
+
 ### Option 1 : Déploiement via GitHub (Recommandé)
 
 1. **Créer un repository GitHub**
@@ -220,6 +242,12 @@ theme: {
 
 Le fichier `next.config.js` est déjà configuré pour Vercel. Aucune configuration supplémentaire n'est nécessaire.
 
+### Routing en production
+
+- Routes directes supportées : `/`, `/about`, `/projects`, `/contact`.
+- Les routes `/about`, `/projects`, `/contact` redirigent vers les sections de la page d'accueil pour un comportement SPA-friendly.
+- Les routes API `/api/*` sont préservées (pas de rewrite destructif sur les endpoints backend).
+
 ## 📁 Structure du projet
 
 ```
@@ -257,6 +285,7 @@ npm run dev        # Lance le serveur de développement
 
 # Production
 npm run build      # Crée le build de production
+npm run preview    # Lance une prévisualisation production locale
 npm run start      # Lance le serveur de production
 
 # Linting
