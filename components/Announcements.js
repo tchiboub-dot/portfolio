@@ -10,66 +10,70 @@ export default function Announcements() {
 
   const items = [
     {
-      title: 'AI SaaS Dashboard',
-      category: 'AI Product',
-      description: 'A platform for building AI-powered productivity tools with modular workflows and smart automation.',
+      title: 'Cloud Sandbox Platform',
+      category: 'Cloud Platform',
+      description:
+        'A browser-based sandbox platform designed for testing virtual Android and Windows environments with a modern SaaS interface, interactive monitoring, and secure session workflows.',
+      status: 'En cours de développement',
+      goals: [
+        'Provide reliable browser access to Android and Windows virtual sessions',
+        'Build secure session orchestration with role-based access and auditing',
+        'Deliver clear real-time monitoring for active labs and resource usage',
+      ],
+      technologies: ['React', 'TypeScript', 'Tailwind', 'Secure Session APIs', 'Cloud Monitoring'],
+      progress: 'Prototype and core orchestration workflows are actively being implemented and tested.',
+      roadmap: [
+        'Extended environment templates for QA and device testing',
+        'Live telemetry panel and session health indicators',
+        'Tenant-level controls and usage quotas',
+      ],
+      verification: 'Current stage: internal prototype with progressive UX and infrastructure validation.',
+    },
+    {
+      title: 'Security Headers Verifier Pro',
+      category: 'Security Tooling',
+      description:
+        'An expanded security analysis tool focused on deeper HTTP header diagnostics, guided remediation insights, and production hardening checks for modern web deployments.',
       status: 'In Development',
       goals: [
-        'Design AI-first productivity modules for teams and creators',
-        'Unify task orchestration, smart suggestions, and workflow automation',
-        'Deliver a scalable SaaS foundation with clean UX and role-based access',
+        'Improve scan depth for CSP, HSTS, and cross-origin policy coverage',
+        'Provide clear remediation guidance mapped to detected security gaps',
+        'Support repeatable review workflows for deployment readiness',
       ],
-      technologies: ['Next.js', 'React', 'Tailwind', 'API Integrations', 'Vercel'],
-      progress: 'Core architecture and dashboard foundations are in active development.',
+      technologies: ['Next.js', 'Node.js', 'Security Analysis Rules', 'Tailwind', 'Vercel'],
+      progress: 'Core analysis engine is implemented; reporting UX and advanced policy checks are in progress.',
       roadmap: [
-        'Prompt templates and AI workspace presets',
-        'Team collaboration and project boards',
-        'Analytics insights for productivity trends',
+        'Historical scan comparison for regression detection',
+        'Policy preset profiles by app type',
+        'Exportable technical reports for teams',
       ],
-      verification: 'Current stage: internal prototype and interaction validation.',
+      verification: 'Current stage: in-development with internal validation against real deployment targets.',
     },
     {
-      title: 'Cloud Device Lab',
-      category: 'Cloud Sandbox',
-      description: 'A cloud sandbox platform for testing Android and Windows virtual environments directly in the browser.',
-      status: 'Prototype',
-      goals: [
-        'Launch Android and Windows virtual sessions on demand',
-        'Provide secure browser-based testing and validation flows',
-        'Support modern cloud SaaS workflows with controlled access',
-      ],
-      technologies: ['React / Vite', 'Modern UI Components', 'Vercel', 'API-based Backend Integration', 'Admin Analytics'],
-      progress: 'Prototype phase focused on session launch flow, UI architecture, and admin visibility.',
-      roadmap: [
-        'Advanced interactive launch sessions',
-        'Real-time monitoring dashboards',
-        'Expanded virtual environment configurations',
-      ],
-      verification: 'Current stage: prototype with architecture and interaction validation in progress.',
-    },
-    {
-      title: 'Advanced Portfolio System',
-      category: 'Portfolio Platform',
-      description: 'Next-generation portfolio architecture with AI features and more interactive recruiter journeys.',
+      title: 'Parfume Store Evolution',
+      category: 'E-Commerce',
+      description:
+        'The next release of Parfume Store focused on stronger conversion UX, smarter catalog discovery, and improved performance for multilingual shopping journeys.',
       status: 'Coming Soon',
       goals: [
-        'Deliver personalized recruiter paths and dynamic storytelling blocks',
-        'Integrate AI-enhanced portfolio insights and content recommendations',
-        'Create modular architecture for continuous portfolio evolution',
+        'Enhance product discovery with richer filtering and navigation flows',
+        'Optimize checkout interactions for smoother conversion funnels',
+        'Improve responsiveness and perceived speed across key pages',
       ],
-      technologies: ['Next.js', 'React', 'Tailwind', 'AI APIs', 'Analytics'],
-      progress: 'Concept and planning stage with interaction models currently being refined.',
+      technologies: ['Next.js', 'React', 'Tailwind', 'Performance Optimization', 'Analytics'],
+      progress: 'Feature planning and UX refinement are ongoing before the next public update.',
       roadmap: [
-        'Interactive career timeline modules',
-        'AI-assisted project summaries',
-        'Advanced recruiter-oriented filtering experiences',
+        'Improved recommendation and featured-product sections',
+        'Checkout clarity enhancements and trust signals',
+        'A/B-ready UI variants for conversion experiments',
       ],
-      verification: 'Current stage: roadmap and UX architecture definition.',
+      verification: 'Current stage: roadmap-driven iteration with measurable UX and performance targets.',
     },
   ]
 
   const statusStyles = {
     'In Development': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
+    'En cours de développement': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
     Prototype: 'bg-cyan-500/20 text-cyan-100 border-cyan-400/40',
     'Coming Soon': 'bg-blue-500/20 text-blue-100 border-blue-400/40',
   }
