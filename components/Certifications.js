@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
@@ -10,7 +9,7 @@ import Card from './ui/Card'
 const CERTIFICATIONS = [
   {
     id: 'cert-ai-business',
-    image: '/certificates/cert-ai-business.jpeg',
+    image: '/certificates/certificate-ai-business.jpg',
     title: 'AI Business Certificate',
     issuer: 'HP LIFE / HP Foundation',
     year: '2026',
@@ -23,7 +22,7 @@ const CERTIFICATIONS = [
   },
   {
     id: 'cert-prompt-engineering',
-    image: '/certificates/cert-prompt-engineering.jpeg',
+    image: '/certificates/certificate-prompt-engineering.jpg',
     title: 'Prompt Engineering Certificate',
     issuer: 'Simplilearn SkillUp',
     year: '2026',
@@ -36,7 +35,7 @@ const CERTIFICATIONS = [
   },
   {
     id: 'cert-cybersecurity',
-    image: '/certificates/cert-cybersecurity.jpeg',
+    image: '/certificates/certificate-cybersecurity.jpg',
     title: 'Cybersecurity Fundamentals',
     issuer: 'HP LIFE / HP Foundation',
     year: '2026',
@@ -49,7 +48,7 @@ const CERTIFICATIONS = [
   },
   {
     id: 'cert-c-programming',
-    image: '/certificates/cert-c-programming.png',
+    image: '/certificates/certificate-c-programming.png',
     title: 'C Programming Certificate',
     issuer: 'Simplilearn SkillUp',
     year: '2026',
@@ -62,7 +61,7 @@ const CERTIFICATIONS = [
   },
   {
     id: 'cert-agile',
-    image: '/certificates/cert-agile.jpeg',
+    image: '/certificates/certificate-agile.jpg',
     title: 'Agile Project Management',
     issuer: 'HP LIFE / HP Foundation',
     year: '2026',
@@ -217,12 +216,11 @@ export default function Certifications() {
                     >
                       <div className="relative h-56 w-full bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.22),_rgba(7,11,20,0.92)_70%)] overflow-hidden">
                         <div className="absolute inset-3 rounded-2xl border border-blue-300/15 bg-slate-950/35" />
-                        <Image
+                        <img
                           src={cert.image}
                           alt={`${cert.title} preview`}
-                          fill
-                          sizes="(max-width: 1024px) 92vw, 560px"
-                          className="object-contain object-center p-3 transition-transform duration-300 group-hover:scale-[1.02]"
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-contain object-center p-3 transition-transform duration-300 group-hover:scale-[1.02]"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/55 via-transparent to-transparent" />
                         <span className="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/40 bg-blue-500/20 text-blue-100 backdrop-blur-sm">
@@ -288,7 +286,7 @@ export default function Certifications() {
 
           <div className="mt-5 pt-4 border-t border-blue-400/20">
             <Link
-              href={activeCert.credentialLink || activeCert.image}
+              href={activeCert.image}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/40 text-cyan-100 hover:bg-cyan-500/20 transition-colors duration-300"
