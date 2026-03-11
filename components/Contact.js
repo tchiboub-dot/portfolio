@@ -100,7 +100,7 @@ export default function Contact() {
                     href={item.href}
                     target={item.label === 'Email' ? '_self' : '_blank'}
                     rel={item.label === 'Email' ? undefined : 'noopener noreferrer'}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-400/35 text-blue-100 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.12)] hover:bg-blue-500/20 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.2),0_0_22px_rgba(59,130,246,0.24)] transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[52px] rounded-[9999px] border border-blue-400/35 text-blue-100 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.12)] hover:bg-blue-500/20 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.2),0_0_24px_rgba(59,130,246,0.24)] transition-all duration-300"
                   >
                     <Icon className="w-4 h-4" />
                     {item.label}
@@ -111,7 +111,7 @@ export default function Contact() {
 
             <a
               href={contactData.cvPath}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/40 text-cyan-100 bg-cyan-500/10 shadow-[0_0_0_1px_rgba(34,211,238,0.12)] hover:bg-cyan-500/20 hover:shadow-[0_0_0_1px_rgba(34,211,238,0.2),0_0_22px_rgba(34,211,238,0.2)] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[52px] rounded-[9999px] border border-cyan-400/40 text-cyan-100 bg-cyan-500/10 shadow-[0_0_0_1px_rgba(34,211,238,0.12)] hover:bg-cyan-500/20 hover:shadow-[0_0_0_1px_rgba(34,211,238,0.2),0_0_24px_rgba(34,211,238,0.2)] transition-all duration-300"
             >
               <FaDownload className="w-4 h-4" />
               Download CV
