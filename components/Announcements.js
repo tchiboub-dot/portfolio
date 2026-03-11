@@ -135,18 +135,21 @@ export default function Announcements() {
 
       {selectedProject && (
         <div
-          className={`fixed inset-0 z-[80] p-4 md:p-8 flex items-center justify-center transition-all duration-300 ${
-            isModalOpen ? 'bg-slate-950/75 opacity-100' : 'bg-slate-950/0 opacity-0'
+          className={`fixed inset-0 z-[80] p-3 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center overflow-y-auto transition-all duration-300 ${
+            isModalOpen ? 'bg-slate-950/80 backdrop-blur-[2px] opacity-100' : 'bg-slate-950/0 opacity-0'
           }`}
           onClick={closeDetails}
         >
           <div
-            className={`w-full max-w-4xl rounded-[24px] border border-cyan-400/30 bg-gradient-to-br from-blue-950/55 to-slate-900/55 backdrop-blur-xl shadow-[0_0_0_1px_rgba(34,211,238,0.18),0_0_34px_rgba(34,211,238,0.2)] overflow-hidden transition-all duration-300 ${
+            className={`w-full max-w-5xl my-auto rounded-[24px] border border-cyan-400/30 bg-gradient-to-br from-blue-950/55 to-slate-900/55 backdrop-blur-xl shadow-[0_0_0_1px_rgba(34,211,238,0.18),0_0_34px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-3rem)] transition-all duration-300 ${
               isModalOpen ? 'translate-y-0 scale-100' : 'translate-y-2 scale-[0.98]'
             }`}
             onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Announcement details"
           >
-            <div className="flex items-center justify-between px-5 md:px-7 py-4 border-b border-blue-400/20">
+            <div className="sticky top-0 z-20 flex items-center justify-between gap-3 px-5 md:px-7 py-4 border-b border-blue-400/20 bg-[#091126]/85 backdrop-blur-md">
               <p className="text-sm text-blue-200/90 font-medium">Currently Building — Project Details</p>
               <button
                 type="button"
@@ -158,23 +161,25 @@ export default function Announcements() {
               </button>
             </div>
 
-            <div className="p-5 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto">
-              <div className="flex flex-wrap items-center gap-3">
-                <h3 className="text-2xl md:text-3xl font-bold text-heading">{selectedProject.title}</h3>
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[selectedProject.status]}`}>
-                  {selectedProject.status}
-                </span>
-                <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">
-                  {selectedProject.category}
-                </span>
+            <div className="p-5 md:p-7 lg:p-8 space-y-7 overflow-y-auto overscroll-contain">
+              <div className="space-y-4">
+                <h3 className="text-2xl md:text-3xl font-bold text-heading leading-tight">{selectedProject.title}</h3>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[selectedProject.status]}`}>
+                    {selectedProject.status}
+                  </span>
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">
+                    {selectedProject.category}
+                  </span>
+                </div>
               </div>
 
-              <div>
+              <div className="space-y-3">
                 <p className="text-sm font-semibold text-blue-100 mb-2">Detailed Description</p>
                 <p className="text-sm text-text leading-relaxed">{selectedProject.description}</p>
               </div>
 
-              <div>
+              <div className="space-y-3">
                 <p className="text-sm font-semibold text-blue-100 mb-2">Goals / Purpose</p>
                 <ul className="space-y-2">
                   {selectedProject.goals.map((goal) => (
@@ -186,7 +191,7 @@ export default function Announcements() {
                 </ul>
               </div>
 
-              <div>
+              <div className="space-y-3">
                 <p className="text-sm font-semibold text-blue-100 mb-2">Technologies Involved</p>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.technologies.map((tech) => (
@@ -200,18 +205,18 @@ export default function Announcements() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl border border-blue-400/20 bg-blue-500/10">
+              <div className="grid md:grid-cols-2 gap-4 items-stretch">
+                <div className="p-4 md:p-5 rounded-xl border border-blue-400/20 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.12)] h-full">
                   <p className="text-sm font-semibold text-blue-100 mb-2">Current Progress / Stage</p>
                   <p className="text-sm text-text/95 leading-relaxed">{selectedProject.progress}</p>
                 </div>
-                <div className="p-4 rounded-xl border border-blue-400/20 bg-blue-500/10">
+                <div className="p-4 md:p-5 rounded-xl border border-blue-400/20 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.12)] h-full">
                   <p className="text-sm font-semibold text-blue-100 mb-2">Verification / Note</p>
                   <p className="text-sm text-text/95 leading-relaxed">{selectedProject.verification}</p>
                 </div>
               </div>
 
-              <div>
+              <div className="space-y-3 pb-1">
                 <p className="text-sm font-semibold text-blue-100 mb-2">Future Features / Roadmap</p>
                 <ul className="space-y-2">
                   {selectedProject.roadmap.map((item) => (
