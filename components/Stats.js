@@ -49,9 +49,9 @@ function AnimatedCount({ target, suffix = '' }) {
 
 export default function Stats() {
   const stats = [
-    { value: 15, suffix: '+', label: 'Projects Built' },
+    { value: 5, suffix: '', label: 'Projects Built' },
     { value: 5, suffix: '', label: 'Certifications Earned' },
-    { value: 3, suffix: '+', label: 'Years Coding Experience' },
+    { value: 1, suffix: '', label: 'Year Coding Experience' },
   ]
 
   return (
