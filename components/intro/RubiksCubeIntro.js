@@ -176,10 +176,11 @@ function CubeRig({ onComplete }) {
   }, [])
 
   useFrame((_, delta) => {
-    const turnDuration = 0.23
-    const betweenMoves = 0.06
-    const arrivalDuration = 1.2
-    const heroDuration = 0.82
+    const turnDuration = 0.22
+    const betweenMoves = 0.07
+    const groupPause = 0.16
+    const arrivalDuration = 1.35
+    const heroDuration = 0.95
 
     phaseTimerRef.current += delta
 
@@ -196,7 +197,8 @@ function CubeRig({ onComplete }) {
           phaseTimerRef.current = 0
         } else {
           pauseTimerRef.current += delta
-          if (pauseTimerRef.current >= betweenMoves) {
+          const pauseTarget = moveIndexRef.current > 0 && moveIndexRef.current % 3 === 0 ? groupPause : betweenMoves
+          if (pauseTimerRef.current >= pauseTarget) {
             activeMoveRef.current = {
               move: solveMoves[moveIndexRef.current],
               progress: 0,
