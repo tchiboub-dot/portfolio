@@ -9,7 +9,7 @@ const RubiksCubeIntro = dynamic(() => import('@/components/intro/RubiksCubeIntro
 })
 
 const INTRO_SEEN_KEY = 'INTRO_SEEN'
-const FADE_OUT_MS = 420
+const FADE_OUT_MS = 300
 
 class IntroErrorBoundary extends Component {
   componentDidCatch() {

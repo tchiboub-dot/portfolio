@@ -175,11 +175,11 @@ function CubeRig({ onComplete }) {
   }, [])
 
   useFrame((_, delta) => {
-    const turnDuration = 0.22
-    const betweenMoves = 0.07
-    const groupPause = 0.16
-    const arrivalDuration = 1.35
-    const heroDuration = 0.95
+    const turnDuration = 0.12
+    const betweenMoves = 0.03
+    const groupPause = 0.06
+    const arrivalDuration = 0.6
+    const heroDuration = 0.4
 
     phaseTimerRef.current += delta
 
