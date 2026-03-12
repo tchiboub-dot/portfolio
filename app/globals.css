@@ -3436,19 +3436,21 @@ select:focus-visible {
   border-radius: inherit;
   background: conic-gradient(
     from 0deg,
-    rgba(255, 59, 48, 0.75),
-    rgba(255, 204, 0, 0.74),
-    rgba(52, 199, 89, 0.72),
-    rgba(0, 199, 190, 0.72),
-    rgba(0, 122, 255, 0.74),
-    rgba(175, 82, 222, 0.75),
-    rgba(255, 59, 48, 0.75)
+    rgba(255, 59, 48, 0.85) 0deg,
+    rgba(255, 204, 0, 0.78) 55deg,
+    rgba(52, 199, 89, 0.72) 125deg,
+    rgba(0, 199, 190, 0.76) 175deg,
+    rgba(0, 122, 255, 0.78) 230deg,
+    rgba(175, 82, 222, 0.86) 300deg,
+    rgba(255, 59, 48, 0.85) 360deg
   );
+  will-change: transform;
 }
 
 .tac-assistant-launcher__halo::before {
   mask: radial-gradient(circle, transparent 54%, black 60%);
   opacity: 0.82;
+  animation: tac-assistant-rgb-spin 6s linear infinite;
 }
 
 .tac-assistant-launcher__halo::after {
@@ -3456,6 +3458,7 @@ select:focus-visible {
   filter: blur(14px);
   mask: radial-gradient(circle, transparent 50%, black 66%);
   opacity: 0.42;
+  animation: tac-assistant-rgb-spin-reverse 6s linear infinite;
 }
 
 .tac-assistant-launcher:hover .tac-assistant-launcher__surface {
@@ -3488,9 +3491,13 @@ select:focus-visible {
   }
 }
 
-.tac-assistant-launcher__halo {
-  animation: tac-assistant-rgb-spin 14s linear infinite;
-  transform-origin: center;
+@keyframes tac-assistant-rgb-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 @media (max-width: 640px) {
@@ -3508,7 +3515,8 @@ select:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tac-assistant-launcher__halo {
+  .tac-assistant-launcher__halo::before,
+  .tac-assistant-launcher__halo::after {
     animation: none;
   }
 
