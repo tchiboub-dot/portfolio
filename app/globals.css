@@ -3524,3 +3524,59 @@ select:focus-visible {
     animation: none;
   }
 }
+
+/* ============================================
+   CINEMATIC INTRO OVERLAY
+   ============================================ */
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 420ms ease;
+  background:
+    radial-gradient(1300px 700px at 50% 45%, rgba(28, 36, 56, 0.45), rgba(5, 8, 14, 0.96) 68%),
+    radial-gradient(800px 500px at 50% 52%, rgba(45, 80, 140, 0.12), transparent 70%),
+    #04070f;
+}
+
+.intro-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.44) 100%);
+}
+
+.intro-overlay.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-overlay__scene {
+  position: absolute;
+  inset: 0;
+}
+
+.intro-overlay__skip {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  background: rgba(2, 6, 23, 0.35);
+  color: rgba(226, 232, 240, 0.88);
+  font-size: 0.77rem;
+  letter-spacing: 0.05em;
+  padding: 0.34rem 0.78rem;
+  opacity: 0.72;
+  backdrop-filter: blur(6px);
+}
+
+.intro-overlay__skip:hover {
+  opacity: 1;
+  border-color: rgba(125, 211, 252, 0.45);
+}
