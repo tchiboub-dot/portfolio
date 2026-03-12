@@ -76,7 +76,7 @@ export default function Education() {
                 <p className="text-text mb-6 leading-relaxed">{edu.description}</p>
 
                 <div>
-                  <p className="text-sm font-semibold text-heading mb-3">Domaines d'étude :</p>
+                  <p className="text-sm font-semibold text-heading mb-3">Domaines d&apos;etude :</p>
                   <div className="grid md:grid-cols-2 gap-3">
                     {edu.highlights.map((h, j) => (
                       <div key={j} className="flex items-start gap-2 p-3 rounded-lg bg-primary-soft">

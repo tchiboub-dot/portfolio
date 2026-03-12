@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import StarfieldBackground from '@/components/StarfieldBackground'
+import AssistantWidgetLoader from '@/components/assistant/AssistantWidgetLoader'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <StarfieldBackground />
           {children}
+          <AssistantWidgetLoader />
         </ThemeProvider>
       </body>
     </html>
