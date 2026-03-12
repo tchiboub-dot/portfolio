@@ -4,79 +4,79 @@ import { useEffect, useState } from 'react'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 
+const ITEMS = [
+  {
+    title: 'Cloud Sandbox Platform',
+    category: 'Cloud Platform',
+    description:
+      'A browser-based sandbox platform designed for testing virtual Android and Windows environments with a modern SaaS interface, interactive monitoring, and secure session workflows.',
+    status: 'En cours de développement',
+    goals: [
+      'Provide reliable browser access to Android and Windows virtual sessions',
+      'Build secure session orchestration with role-based access and auditing',
+      'Deliver clear real-time monitoring for active labs and resource usage',
+    ],
+    technologies: ['React', 'TypeScript', 'Tailwind', 'Secure Session APIs', 'Cloud Monitoring'],
+    progress: 'Prototype and core orchestration workflows are actively being implemented and tested.',
+    roadmap: [
+      'Extended environment templates for QA and device testing',
+      'Live telemetry panel and session health indicators',
+      'Tenant-level controls and usage quotas',
+    ],
+    verification: 'Current stage: internal prototype with progressive UX and infrastructure validation.',
+  },
+  {
+    title: 'Security Headers Verifier Pro',
+    category: 'Security Tooling',
+    description:
+      'An expanded security analysis tool focused on deeper HTTP header diagnostics, guided remediation insights, and production hardening checks for modern web deployments.',
+    status: 'In Development',
+    goals: [
+      'Improve scan depth for CSP, HSTS, and cross-origin policy coverage',
+      'Provide clear remediation guidance mapped to detected security gaps',
+      'Support repeatable review workflows for deployment readiness',
+    ],
+    technologies: ['Next.js', 'Node.js', 'Security Analysis Rules', 'Tailwind', 'Vercel'],
+    progress: 'Core analysis engine is implemented; reporting UX and advanced policy checks are in progress.',
+    roadmap: [
+      'Historical scan comparison for regression detection',
+      'Policy preset profiles by app type',
+      'Exportable technical reports for teams',
+    ],
+    verification: 'Current stage: in-development with internal validation against real deployment targets.',
+  },
+  {
+    title: 'Parfume Store Evolution',
+    category: 'E-Commerce',
+    description:
+      'The next release of Parfume Store focused on stronger conversion UX, smarter catalog discovery, and improved performance for multilingual shopping journeys.',
+    status: 'Coming Soon',
+    goals: [
+      'Enhance product discovery with richer filtering and navigation flows',
+      'Optimize checkout interactions for smoother conversion funnels',
+      'Improve responsiveness and perceived speed across key pages',
+    ],
+    technologies: ['Next.js', 'React', 'Tailwind', 'Performance Optimization', 'Analytics'],
+    progress: 'Feature planning and UX refinement are ongoing before the next public update.',
+    roadmap: [
+      'Improved recommendation and featured-product sections',
+      'Checkout clarity enhancements and trust signals',
+      'A/B-ready UI variants for conversion experiments',
+    ],
+    verification: 'Current stage: roadmap-driven iteration with measurable UX and performance targets.',
+  },
+]
+
+const STATUS_STYLES = {
+  'In Development': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
+  'En cours de développement': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
+  Prototype: 'bg-cyan-500/20 text-cyan-100 border-cyan-400/40',
+  'Coming Soon': 'bg-blue-500/20 text-blue-100 border-blue-400/40',
+}
+
 export default function Announcements() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const items = [
-    {
-      title: 'Cloud Sandbox Platform',
-      category: 'Cloud Platform',
-      description:
-        'A browser-based sandbox platform designed for testing virtual Android and Windows environments with a modern SaaS interface, interactive monitoring, and secure session workflows.',
-      status: 'En cours de développement',
-      goals: [
-        'Provide reliable browser access to Android and Windows virtual sessions',
-        'Build secure session orchestration with role-based access and auditing',
-        'Deliver clear real-time monitoring for active labs and resource usage',
-      ],
-      technologies: ['React', 'TypeScript', 'Tailwind', 'Secure Session APIs', 'Cloud Monitoring'],
-      progress: 'Prototype and core orchestration workflows are actively being implemented and tested.',
-      roadmap: [
-        'Extended environment templates for QA and device testing',
-        'Live telemetry panel and session health indicators',
-        'Tenant-level controls and usage quotas',
-      ],
-      verification: 'Current stage: internal prototype with progressive UX and infrastructure validation.',
-    },
-    {
-      title: 'Security Headers Verifier Pro',
-      category: 'Security Tooling',
-      description:
-        'An expanded security analysis tool focused on deeper HTTP header diagnostics, guided remediation insights, and production hardening checks for modern web deployments.',
-      status: 'In Development',
-      goals: [
-        'Improve scan depth for CSP, HSTS, and cross-origin policy coverage',
-        'Provide clear remediation guidance mapped to detected security gaps',
-        'Support repeatable review workflows for deployment readiness',
-      ],
-      technologies: ['Next.js', 'Node.js', 'Security Analysis Rules', 'Tailwind', 'Vercel'],
-      progress: 'Core analysis engine is implemented; reporting UX and advanced policy checks are in progress.',
-      roadmap: [
-        'Historical scan comparison for regression detection',
-        'Policy preset profiles by app type',
-        'Exportable technical reports for teams',
-      ],
-      verification: 'Current stage: in-development with internal validation against real deployment targets.',
-    },
-    {
-      title: 'Parfume Store Evolution',
-      category: 'E-Commerce',
-      description:
-        'The next release of Parfume Store focused on stronger conversion UX, smarter catalog discovery, and improved performance for multilingual shopping journeys.',
-      status: 'Coming Soon',
-      goals: [
-        'Enhance product discovery with richer filtering and navigation flows',
-        'Optimize checkout interactions for smoother conversion funnels',
-        'Improve responsiveness and perceived speed across key pages',
-      ],
-      technologies: ['Next.js', 'React', 'Tailwind', 'Performance Optimization', 'Analytics'],
-      progress: 'Feature planning and UX refinement are ongoing before the next public update.',
-      roadmap: [
-        'Improved recommendation and featured-product sections',
-        'Checkout clarity enhancements and trust signals',
-        'A/B-ready UI variants for conversion experiments',
-      ],
-      verification: 'Current stage: roadmap-driven iteration with measurable UX and performance targets.',
-    },
-  ]
-
-  const statusStyles = {
-    'In Development': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
-    'En cours de développement': 'bg-amber-500/20 text-amber-100 border-amber-400/40',
-    Prototype: 'bg-cyan-500/20 text-cyan-100 border-cyan-400/40',
-    'Coming Soon': 'bg-blue-500/20 text-blue-100 border-blue-400/40',
-  }
 
   const openDetails = (project) => {
     setSelectedProject(project)
@@ -96,7 +96,13 @@ export default function Announcements() {
     }
 
     document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
   }, [isModalOpen])
 
   return (
@@ -113,7 +119,7 @@ export default function Announcements() {
         />
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 mt-10 sm:mt-12">
-          {items.map((item) => (
+          {ITEMS.map((item) => (
             <button
               key={item.title}
               type="button"
@@ -125,7 +131,7 @@ export default function Announcements() {
                   <span className="text-[10px] sm:text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">
                     {item.category}
                   </span>
-                  <span className={`text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[item.status]}`}>
+                  <span className={`text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full border ${STATUS_STYLES[item.status]}`}>
                     {item.status}
                   </span>
                 </div>
@@ -169,7 +175,7 @@ export default function Announcements() {
               <div className="space-y-4">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-heading leading-tight">{selectedProject.title}</h3>
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusStyles[selectedProject.status]}`}>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${STATUS_STYLES[selectedProject.status]}`}>
                     {selectedProject.status}
                   </span>
                   <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border border-blue-300/30 bg-blue-500/15 text-blue-100">

@@ -30,8 +30,8 @@ export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = tr
         className="absolute inset-0 rounded-full animate-ambient-breath"
         style={{
           background: 'radial-gradient(circle, rgba(159, 180, 214, 0.3) 0%, rgba(34, 211, 238, 0.1) 50%, transparent 100%)',
-          filter: 'blur(20px)',
-          transform: 'scale(1.3)',
+          filter: 'blur(12px)',
+          transform: 'scale(1.2)',
         }}
         aria-hidden="true"
       />
@@ -47,7 +47,8 @@ export default function Avatar({ src, alt = 'Avatar', size = 'lg', priority = tr
           width={config.pixels}
           height={config.pixels}
           priority={priority}
-          quality={92}
+          quality={80}
+          sizes="(max-width: 640px) 128px, (max-width: 1024px) 180px, 224px"
           decoding="async"
           className="avatar-image"
         />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
@@ -78,7 +78,7 @@ const REQUIRED_FIELDS = ['id', 'image', 'title', 'issuer', 'year', 'summary', 'v
 
 export default function Certifications() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [touchStartX, setTouchStartX] = useState(null)
+  const touchStartXRef = useRef(null)
   const certifications = useMemo(() => {
     return CERTIFICATIONS.filter((item) => {
       const hasAllRequiredFields = REQUIRED_FIELDS.every((field) => {
@@ -121,21 +121,21 @@ export default function Certifications() {
   }, [normalizedActiveIndex, certifications, totalCount])
 
   const onTouchStart = (event) => {
-    setTouchStartX(event.touches[0]?.clientX || null)
+    touchStartXRef.current = event.touches[0]?.clientX || null
   }
 
   const onTouchEnd = (event) => {
-    if (touchStartX === null) return
+    if (touchStartXRef.current === null) return
     const endX = event.changedTouches[0]?.clientX
     if (typeof endX !== 'number') return
 
-    const delta = touchStartX - endX
+    const delta = touchStartXRef.current - endX
     if (Math.abs(delta) > 50) {
       if (delta > 0) nextSlide()
       else prevSlide()
     }
 
-    setTouchStartX(null)
+    touchStartXRef.current = null
   }
 
   if (!activeCert) return null

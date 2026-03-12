@@ -6,102 +6,102 @@ import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaGithub } from 'reac
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 
+const FILTERS = ['All', 'Web Apps', 'Tools']
+
+const PROJECTS_DATA = [
+  {
+    title: 'Parfume Store',
+    category: 'Web Apps',
+    summary: 'Premium full-stack e-commerce experience with modern UI, multilingual flows, and polished performance.',
+    detailedDescription:
+      'Parfume Store is a luxury-oriented e-commerce experience built to combine elegant branding with conversion-focused product discovery and checkout flow quality.',
+    businessValue:
+      'Helps boutique retail brands present premium products with a modern buying journey and stronger digital trust perception.',
+    implementationNotes:
+      'Implemented with a modular component system, clean visual hierarchy, and responsive UX patterns optimized for modern storefront experiences.',
+    features: [
+      'Premium dark/light product browsing experience',
+      'Multilingual storefront navigation and content flow',
+      'Responsive checkout-friendly interface design',
+    ],
+    techStack: ['React', 'Next.js', 'Tailwind', 'TypeScript'],
+    githubLink: 'https://github.com/tchiboub-dot/parfume',
+    liveLink: 'https://parfume-store-eta.vercel.app/en',
+    preview: '/projects/parfume-store-preview-real.jpg',
+  },
+  {
+    title: 'Student Management System',
+    category: 'Web Apps',
+    summary: 'CRUD-focused platform for student operations with practical authentication and clean dashboard UX.',
+    detailedDescription:
+      'A management interface designed to organize student records, streamline admin tasks, and keep data operations simple, reliable, and fast.',
+    businessValue:
+      'Reduces manual admin friction for educational workflows and enables clearer data visibility for student operations.',
+    implementationNotes:
+      'Focused on robust CRUD interactions, reusable UI blocks, and dashboard clarity for practical educational administration use cases.',
+    features: [
+      'Student records creation, updates, and lookup workflows',
+      'Dashboard-style admin interface and clear data sections',
+      'Validation and structured form interaction patterns',
+    ],
+    techStack: ['React', 'Node.js', 'MongoDB', 'JavaScript'],
+    githubLink: 'https://github.com/tchiboub-dot',
+    liveLink: 'https://student-management5.vercel.app/',
+    preview: '/projects/student-management-preview.png',
+  },
+  {
+    title: 'Security Headers Verifier',
+    category: 'Tools',
+    summary: 'Developer utility to validate modern HTTP security headers and improve deployment hardening.',
+    detailedDescription:
+      'Security Headers Verifier provides practical visibility into HTTP hardening configuration and helps identify missing protection headers quickly.',
+    businessValue:
+      'Improves deployment security confidence for web products by surfacing misconfigurations and reducing exposure to common risks.',
+    implementationNotes:
+      'Focused on clear technical diagnostics, practical security context, and deployment-ready recommendations for web engineers.',
+    features: [
+      'Checks key security headers and policy presence',
+      'Highlights missing protections and hardening gaps',
+      'Supports safer production deployment reviews',
+    ],
+    techStack: ['Next.js', 'Node.js', 'Security Headers', 'Vercel'],
+    githubLink: 'https://github.com/tchiboub-dot/security-headers',
+    liveLink: 'https://security-headers-2owb.vercel.app/',
+    preview: '/projects/security-headers-preview.png',
+  },
+  {
+    title: 'Maison Élégance',
+    category: 'Web Apps',
+    summary: 'Restaurant platform with menu interaction, reservations, and conversion-focused responsive design.',
+    detailedDescription:
+      'Maison Élégance is a restaurant experience platform blending digital menu storytelling, booking flows, and modern visual presentation for hospitality brands.',
+    businessValue:
+      'Helps restaurants convert visits into bookings and communicate offers clearly across desktop and mobile touchpoints.',
+    implementationNotes:
+      'Built with a strong emphasis on visual appetite appeal, clear reservation flow, and responsive interaction consistency.',
+    features: [
+      'Interactive menu and offer discovery sections',
+      'Reservation-ready user flow and contact interactions',
+      'Hospitality-focused visual hierarchy and responsive UI',
+    ],
+    techStack: ['HTML', 'CSS', 'JavaScript', 'Responsive UI'],
+    githubLink: 'https://github.com/tchiboub-dot',
+    liveLink: 'https://maisonelegance-one.vercel.app/',
+    preview: '/projects/maison-elegance-preview.png',
+  },
+]
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All')
   const [activeProjectTitle, setActiveProjectTitle] = useState('Parfume Store')
-  const [touchStartX, setTouchStartX] = useState(null)
   const [panelHighlighted, setPanelHighlighted] = useState(false)
   const [pressedProjectTitle, setPressedProjectTitle] = useState(null)
   const detailsRef = useRef(null)
-
-  const filters = ['All', 'Web Apps', 'Tools']
-
-  const projectsData = [
-    {
-      title: 'Parfume Store',
-      category: 'Web Apps',
-      summary: 'Premium full-stack e-commerce experience with modern UI, multilingual flows, and polished performance.',
-      detailedDescription:
-        'Parfume Store is a luxury-oriented e-commerce experience built to combine elegant branding with conversion-focused product discovery and checkout flow quality.',
-      businessValue:
-        'Helps boutique retail brands present premium products with a modern buying journey and stronger digital trust perception.',
-      implementationNotes:
-        'Implemented with a modular component system, clean visual hierarchy, and responsive UX patterns optimized for modern storefront experiences.',
-      features: [
-        'Premium dark/light product browsing experience',
-        'Multilingual storefront navigation and content flow',
-        'Responsive checkout-friendly interface design',
-      ],
-      techStack: ['React', 'Next.js', 'Tailwind', 'TypeScript'],
-      githubLink: 'https://github.com/tchiboub-dot/parfume',
-      liveLink: 'https://parfume-store-eta.vercel.app/en',
-      preview: '/projects/parfume-store-preview-real.jpg',
-    },
-    {
-      title: 'Student Management System',
-      category: 'Web Apps',
-      summary: 'CRUD-focused platform for student operations with practical authentication and clean dashboard UX.',
-      detailedDescription:
-        'A management interface designed to organize student records, streamline admin tasks, and keep data operations simple, reliable, and fast.',
-      businessValue:
-        'Reduces manual admin friction for educational workflows and enables clearer data visibility for student operations.',
-      implementationNotes:
-        'Focused on robust CRUD interactions, reusable UI blocks, and dashboard clarity for practical educational administration use cases.',
-      features: [
-        'Student records creation, updates, and lookup workflows',
-        'Dashboard-style admin interface and clear data sections',
-        'Validation and structured form interaction patterns',
-      ],
-      techStack: ['React', 'Node.js', 'MongoDB', 'JavaScript'],
-      githubLink: 'https://github.com/tchiboub-dot',
-      liveLink: 'https://student-management5.vercel.app/',
-      preview: '/projects/student-management-preview.png',
-    },
-    {
-      title: 'Security Headers Verifier',
-      category: 'Tools',
-      summary: 'Developer utility to validate modern HTTP security headers and improve deployment hardening.',
-      detailedDescription:
-        'Security Headers Verifier provides practical visibility into HTTP hardening configuration and helps identify missing protection headers quickly.',
-      businessValue:
-        'Improves deployment security confidence for web products by surfacing misconfigurations and reducing exposure to common risks.',
-      implementationNotes:
-        'Focused on clear technical diagnostics, practical security context, and deployment-ready recommendations for web engineers.',
-      features: [
-        'Checks key security headers and policy presence',
-        'Highlights missing protections and hardening gaps',
-        'Supports safer production deployment reviews',
-      ],
-      techStack: ['Next.js', 'Node.js', 'Security Headers', 'Vercel'],
-      githubLink: 'https://github.com/tchiboub-dot/security-headers',
-      liveLink: 'https://security-headers-2owb.vercel.app/',
-      preview: '/projects/security-headers-preview.png',
-    },
-    {
-      title: 'Maison Élégance',
-      category: 'Web Apps',
-      summary: 'Restaurant platform with menu interaction, reservations, and conversion-focused responsive design.',
-      detailedDescription:
-        'Maison Élégance is a restaurant experience platform blending digital menu storytelling, booking flows, and modern visual presentation for hospitality brands.',
-      businessValue:
-        'Helps restaurants convert visits into bookings and communicate offers clearly across desktop and mobile touchpoints.',
-      implementationNotes:
-        'Built with a strong emphasis on visual appetite appeal, clear reservation flow, and responsive interaction consistency.',
-      features: [
-        'Interactive menu and offer discovery sections',
-        'Reservation-ready user flow and contact interactions',
-        'Hospitality-focused visual hierarchy and responsive UI',
-      ],
-      techStack: ['HTML', 'CSS', 'JavaScript', 'Responsive UI'],
-      githubLink: 'https://github.com/tchiboub-dot',
-      liveLink: 'https://maisonelegance-one.vercel.app/',
-      preview: '/projects/maison-elegance-preview.png',
-    },
-  ]
+  const touchStartXRef = useRef(null)
 
   const displayedProjects = useMemo(() => {
-    if (activeFilter === 'All') return projectsData
-    return projectsData.filter((project) => project.category === activeFilter)
+    if (activeFilter === 'All') return PROJECTS_DATA
+    return PROJECTS_DATA.filter((project) => project.category === activeFilter)
   }, [activeFilter])
 
   useEffect(() => {
@@ -156,22 +156,22 @@ export default function Projects() {
   }
 
   const onTouchStart = (event) => {
-    setTouchStartX(event.touches[0]?.clientX || null)
+    touchStartXRef.current = event.touches[0]?.clientX || null
   }
 
   const onTouchEnd = (event) => {
-    if (touchStartX === null) return
+    if (touchStartXRef.current === null) return
 
     const endX = event.changedTouches[0]?.clientX
     if (typeof endX !== 'number') return
 
-    const delta = touchStartX - endX
+    const delta = touchStartXRef.current - endX
     if (Math.abs(delta) > 50) {
       if (delta > 0) nextSlide()
       else prevSlide()
     }
 
-    setTouchStartX(null)
+    touchStartXRef.current = null
   }
 
   const onCardClick = (index, isActive) => {
@@ -201,7 +201,7 @@ export default function Projects() {
         />
 
         <div className="flex flex-wrap justify-center gap-3 mt-12 mb-10">
-          {filters.map((filter) => (
+          {FILTERS.map((filter) => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
@@ -253,7 +253,7 @@ export default function Projects() {
               const translateX = offset * 34
               const scale = isActive ? (pressedProjectTitle === project.title ? 1.03 : 1) : absOffset === 1 ? 0.9 : 0.8
               const opacity = isActive ? 1 : absOffset === 1 ? 0.5 : 0.25
-              const blur = isActive ? 'blur(0px)' : absOffset === 1 ? 'blur(1.5px)' : 'blur(3px)'
+              const blur = isActive ? 'none' : absOffset === 1 ? 'blur(0.8px)' : 'blur(1.4px)'
               const zIndex = isActive ? 20 : absOffset === 1 ? 12 : 6
 
               return (
@@ -267,7 +267,7 @@ export default function Projects() {
                     opacity,
                     zIndex,
                     filter: blur,
-                    transition: 'transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 520ms ease, filter 520ms ease',
+                    transition: 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease, filter 420ms ease',
                   }}
                   aria-label={`Select project: ${project.title}`}
                 >

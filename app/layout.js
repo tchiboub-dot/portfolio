@@ -30,7 +30,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" data-theme="dark" suppressHydrationWarning>
+    <html lang="fr" data-theme="dark" data-performance="balanced" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

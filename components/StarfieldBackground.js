@@ -123,12 +123,6 @@ function createStar(width, height, layer) {
   }
 }
 
-function createLayerStars(width, height, layer) {
-  const area = width * height
-  const target = Math.max(16, Math.floor(area * layer.density))
-  return Array.from({ length: target }, () => createStar(width, height, layer))
-}
-
 function buildThemePalette() {
   const styles = getComputedStyle(document.documentElement)
 
@@ -164,9 +158,65 @@ export default function StarfieldBackground() {
     let lastTime = 0
     let starsByLayer = []
     let palette = buildThemePalette()
+    let frameInterval = 1000 / 60
+    let densityScale = 1
+    let allowGlow = true
+    let isRunning = true
+    let resizeRaf = 0
+
+    const getPerformanceConfig = () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const isMobile = window.matchMedia('(max-width: 768px)').matches
+      const performanceTier = document.documentElement.dataset.performance || 'balanced'
+
+      const lowTier = performanceTier === 'low'
+      const balancedTier = performanceTier === 'balanced'
+
+      let maxDpr = 2
+      let targetFps = 60
+      let nextDensityScale = 1
+      let nextAllowGlow = true
+
+      if (prefersReducedMotion) {
+        maxDpr = 1.25
+        targetFps = 24
+        nextDensityScale = 0.35
+        nextAllowGlow = false
+      } else if (isMobile || lowTier) {
+        maxDpr = 1.4
+        targetFps = 30
+        nextDensityScale = 0.48
+        nextAllowGlow = false
+      } else if (balancedTier) {
+        maxDpr = 1.8
+        targetFps = 45
+        nextDensityScale = 0.72
+        nextAllowGlow = true
+      }
+
+      return {
+        maxDpr,
+        targetFps,
+        nextDensityScale,
+        nextAllowGlow,
+      }
+    }
+
+    const getTargetStarCount = (layer, widthValue, heightValue) => {
+      const area = widthValue * heightValue
+      const baseTarget = Math.floor(area * layer.density * densityScale)
+      const minimum = layer.id === 'far' ? 12 : layer.id === 'mid' ? 8 : 6
+      const cap = densityScale < 0.5 ? (layer.id === 'far' ? 70 : layer.id === 'mid' ? 40 : 20) : (layer.id === 'far' ? 140 : layer.id === 'mid' ? 72 : 36)
+      return Math.max(minimum, Math.min(cap, baseTarget))
+    }
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const config = getPerformanceConfig()
+      dpr = Math.min(window.devicePixelRatio || 1, config.maxDpr)
+      frameInterval = 1000 / config.targetFps
+      densityScale = config.nextDensityScale
+      allowGlow = config.nextAllowGlow
+
       width = window.innerWidth
       height = window.innerHeight
       canvas.width = Math.floor(width * dpr)
@@ -176,10 +226,14 @@ export default function StarfieldBackground() {
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      starsByLayer = LAYERS.map((layer) => ({
-        layer,
-        stars: createLayerStars(width, height, layer),
-      }))
+      starsByLayer = LAYERS.map((layer) => {
+        const target = getTargetStarCount(layer, width, height)
+        const stars = Array.from({ length: target }, () => createStar(width, height, layer))
+        return {
+          layer,
+          stars,
+        }
+      })
     }
 
     const respawnStar = (star, layer) => {
@@ -264,17 +318,15 @@ export default function StarfieldBackground() {
       const mixColor = palette[layer.colorMixKey] || palette.silver
       const finalColor = star.colorMix ? mixColor : baseColor
 
-      if (star.isGlow) {
-        const glowRadius = star.size * (layer.id === 'accent' ? 9 : 6)
-        const glowAlpha = alpha * (layer.id === 'accent' ? 0.20 : 0.14)
-        const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius)
-        gradient.addColorStop(0, rgbaToString(finalColor, glowAlpha))
-        gradient.addColorStop(0.35, rgbaToString(finalColor, glowAlpha * 0.55))
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-        ctx.fillStyle = gradient
+      if (allowGlow && star.isGlow && layer.id !== 'far') {
+        ctx.save()
+        ctx.shadowBlur = star.size * (layer.id === 'accent' ? 8 : 5)
+        ctx.shadowColor = rgbaToString(finalColor, alpha * (layer.id === 'accent' ? 0.2 : 0.14))
+        ctx.fillStyle = rgbaToString(finalColor, alpha * 0.65)
         ctx.beginPath()
-        ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2)
+        ctx.arc(star.x, star.y, star.size * 1.18, 0, Math.PI * 2)
         ctx.fill()
+        ctx.restore()
       }
 
       ctx.fillStyle = rgbaToString(finalColor, alpha)
@@ -284,7 +336,15 @@ export default function StarfieldBackground() {
     }
 
     const render = (timestamp) => {
+      if (!isRunning) return
       if (!lastTime) lastTime = timestamp
+
+      const elapsedSinceFrame = timestamp - lastTime
+      if (elapsedSinceFrame < frameInterval) {
+        rafId = window.requestAnimationFrame(render)
+        return
+      }
+
       const deltaMs = Math.min(40, timestamp - lastTime)
       lastTime = timestamp
       const deltaFactor = deltaMs / 16.6667
@@ -302,6 +362,27 @@ export default function StarfieldBackground() {
       }
 
       rafId = window.requestAnimationFrame(render)
+    }
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        isRunning = false
+        if (rafId) window.cancelAnimationFrame(rafId)
+        rafId = 0
+        return
+      }
+
+      isRunning = true
+      lastTime = 0
+      if (!rafId) rafId = window.requestAnimationFrame(render)
+    }
+
+    const onResize = () => {
+      if (resizeRaf) return
+      resizeRaf = window.requestAnimationFrame(() => {
+        resizeRaf = 0
+        resize()
+      })
     }
 
     const themeObserver = new MutationObserver(() => {
@@ -327,11 +408,14 @@ export default function StarfieldBackground() {
     resize()
     rafId = window.requestAnimationFrame(render)
 
-    window.addEventListener('resize', resize)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    window.addEventListener('resize', onResize, { passive: true })
 
     return () => {
       window.cancelAnimationFrame(rafId)
-      window.removeEventListener('resize', resize)
+      if (resizeRaf) window.cancelAnimationFrame(resizeRaf)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+      window.removeEventListener('resize', onResize)
       if (typeof media.removeEventListener === 'function') {
         media.removeEventListener('change', onColorSchemeChange)
       } else {

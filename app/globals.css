@@ -2658,6 +2658,46 @@ footer,
   z-index: 2;
 }
 
+/* ============================================
+   ADAPTIVE PERFORMANCE TIER
+   ============================================ */
+
+:root[data-performance='low'] .starfield-canvas__atmosphere {
+  opacity: 0.45;
+}
+
+:root[data-performance='low'] .navbar-pill,
+:root[data-performance='low'] .navbar-mobile-panel,
+:root[data-performance='low'] .glass-card,
+:root[data-performance='low'] .card-base {
+  backdrop-filter: blur(4px) saturate(106%) !important;
+  -webkit-backdrop-filter: blur(4px) saturate(106%) !important;
+}
+
+:root[data-performance='low'] .card-interactive,
+:root[data-performance='low'] .glass-card,
+:root[data-performance='low'] .card-base,
+:root[data-performance='low'] .rounded-card {
+  transition-duration: 180ms !important;
+}
+
+:root[data-performance='low'] .card-interactive:hover,
+:root[data-performance='low'] .glass-card:hover,
+:root[data-performance='low'] .card-base:hover,
+:root[data-performance='low'] .rounded-card:hover {
+  box-shadow: 0 10px 20px rgba(2, 8, 22, 0.2), 0 0 0 1px rgba(86, 156, 255, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+  :root[data-performance='balanced'] .starfield-canvas__atmosphere {
+    opacity: 0.62;
+  }
+
+  :root[data-performance='low'] .starfield-canvas__atmosphere {
+    opacity: 0.4;
+  }
+}
+
 .navbar-pill > .navbar-logo {
   z-index: 5;
 }
