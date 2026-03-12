@@ -2,16 +2,21 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import { ContactShadows } from '@react-three/drei'
 import { MathUtils, Quaternion, Vector3 } from 'three'
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 
 const FACE_COLORS = {
-  px: '#d32f2f',
-  nx: '#ff8f00',
-  py: '#f5f5f5',
-  ny: '#f4d03f',
-  pz: '#2e7d32',
-  nz: '#1565c0',
+  px: '#e53935',
+  nx: '#ff8f1f',
+  py: '#f9fbff',
+  ny: '#ffd54a',
+  pz: '#2ecc71',
+  nz: '#1e88ff',
 }
+
+const CUBELET_GEOMETRY = new RoundedBoxGeometry(0.9, 0.9, 0.9, 5, 0.09)
+const STICKER_GEOMETRY = new RoundedBoxGeometry(0.73, 0.73, 0.048, 4, 0.045)
 
 const SCRAMBLE = ['R', 'U', "R'", 'F', 'L', "D'", 'B', 'U', "L'", "F'"]
 
@@ -99,50 +104,56 @@ function buildCubies() {
 }
 
 function Cubelet({ stickers }, ref) {
-  const stickerOffset = 0.458
-  const stickerSize = 0.72
+  const stickerOffset = 0.462
 
   return (
     <group ref={ref}>
       <mesh castShadow receiveShadow>
-        <boxGeometry args={[0.9, 0.9, 0.9]} />
-        <meshStandardMaterial color="#101319" roughness={0.34} metalness={0.15} />
+        <primitive object={CUBELET_GEOMETRY} attach="geometry" />
+        <meshPhysicalMaterial
+          color="#121721"
+          roughness={0.28}
+          metalness={0.12}
+          clearcoat={0.56}
+          clearcoatRoughness={0.22}
+          reflectivity={0.62}
+        />
       </mesh>
 
       {stickers.px && (
         <mesh position={[stickerOffset, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.px} roughness={0.18} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.px} roughness={0.2} metalness={0.08} clearcoat={0.72} clearcoatRoughness={0.18} />
         </mesh>
       )}
       {stickers.nx && (
         <mesh position={[-stickerOffset, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.nx} roughness={0.18} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.nx} roughness={0.2} metalness={0.08} clearcoat={0.72} clearcoatRoughness={0.18} />
         </mesh>
       )}
       {stickers.py && (
         <mesh position={[0, stickerOffset, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.py} roughness={0.16} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.py} roughness={0.16} metalness={0.08} clearcoat={0.76} clearcoatRoughness={0.14} />
         </mesh>
       )}
       {stickers.ny && (
         <mesh position={[0, -stickerOffset, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.ny} roughness={0.17} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.ny} roughness={0.18} metalness={0.08} clearcoat={0.74} clearcoatRoughness={0.15} />
         </mesh>
       )}
       {stickers.pz && (
         <mesh position={[0, 0, stickerOffset]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.pz} roughness={0.18} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.pz} roughness={0.2} metalness={0.08} clearcoat={0.72} clearcoatRoughness={0.18} />
         </mesh>
       )}
       {stickers.nz && (
         <mesh position={[0, 0, -stickerOffset]} rotation={[0, Math.PI, 0]}>
-          <planeGeometry args={[stickerSize, stickerSize]} />
-          <meshStandardMaterial color={FACE_COLORS.nz} roughness={0.18} metalness={0.08} />
+          <primitive object={STICKER_GEOMETRY} attach="geometry" />
+          <meshPhysicalMaterial color={FACE_COLORS.nz} roughness={0.2} metalness={0.08} clearcoat={0.72} clearcoatRoughness={0.18} />
         </mesh>
       )}
     </group>
@@ -299,26 +310,43 @@ export default function RubiksCubeIntro({ onComplete, onError }) {
     <Canvas
       shadows
       dpr={[1, 1.75]}
-      camera={{ position: [0, 0.8, 8.1], fov: 33 }}
+      camera={{ position: [0, 0.68, 7.35], fov: 31 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       onCreated={({ gl }) => {
         if (!gl) {
           onError?.()
         }
+
+        gl.toneMappingExposure = 1.05
       }}
     >
       <color attach="background" args={['#04070f']} />
       <fog attach="fog" args={['#04070f', 8, 18]} />
 
-      <ambientLight intensity={0.45} color="#8aa0c8" />
-      <directionalLight position={[4.8, 6.2, 3.6]} intensity={1.08} color="#f8fbff" castShadow shadow-mapSize={[1024, 1024]} />
-      <directionalLight position={[-3.2, 2.6, -4.5]} intensity={0.42} color="#3f80ff" />
-      <pointLight position={[0, 2.8, 4]} intensity={0.32} color="#7cd2ff" />
+      <ambientLight intensity={0.22} color="#9bb4dc" />
+      <hemisphereLight intensity={0.28} color="#b8cfff" groundColor="#111726" />
+
+      <spotLight
+        position={[4.2, 6.1, 5.2]}
+        intensity={1.05}
+        angle={0.46}
+        penumbra={0.66}
+        color="#f4f8ff"
+        castShadow
+        shadow-mapSize={[1024, 1024]}
+        shadow-bias={-0.00008}
+      />
+
+      <pointLight position={[-4.8, 1.4, -3.8]} intensity={0.35} color="#88a9dd" />
+      <pointLight position={[3.8, 1.7, -4.8]} intensity={0.34} color="#6ba7ff" />
+      <pointLight position={[0, 2.4, 4.8]} intensity={0.26} color="#7fe0ff" />
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
-        <circleGeometry args={[3.5, 48]} />
-        <shadowMaterial opacity={0.18} />
+        <circleGeometry args={[3.8, 64]} />
+        <shadowMaterial opacity={0.16} />
       </mesh>
+
+      <ContactShadows position={[0, -1.47, 0]} opacity={0.28} width={8} height={8} blur={2.1} far={4.2} />
 
       <CubeRig onComplete={onComplete} />
     </Canvas>
