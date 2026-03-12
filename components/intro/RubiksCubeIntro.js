@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, SoftShadows } from '@react-three/drei'
 import { MathUtils, Quaternion, Vector3 } from 'three'
 
 const FACE_COLORS = {
@@ -295,16 +294,19 @@ function CubeRig({ onComplete }) {
   )
 }
 
-export default function RubiksCubeIntro({ onComplete }) {
+export default function RubiksCubeIntro({ onComplete, onError }) {
   return (
     <Canvas
       shadows
       dpr={[1, 1.75]}
       camera={{ position: [0, 0.8, 8.1], fov: 33 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      onCreated={({ gl }) => {
+        if (!gl) {
+          onError?.()
+        }
+      }}
     >
-      <SoftShadows size={18} samples={12} focus={0.55} />
-
       <color attach="background" args={['#04070f']} />
       <fog attach="fog" args={['#04070f', 8, 18]} />
 
@@ -319,7 +321,6 @@ export default function RubiksCubeIntro({ onComplete }) {
       </mesh>
 
       <CubeRig onComplete={onComplete} />
-      <Environment preset="city" />
     </Canvas>
   )
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import React, { Component } from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 
@@ -9,6 +10,16 @@ const RubiksCubeIntro = dynamic(() => import('@/components/intro/RubiksCubeIntro
 
 const INTRO_SEEN_KEY = 'INTRO_SEEN'
 const FADE_OUT_MS = 420
+
+class IntroErrorBoundary extends Component {
+  componentDidCatch() {
+    this.props.onError?.()
+  }
+
+  render() {
+    return this.props.children
+  }
+}
 
 function supportsWebGL() {
   try {
@@ -68,6 +79,11 @@ export default function IntroOverlay() {
     }, FADE_OUT_MS)
   }, [mode])
 
+  const skipWithFailure = useCallback(() => {
+    sessionStorage.setItem(INTRO_SEEN_KEY, '1')
+    setMode('hidden')
+  }, [])
+
   useEffect(() => {
     if (!visible) return undefined
 
@@ -90,7 +106,9 @@ export default function IntroOverlay() {
         Skip
       </button>
       <div className="intro-overlay__scene">
-        <RubiksCubeIntro onComplete={finishIntro} />
+        <IntroErrorBoundary onError={skipWithFailure}>
+          <RubiksCubeIntro onComplete={finishIntro} onError={skipWithFailure} />
+        </IntroErrorBoundary>
       </div>
     </div>
   )
