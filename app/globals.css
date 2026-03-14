@@ -1,3 +1,37 @@
+/* Center the navbar icons */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.navbar-icons {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-icons li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-icons svg {
+  font-size: 1.25rem;
+  color: #fff;
+  opacity: 0.85;
+  transition: color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.navbar-icons svg:hover {
+  color: #38bdf8; /* Accent color */
+  transform: translateY(-2px) scale(1.1);
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;

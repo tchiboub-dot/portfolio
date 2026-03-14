@@ -175,35 +175,17 @@ export default function Header() {
         </a>
 
         {/* Desktop Navigation - centered, icons only */}
-        <ul className="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
-          {navLinks.map(({ name, href, Icon }) => (
-            <li key={name}>
-              <a
-                href={href}
-                className="navbar-link relative group inline-flex h-9 w-9 items-center justify-center rounded-full"
-                style={{
-                  color: isDark ? '#EAF0FF' : '#0B1220',
-                  transition: 'color 240ms ease, background-color 240ms ease, transform 240ms ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = isDark ? '#8FD3FF' : '#1E40AF';
-                  e.currentTarget.style.backgroundColor = isDark ? 'rgba(143, 211, 255, 0.10)' : 'rgba(30, 64, 175, 0.08)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = isDark ? '#EAF0FF' : '#0B1220';
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-                aria-label={name}
-                title={name}
-              >
-                <Icon className="w-3.5 h-3.5 opacity-80 shrink-0" aria-hidden="true" />
-                <span className="absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-5 transition-all duration-300" />
-              </a>
-            </li>
-          ))}
-        </ul>
+        <nav className="navbar-center hidden md:flex flex-1 justify-center items-center absolute left-1/2 -translate-x-1/2">
+          <ul className="navbar-icons flex gap-8 list-none p-0 m-0">
+            {navLinks.map(({ name, href, Icon }) => (
+              <li key={name}>
+                <a href={href} aria-label={name} title={name} className="flex items-center justify-center">
+                  <Icon />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Actions: Theme Toggle + Mobile Menu */}
         <div className="flex items-center gap-4">
