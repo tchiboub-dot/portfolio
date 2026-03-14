@@ -125,4 +125,3 @@ export default function Hero() {
     </section>
   )
 }
-      {/* Animated Radial Glow Behind Hero */}
