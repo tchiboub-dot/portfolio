@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows } from '@react-three/drei'
 import { MathUtils, Quaternion, Vector3 } from 'three'
@@ -306,47 +306,60 @@ function CubeRig({ onComplete }) {
 }
 
 export default function RubiksCubeIntro({ onComplete, onError }) {
+  // Detect mobile once on mount — stable for the lifetime of the intro.
+  const [isMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
+
   return (
     <Canvas
-      shadows
-      dpr={[1, 1.75]}
+      shadows={!isMobile}
+      dpr={isMobile ? 1 : [1, 1.75]}
       camera={{ position: [0, 0.68, 7.35], fov: 31 }}
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      gl={{
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? 'default' : 'high-performance',
+      }}
       onCreated={({ gl }) => {
         if (!gl) {
           onError?.()
+          return
         }
-
         gl.toneMappingExposure = 1.05
       }}
     >
       <color attach="background" args={['#04070f']} />
       <fog attach="fog" args={['#04070f', 8, 18]} />
 
-      <ambientLight intensity={0.22} color="#9bb4dc" />
+      <ambientLight intensity={isMobile ? 0.35 : 0.22} color="#9bb4dc" />
       <hemisphereLight intensity={0.28} color="#b8cfff" groundColor="#111726" />
 
-      <spotLight
-        position={[4.2, 6.1, 5.2]}
-        intensity={1.05}
-        angle={0.46}
-        penumbra={0.66}
-        color="#f4f8ff"
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.00008}
-      />
+      {isMobile ? (
+        /* Simplified single light — no shadow map, cheaper on mobile */
+        <pointLight position={[4.2, 6.1, 5.2]} intensity={1.4} color="#f4f8ff" />
+      ) : (
+        <>
+          <spotLight
+            position={[4.2, 6.1, 5.2]}
+            intensity={1.05}
+            angle={0.46}
+            penumbra={0.66}
+            color="#f4f8ff"
+            castShadow
+            shadow-mapSize={[1024, 1024]}
+            shadow-bias={-0.00008}
+          />
+          <pointLight position={[-4.8, 1.4, -3.8]} intensity={0.35} color="#88a9dd" />
+          <pointLight position={[3.8, 1.7, -4.8]} intensity={0.34} color="#6ba7ff" />
+          <pointLight position={[0, 2.4, 4.8]} intensity={0.26} color="#7fe0ff" />
 
-      <pointLight position={[-4.8, 1.4, -3.8]} intensity={0.35} color="#88a9dd" />
-      <pointLight position={[3.8, 1.7, -4.8]} intensity={0.34} color="#6ba7ff" />
-      <pointLight position={[0, 2.4, 4.8]} intensity={0.26} color="#7fe0ff" />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
+            <circleGeometry args={[3.8, 64]} />
+            <shadowMaterial opacity={0.16} />
+          </mesh>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
-        <circleGeometry args={[3.8, 64]} />
-        <shadowMaterial opacity={0.16} />
-      </mesh>
-
-      <ContactShadows position={[0, -1.47, 0]} opacity={0.28} width={8} height={8} blur={2.1} far={4.2} />
+          <ContactShadows position={[0, -1.47, 0]} opacity={0.28} width={8} height={8} blur={2.1} far={4.2} />
+        </>
+      )}
 
       <CubeRig onComplete={onComplete} />
     </Canvas>
