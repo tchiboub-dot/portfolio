@@ -133,9 +133,23 @@ export default function Header() {
   }
 
   return (
-    <header className={`site-header ${isHeaderHidden ? 'site-header--hidden' : 'site-header--visible'} z-50 pointer-events-none`}>
-      <nav className="navbar-pill container-custom relative flex justify-between items-center pointer-events-auto">
-        {/* Logo */}
+
+    <>
+      {/* Vertical Sidebar Navigation - middle left */}
+      <aside className="navbar-vertical hidden md:flex flex-col items-center fixed left-0 top-1/2 -translate-y-1/2 z-50 pointer-events-auto">
+        <ul className="navbar-icons-vertical flex flex-col gap-6 list-none p-3 m-0 rounded-2xl bg-[rgba(13,27,42,0.65)] shadow-xl border border-blue-400/20">
+          {navLinks.map(({ name, href, Icon }) => (
+            <li key={name}>
+              <a href={href} aria-label={name} title={name} className="flex items-center justify-center">
+                <Icon />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      {/* Logo and theme toggle remain at top (optional: can be moved if desired) */}
+      <div className="navbar-logo-theme fixed left-0 top-0 flex flex-col items-center gap-2 p-2 z-50 pointer-events-auto">
         <a
           href="#home"
           className="navbar-logo hover:opacity-90 transition-opacity duration-300 shrink-0"
@@ -173,50 +187,20 @@ export default function Header() {
             />
           </div>
         </a>
-
-        {/* Desktop Navigation - centered, icons only */}
-        <nav className="navbar-center hidden md:flex flex-1 justify-center items-center absolute left-1/2 -translate-x-1/2">
-          <ul className="navbar-icons flex gap-8 list-none p-0 m-0">
-            {navLinks.map(({ name, href, Icon }) => (
-              <li key={name}>
-                <a href={href} aria-label={name} title={name} className="flex items-center justify-center">
-                  <Icon />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Actions: Theme Toggle + Mobile Menu */}
-        <div className="flex items-center gap-4">
-          {/* Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            className="h-10 w-10 inline-flex items-center justify-center rounded-lg border transition-all duration-300 hover:drop-shadow-lg"
-            style={{
-              borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
-              backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
-              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
-            }}
-            aria-label="Toggle theme"
-            title={isDark ? 'Mode clair' : 'Mode sombre'}
-          >
-            {isDark ? <FaMoon className="w-5 h-5" /> : <FaSun className="w-5 h-5" />}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-blue-400/30 text-xl transition-colors duration-300"
-            style={{
-              color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
-            }}
-            aria-label="Menu"
-          >
-            {isOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
-      </nav>
+        <button
+          onClick={toggleTheme}
+          className="h-10 w-10 inline-flex items-center justify-center rounded-lg border transition-all duration-300 hover:drop-shadow-lg mt-2"
+          style={{
+            borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+            backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+            color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
+          }}
+          aria-label="Toggle theme"
+          title={isDark ? 'Mode clair' : 'Mode sombre'}
+        >
+          {isDark ? <FaMoon className="w-5 h-5" /> : <FaSun className="w-5 h-5" />}
+        </button>
+      </div>
 
       {/* Mobile Menu */}
       {isOpen && (
@@ -261,6 +245,49 @@ export default function Header() {
           </div>
         </div>
       )}
-    </header>
+      {/* Mobile Menu (unchanged) */}
+      {isOpen && (
+        <div className="md:hidden navbar-mobile-panel pointer-events-auto">
+          <div className="container-custom py-5 space-y-4">
+            {/* Theme Toggle - Mobile */}
+            <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)' }}>
+              <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)' }}>Thème</span>
+              <button
+                onClick={toggleTheme}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-300"
+                style={{
+                  borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
+                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+                  color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
+                }}
+                aria-label="Toggle theme"
+              >
+                {isDark ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />}
+              </button>
+            </div>
+
+            {/* Mobile Navigation */}
+            <ul className="flex flex-col space-y-2">
+              {navLinks.map(({ name, href, Icon }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 rounded-lg px-2 py-2.5 font-medium text-sm uppercase tracking-wide"
+                    style={{
+                      color: isDark ? '#EAF0FF' : '#0B1220',
+                      transition: 'color 240ms ease',
+                    }}
+                  >
+                    <Icon className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
+                    {name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

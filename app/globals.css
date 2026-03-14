@@ -1,3 +1,57 @@
+/* Vertical left sidebar navbar */
+.navbar-vertical {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.navbar-icons-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 1.2rem 0.5rem;
+  margin: 0;
+  border-radius: 1.25rem;
+  background: rgba(13,27,42,0.65);
+  box-shadow: 0 4px 32px rgba(59,130,246,0.10);
+  border: 1px solid rgba(59,130,246,0.20);
+}
+
+.navbar-icons-vertical li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-icons-vertical svg {
+  font-size: 1.45rem;
+  color: #fff;
+  opacity: 0.88;
+  transition: color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.navbar-icons-vertical svg:hover {
+  color: #38bdf8;
+  transform: translateY(-2px) scale(1.1);
+}
+
+.navbar-logo-theme {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.25rem;
+  pointer-events: auto;
+}
 /* Center the navbar icons */
 .navbar-center {
   display: flex;
