@@ -134,7 +134,7 @@ export default function Header() {
 
   return (
     <header className={`site-header ${isHeaderHidden ? 'site-header--hidden' : 'site-header--visible'} z-50 pointer-events-none`}>
-      <nav className="navbar-pill container-custom flex justify-between items-center pointer-events-auto">
+      <nav className="navbar-pill container-custom relative flex justify-between items-center pointer-events-auto">
         {/* Logo */}
         <a
           href="#home"
@@ -174,27 +174,32 @@ export default function Header() {
           </div>
         </a>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex items-center gap-8">
+        {/* Desktop Navigation - centered, icons only */}
+        <ul className="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
           {navLinks.map(({ name, href, Icon }) => (
             <li key={name}>
               <a
                 href={href}
-                className="navbar-link font-medium text-sm uppercase tracking-wide relative group inline-flex items-center gap-1.5"
+                className="navbar-link relative group inline-flex h-9 w-9 items-center justify-center rounded-full"
                 style={{
                   color: isDark ? '#EAF0FF' : '#0B1220',
-                  transition: 'color 240ms ease',
+                  transition: 'color 240ms ease, background-color 240ms ease, transform 240ms ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = isDark ? '#8FD3FF' : '#1E40AF';
+                  e.currentTarget.style.backgroundColor = isDark ? 'rgba(143, 211, 255, 0.10)' : 'rgba(30, 64, 175, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = isDark ? '#EAF0FF' : '#0B1220';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
+                aria-label={name}
+                title={name}
               >
-                <Icon className="w-3 h-3 opacity-70 shrink-0" aria-hidden="true" />
-                {name}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
+                <Icon className="w-3.5 h-3.5 opacity-80 shrink-0" aria-hidden="true" />
+                <span className="absolute -bottom-0.5 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-5 transition-all duration-300" />
               </a>
             </li>
           ))}
