@@ -1,17 +1,20 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import Button from './ui/Button'
 import Avatar from './ui/Avatar'
+
+const SKILL_ICONS = [
+  { icon: '⚡', label: 'Développement Web' },
+  { icon: '☁️', label: 'Applications Cloud' },
+  { icon: '🤖', label: 'Outils IA' },
+]
 
 export default function Hero() {
   const heroData = {
     name: 'Chiboub Taha Adnane',
     title: 'Software Engineer Student',
-    subtitle: 'Full-Stack Developer | Cloud & AI Enthusiast',
-    valueStatement: 'I design and build modern web applications with scalable architecture and polished user experiences.',
-    description: 'Focused on shipping clean, high-quality digital products with strong frontend foundations, practical backend logic, and reliable deployment workflows.',
-    highlights: ['⚡ Web Development', '☁️ Cloud Applications', '🤖 AI Tools'],
     email: 'taha.adnane.chiboub@gmail.com',
     github: 'https://github.com/tchiboub-dot',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
@@ -19,12 +22,27 @@ export default function Hero() {
     cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
 
+  const sectionRef = useRef(null)
+  // Start true — hero is in view on page load
+  const [avatarVisible, setAvatarVisible] = useState(true)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setAvatarVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">
+    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">
       {/* Animated Radial Glow Behind Hero */}
       <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-blue-500/10 to-transparent rounded-full blur-3xl animate-ambient-breath pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-cyan-400/5 to-transparent rounded-full blur-2xl animate-parallax-slower pointer-events-none" />
-      
+
       {/* Soft Particle Lights */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl animate-particle-1" />
@@ -32,56 +50,38 @@ export default function Hero() {
         <div className="absolute bottom-1/4 left-1/3 w-28 h-28 bg-blue-400/8 rounded-full blur-3xl animate-particle-3" />
       </div>
 
+      {/* ── Fixed avatar — top-left, fades out when hero leaves viewport ── */}
+      <div
+        className={`hero-avatar-fixed${avatarVisible ? ' is-visible' : ''}`}
+        aria-hidden="true"
+      >
+        <div className="relative">
+          <div className="absolute inset-0 w-full h-full animate-hero-glow rounded-full" />
+          <Avatar src={heroData.photo} alt={heroData.name} size="lg" priority={true} />
+        </div>
+      </div>
+
       <div className="container-custom text-center relative z-10 px-4 sm:px-6">
         <div className="animate-fade-in-up">
-          {/* Avatar with Enhanced Glow (NO FLOATING) */}
-          <div className="mb-6 sm:mb-8 flex justify-center">
-            <div className="relative">
-              {/* Extended Glow Halo */}
-              <div className="absolute inset-0 w-full h-full animate-hero-glow rounded-full" aria-hidden="true" />
-              {/* Avatar - STATIC, NO FLOATING */}
-              <div>
-                <Avatar src={heroData.photo} alt={heroData.name} size="lg" priority={true} />
-              </div>
-            </div>
-          </div>
-
           {/* Animated Name with Neon Glow */}
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-3 sm:mb-4 leading-tight animate-name-glow px-4">
             {heroData.name}
           </h1>
 
           {/* Title with Premium Styling */}
-          <h2 className="text-base sm:text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-2 sm:mb-3 px-4">
+          <h2 className="text-base sm:text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent font-semibold mb-8 sm:mb-10 px-4">
             {heroData.title}
           </h2>
 
-          {/* Subtitle */}
-          <p className="text-base sm:text-lg md:text-xl text-blue-100 mb-3 sm:mb-4 font-medium px-4">
-            {heroData.subtitle}
-          </p>
-
-          {/* Value Proposition */}
-          <p className="text-sm sm:text-base md:text-lg text-cyan-300/90 mb-4 sm:mb-6 font-semibold tracking-wide px-4 max-w-3xl mx-auto">
-            {heroData.valueStatement}
-          </p>
-
-          {/* Quick Skill Highlights */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-5 sm:mb-6 px-4">
-            {heroData.highlights.map((highlight) => (
-              <span
-                key={highlight}
-                className="text-xs sm:text-sm md:text-base px-3 py-1.5 rounded-full bg-blue-500/15 border border-blue-400/30 text-blue-100 backdrop-blur-sm"
-              >
-                {highlight}
-              </span>
+          {/* Skill Icons */}
+          <div className="flex items-end justify-center gap-8 sm:gap-14 mb-8 sm:mb-10 px-4">
+            {SKILL_ICONS.map(({ icon, label }) => (
+              <div key={label} className="hero-skill-icon-item">
+                <span className="hero-skill-icon-emoji" role="img" aria-label={label}>{icon}</span>
+                <span className="hero-skill-icon-label">{label}</span>
+              </div>
             ))}
           </div>
-
-          {/* Description */}
-          <p className="text-sm sm:text-base text-text max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
-            {heroData.description}
-          </p>
 
           {/* Elite CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
@@ -129,20 +129,6 @@ export default function Hero() {
       </div>
 
       <style jsx>{`
-        @keyframes hero-float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes hero-glow-pulse {
-          0%, 100% {
-            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3), 
-                        0 0 80px rgba(59, 130, 246, 0.15);
-          }
-          50% {
-            box-shadow: 0 0 60px rgba(59, 130, 246, 0.5),
-                        0 0 120px rgba(59, 130, 246, 0.25);
-          }
-        }
         @keyframes name-glow {
           0%, 100% {
             text-shadow: 0 0 10px rgba(59, 130, 246, 0.4),

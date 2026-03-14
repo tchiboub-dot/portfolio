@@ -3619,3 +3619,86 @@ select:focus-visible {
     padding: 0.28rem 0.62rem;
   }
 }
+
+/* ============================================
+   HERO — FIXED AVATAR (left side, scroll-aware)
+   ============================================ */
+
+.hero-avatar-fixed {
+  position: fixed;
+  top: 6rem;
+  left: 1.5rem;
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.hero-avatar-fixed.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-avatar-fixed,
+  .hero-avatar-fixed.is-visible {
+    transition: opacity 0.45s ease;
+    transform: none !important;
+  }
+}
+
+/* Slightly tighter positioning on narrow screens */
+@media (max-width: 767px) {
+  .hero-avatar-fixed {
+    top: 5rem;
+    left: 0.5rem;
+  }
+}
+
+/* ============================================
+   HERO — SKILL ICON GRID
+   ============================================ */
+
+.hero-skill-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero-skill-icon-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(99, 179, 237, 0.35));
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.hero-skill-icon-item:hover .hero-skill-icon-emoji {
+  filter: drop-shadow(0 0 10px rgba(99, 179, 237, 0.65));
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-skill-icon-item:hover .hero-skill-icon-emoji {
+    transform: none;
+  }
+}
+
+.hero-skill-icon-label {
+  font-size: 0.72rem;
+  color: rgba(191, 219, 254, 0.78); /* blue-200 tint */
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .hero-skill-icon-emoji {
+    font-size: 3rem;
+  }
+  .hero-skill-icon-label {
+    font-size: 0.82rem;
+  }
+}
