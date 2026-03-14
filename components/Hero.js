@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import Button from './ui/Button'
 import Avatar from './ui/Avatar'
@@ -22,23 +21,8 @@ export default function Hero() {
     cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
 
-  const sectionRef = useRef(null)
-  // Start true — hero is in view on page load
-  const [avatarVisible, setAvatarVisible] = useState(true)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setAvatarVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    )
-    observer.observe(section)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">
       {/* Animated Radial Glow Behind Hero */}
       <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-blue-500/10 to-transparent rounded-full blur-3xl animate-ambient-breath pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-cyan-400/5 to-transparent rounded-full blur-2xl animate-parallax-slower pointer-events-none" />
@@ -50,19 +34,16 @@ export default function Hero() {
         <div className="absolute bottom-1/4 left-1/3 w-28 h-28 bg-blue-400/8 rounded-full blur-3xl animate-particle-3" />
       </div>
 
-      {/* ── Fixed avatar — top-left, fades out when hero leaves viewport ── */}
-      <div
-        className={`hero-avatar-fixed${avatarVisible ? ' is-visible' : ''}`}
-        aria-hidden="true"
-      >
-        <div className="relative">
-          <div className="absolute inset-0 w-full h-full animate-hero-glow rounded-full" />
-          <Avatar src={heroData.photo} alt={heroData.name} size="lg" priority={true} />
-        </div>
-      </div>
-
       <div className="container-custom text-center relative z-10 px-4 sm:px-6">
         <div className="animate-fade-in-up">
+          {/* Avatar — centered, static */}
+          <div className="mb-6 sm:mb-8 flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 w-full h-full animate-hero-glow rounded-full" aria-hidden="true" />
+              <Avatar src={heroData.photo} alt={heroData.name} size="lg" priority={true} />
+            </div>
+          </div>
+
           {/* Animated Name with Neon Glow */}
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-3 sm:mb-4 leading-tight animate-name-glow px-4">
             {heroData.name}
@@ -144,3 +125,4 @@ export default function Hero() {
     </section>
   )
 }
+      {/* Animated Radial Glow Behind Hero */}

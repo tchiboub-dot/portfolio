@@ -1,7 +1,12 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
+import {
+  FaBars, FaTimes, FaMoon, FaSun,
+  FaHome, FaUser, FaGraduationCap, FaBriefcase,
+  FaCode, FaHammer, FaStar, FaMicrochip,
+  FaChartBar, FaGithub, FaEnvelope,
+} from 'react-icons/fa'
 
 /**
  * ELITE HEADER/NAVIGATION COMPONENT
@@ -15,17 +20,17 @@ export default function Header() {
   const hiddenRef = useRef(false)
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Education', href: '#education' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'WIP', href: '#announcements' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Tech', href: '#technologies' },
-    { name: 'Stats', href: '#stats' },
-    { name: 'GitHub', href: '#github' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home',       href: '#home',          Icon: FaHome },
+    { name: 'About',      href: '#about',         Icon: FaUser },
+    { name: 'Education',  href: '#education',     Icon: FaGraduationCap },
+    { name: 'Experience', href: '#experience',    Icon: FaBriefcase },
+    { name: 'Projects',   href: '#projects',      Icon: FaCode },
+    { name: 'WIP',        href: '#announcements', Icon: FaHammer },
+    { name: 'Skills',     href: '#skills',        Icon: FaStar },
+    { name: 'Tech',       href: '#technologies',  Icon: FaMicrochip },
+    { name: 'Stats',      href: '#stats',         Icon: FaChartBar },
+    { name: 'GitHub',     href: '#github',        Icon: FaGithub },
+    { name: 'Contact',    href: '#contact',       Icon: FaEnvelope },
   ]
 
   useEffect(() => {
@@ -171,11 +176,11 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <ul className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <li key={link.name}>
+          {navLinks.map(({ name, href, Icon }) => (
+            <li key={name}>
               <a
-                href={link.href}
-                className="navbar-link font-medium text-sm uppercase tracking-wide relative group"
+                href={href}
+                className="navbar-link font-medium text-sm uppercase tracking-wide relative group inline-flex items-center gap-1.5"
                 style={{
                   color: isDark ? '#EAF0FF' : '#0B1220',
                   transition: 'color 240ms ease',
@@ -187,8 +192,9 @@ export default function Header() {
                   e.currentTarget.style.color = isDark ? '#EAF0FF' : '#0B1220';
                 }}
               >
-                {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
+                <Icon className="w-3 h-3 opacity-70 shrink-0" aria-hidden="true" />
+                {name}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
               </a>
             </li>
           ))}
@@ -248,18 +254,19 @@ export default function Header() {
 
             {/* Mobile Navigation */}
             <ul className="flex flex-col space-y-2">
-              {navLinks.map((link) => (
-                <li key={link.name}>
+              {navLinks.map(({ name, href, Icon }) => (
+                <li key={name}>
                   <a
-                    href={link.href}
+                    href={href}
                     onClick={() => setIsOpen(false)}
-                    className="block rounded-lg px-2 py-2.5 font-medium text-sm uppercase tracking-wide"
+                    className="flex items-center gap-2 rounded-lg px-2 py-2.5 font-medium text-sm uppercase tracking-wide"
                     style={{
                       color: isDark ? '#EAF0FF' : '#0B1220',
                       transition: 'color 240ms ease',
                     }}
                   >
-                    {link.name}
+                    <Icon className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
+                    {name}
                   </a>
                 </li>
               ))}
