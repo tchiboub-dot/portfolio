@@ -3,6 +3,8 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import StarfieldBackground from '@/components/StarfieldBackground'
 import AssistantWidgetLoader from '@/components/assistant/AssistantWidgetLoader'
 import IntroOverlay from '@/components/intro/IntroOverlay'
+import AdminAccess from '@/components/AdminAccess'
+import PortfolioContentProvider from '@/components/PortfolioContentProvider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -42,10 +44,13 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-          <StarfieldBackground />
-          {children}
-          <AssistantWidgetLoader />
-          <IntroOverlay />
+          <PortfolioContentProvider>
+            <StarfieldBackground />
+            {children}
+            <AssistantWidgetLoader />
+            <IntroOverlay />
+            <AdminAccess />
+          </PortfolioContentProvider>
         </ThemeProvider>
       </body>
     </html>

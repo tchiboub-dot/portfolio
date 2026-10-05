@@ -5,6 +5,7 @@ import { FaEnvelope, FaLinkedin, FaGithub, FaPaperPlane, FaDownload } from 'reac
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 // ── Email validation ─────────────────────────────────────────────────────────
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/
@@ -57,6 +58,7 @@ function validateEmail(email) {
 }
 
 export default function Contact() {
+  const content = usePortfolioContent()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -68,12 +70,13 @@ export default function Contact() {
   const [status, setStatus] = useState({ type: '', title: '', detail: '' })
   const [emailError, setEmailError] = useState('')
 
-  const contactData = {
+  const fallbackContactData = {
     email: 'taha.adnane.chiboub@gmail.com',
     linkedin: 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a',
     github: 'https://github.com/tchiboub-dot',
     cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
+  const contactData = content?.contact ? { ...fallbackContactData, ...content.contact } : fallbackContactData
 
   const quickContacts = [
     { label: 'Email', icon: FaEnvelope, href: `mailto:${contactData.email}` },

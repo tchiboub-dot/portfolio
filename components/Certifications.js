@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 const CERTIFICATIONS = [
   {
@@ -77,10 +78,12 @@ const CERTIFICATIONS = [
 const REQUIRED_FIELDS = ['id', 'image', 'title', 'issuer', 'year', 'summary', 'verification', 'skills']
 
 export default function Certifications() {
+  const content = usePortfolioContent()
   const [activeIndex, setActiveIndex] = useState(0)
   const touchStartXRef = useRef(null)
   const certifications = useMemo(() => {
-    return CERTIFICATIONS.filter((item) => {
+    const source = content?.certifications?.length ? content.certifications : CERTIFICATIONS
+    return source.filter((item) => {
       const hasAllRequiredFields = REQUIRED_FIELDS.every((field) => {
         if (field === 'skills') return Array.isArray(item.skills) && item.skills.length > 0
         return Boolean(item[field])
@@ -92,7 +95,7 @@ export default function Certifications() {
 
       return hasAllRequiredFields
     })
-  }, [])
+  }, [content])
 
   const totalCount = certifications.length
   const normalizedActiveIndex = totalCount ? ((activeIndex % totalCount) + totalCount) % totalCount : 0

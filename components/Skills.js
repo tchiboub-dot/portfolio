@@ -2,9 +2,11 @@
 
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 export default function Skills() {
-  const categories = [
+  const content = usePortfolioContent()
+  const fallbackCategories = [
     {
       title: 'Frontend',
       skills: [
@@ -43,6 +45,13 @@ export default function Skills() {
       ],
     },
   ]
+
+  const categories = content?.skills ? [
+    { title: 'Frontend', skills: content.skills.frontend || [] },
+    { title: 'Backend', skills: content.skills.backend || [] },
+    { title: 'Tools', skills: content.skills.tools || [] },
+    { title: 'AI / Cloud', skills: content.skills.aiCloud || [] },
+  ] : fallbackCategories
 
   return (
     <section id="skills" className="section py-24 md:py-32 bg-bg relative overflow-hidden">

@@ -4,9 +4,11 @@ import { FaUser, FaLanguage, FaLaptopCode } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 export default function About() {
-  const aboutData = {
+  const content = usePortfolioContent()
+  const fallbackAboutData = {
     title: 'About Me',
     subtitle: 'Computer science engineering student focused on impactful products, scalable architecture, and polished user experience',
     introduction: 'I am a computer science engineering student passionate about building modern digital products.',
@@ -20,6 +22,7 @@ export default function About() {
     languages: ['Arabe (Natif)', 'Français (Courant)', 'Anglais (Intermédiaire)'],
     availability: 'Available for internships, freelance work, and collaborative product building.',
   }
+  const aboutData = content?.about ? { ...fallbackAboutData, ...content.about } : fallbackAboutData
 
   return (
     <section id="about" className="section py-24 md:py-32 bg-bg">

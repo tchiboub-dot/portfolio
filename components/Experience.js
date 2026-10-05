@@ -4,6 +4,7 @@ import { FaBriefcase, FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 /**
  * COMPOSANT EXPERIENCE (EXPÉRIENCE PROFESSIONNELLE)
@@ -11,7 +12,8 @@ import Badge from './ui/Badge'
  * Pour modifier les données, changez l'objet experienceData ci-dessous
  */
 export default function Experience() {
-  const experienceData = [
+  const content = usePortfolioContent()
+  const fallbackExperienceData = [
     {
       title: 'Full-Stack Developer (Junior)',
       company: 'Personal & Academic Projects (ESISA)',
@@ -27,6 +29,8 @@ export default function Experience() {
       current: true,
     },
   ]
+
+  const experienceData = content?.experience?.length ? content.experience : fallbackExperienceData
 
   return (
     <section id="experience" className="section py-24 md:py-32 bg-bg">

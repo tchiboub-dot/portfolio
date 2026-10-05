@@ -3,6 +3,7 @@
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import Button from './ui/Button'
 import Avatar from './ui/Avatar'
+import { usePortfolioContent } from './PortfolioContentProvider'
 
 const SKILL_ICONS = [
   { icon: '⚡', label: 'Développement Web' },
@@ -11,7 +12,8 @@ const SKILL_ICONS = [
 ]
 
 export default function Hero() {
-  const heroData = {
+  const content = usePortfolioContent()
+  const fallbackHeroData = {
     name: 'Chiboub Taha Adnane',
     title: 'Software Engineer Student',
     email: 'taha.adnane.chiboub@gmail.com',
@@ -20,6 +22,7 @@ export default function Hero() {
     photo: '/photo-profil.jpg',
     cvPath: '/cv-taha-adnane-chiboub.pdf',
   }
+  const heroData = content?.profile ? { ...fallbackHeroData, ...content.profile } : fallbackHeroData
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center bg-bg pt-20 pb-12 sm:pt-24 sm:pb-16 relative overflow-hidden">

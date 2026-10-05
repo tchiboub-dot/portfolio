@@ -18,6 +18,24 @@ export default function Header() {
   const [isDark, setIsDark] = useState(false)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const hiddenRef = useRef(false)
+  const logoClickRef = useRef({ count: 0, firstClickAt: 0 })
+
+  const handleLogoClick = (event) => {
+    const now = Date.now()
+    const clicks = logoClickRef.current
+    if (!clicks.firstClickAt || now - clicks.firstClickAt > 2500) {
+      clicks.firstClickAt = now
+      clicks.count = 0
+    }
+
+    clicks.count += 1
+    if (clicks.count === 5) {
+      event.preventDefault()
+      clicks.count = 0
+      clicks.firstClickAt = 0
+      window.dispatchEvent(new CustomEvent('portfolio:admin-login'))
+    }
+  }
 
   const navLinks = [
     { name: 'Home',       href: '#home',          Icon: FaHome },
@@ -152,6 +170,7 @@ export default function Header() {
       <div className="navbar-logo-theme fixed left-0 top-0 flex flex-col items-center gap-2 p-2 z-50 pointer-events-auto">
         <a
           href="#home"
+          onClick={handleLogoClick}
           className="navbar-logo hover:opacity-90 transition-opacity duration-300 shrink-0"
           aria-label="T.A.C logo"
           title="T.A.C"
