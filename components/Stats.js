@@ -51,7 +51,7 @@ export default function Stats() {
   const stats = [
     { value: 5, suffix: '', label: 'Projects Built' },
     { value: 5, suffix: '', label: 'Certifications Earned' },
-    { value: 1, suffix: '', label: 'Year Coding Experience' },
+    { value: 3, suffix: '', label: 'Year Coding Experience' },
   ]
 
   return (

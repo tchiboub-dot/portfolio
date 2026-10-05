@@ -1,0 +1,741 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: buyer-flow.spec.mjs >> buyer flow desktop and mobile
+- Location: buyer-flow.spec.mjs:5:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText(/successfully|sent successfully|Thank you/i)
+Expected: visible
+Error: strict mode violation: getByText(/successfully|sent successfully|Thank you/i) resolved to 2 elements:
+    1) <p class="jsx-dc9105e78b403575 font-semibold">Your message has been sent successfully.</p> aka getByText('Your message has been sent')
+    2) <p class="jsx-dc9105e78b403575 mt-1 opacity-90">Thank you for reaching out. I will get back to yo…</p> aka getByText('Thank you for reaching out. I')
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByText(/successfully|sent successfully|Thank you/i)
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - complementary [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e5]:
+          - link "Home" [ref=e6] [cursor=pointer]:
+            - /url: "#home"
+            - img [ref=e7]
+        - listitem [ref=e9]:
+          - link "About" [ref=e10] [cursor=pointer]:
+            - /url: "#about"
+            - img [ref=e11]
+        - listitem [ref=e13]:
+          - link "Education" [ref=e14] [cursor=pointer]:
+            - /url: "#education"
+            - img [ref=e15]
+        - listitem [ref=e17]:
+          - link "Experience" [ref=e18] [cursor=pointer]:
+            - /url: "#experience"
+            - img [ref=e19]
+        - listitem [ref=e21]:
+          - link "Projects" [ref=e22] [cursor=pointer]:
+            - /url: "#projects"
+            - img [ref=e23]
+        - listitem [ref=e25]:
+          - link "WIP" [ref=e26] [cursor=pointer]:
+            - /url: "#announcements"
+            - img [ref=e27]
+        - listitem [ref=e29]:
+          - link "Skills" [ref=e30] [cursor=pointer]:
+            - /url: "#skills"
+            - img [ref=e31]
+        - listitem [ref=e33]:
+          - link "Tech" [ref=e34] [cursor=pointer]:
+            - /url: "#technologies"
+            - img [ref=e35]
+        - listitem [ref=e37]:
+          - link "Stats" [ref=e38] [cursor=pointer]:
+            - /url: "#stats"
+            - img [ref=e39]
+        - listitem [ref=e41]:
+          - link "GitHub" [ref=e42] [cursor=pointer]:
+            - /url: "#github"
+            - img [ref=e43]
+        - listitem [ref=e45]:
+          - link "Contact" [ref=e46] [cursor=pointer]:
+            - /url: "#contact"
+            - img [ref=e47]
+    - generic [ref=e49]:
+      - link "T.A.C logo" [ref=e50] [cursor=pointer]:
+        - /url: "#home"
+        - img "T.A.C logo" [ref=e52]
+      - button "Toggle theme" [ref=e53] [cursor=pointer]:
+        - img [ref=e54]
+    - generic [ref=e58]:
+      - img "Chiboub Taha Adnane" [ref=e66]
+      - heading "Chiboub Taha Adnane" [level=1] [ref=e67]
+      - heading "Software Engineer Student" [level=2] [ref=e68]
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - img "Développement Web" [ref=e71]: ⚡
+          - generic [ref=e72]: Développement Web
+        - generic [ref=e73]:
+          - img "Applications Cloud" [ref=e74]: ☁️
+          - generic [ref=e75]: Applications Cloud
+        - generic [ref=e76]:
+          - img "Outils IA" [ref=e77]: 🤖
+          - generic [ref=e78]: Outils IA
+      - generic [ref=e79]:
+        - link "View My Projects" [ref=e80] [cursor=pointer]:
+          - /url: "#projects"
+          - generic [ref=e81]: View My Projects
+        - link "Download CV" [ref=e82] [cursor=pointer]:
+          - /url: /cv-taha-adnane-chiboub.pdf
+      - generic [ref=e83]:
+        - link "GitHub" [ref=e84] [cursor=pointer]:
+          - /url: https://github.com/tchiboub-dot
+          - img [ref=e85]
+        - link "LinkedIn" [ref=e87] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a
+          - img [ref=e88]
+        - link "Email" [ref=e90] [cursor=pointer]:
+          - /url: mailto:taha.adnane.chiboub@gmail.com
+          - img [ref=e91]
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - heading "About Me" [level=2] [ref=e96]
+        - paragraph [ref=e97]: Computer science engineering student focused on impactful products, scalable architecture, and polished user experience
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - generic [ref=e104]:
+            - img [ref=e105]
+            - generic [ref=e107]:
+              - heading "Who I am" [level=3] [ref=e108]
+              - paragraph [ref=e109]: I am a computer science engineering student passionate about building modern digital products.
+              - paragraph [ref=e110]: I enjoy turning ideas into production-ready web experiences by combining strong frontend execution with practical backend fundamentals.
+              - paragraph [ref=e111]:
+                - text: My approach blends
+                - strong [ref=e112]: engineering discipline
+                - text: ","
+                - strong [ref=e113]: clean interfaces
+                - text: ", and"
+                - strong [ref=e114]: business-oriented delivery
+                - text: to create solutions recruiters and teams can trust.
+          - generic [ref=e117]:
+            - img [ref=e118]
+            - generic [ref=e120]:
+              - heading "Languages" [level=3] [ref=e121]
+              - generic [ref=e122]:
+                - generic [ref=e125]: Arabe (Natif)
+                - generic [ref=e128]: Français (Courant)
+                - generic [ref=e131]: Anglais (Intermédiaire)
+        - generic [ref=e132]:
+          - generic [ref=e135]:
+            - img [ref=e136]
+            - generic [ref=e138]:
+              - heading "My interests include" [level=3] [ref=e139]
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - generic [ref=e142]: •
+                  - strong [ref=e144]: Full-stack web development
+                - generic [ref=e145]:
+                  - generic [ref=e146]: •
+                  - strong [ref=e148]: Cloud architecture
+                - generic [ref=e149]:
+                  - generic [ref=e150]: •
+                  - strong [ref=e152]: User-focused design
+                - generic [ref=e153]:
+                  - generic [ref=e154]: •
+                  - strong [ref=e156]: AI-powered applications
+          - generic [ref=e160]:
+            - heading "Open to collaboration" [level=3] [ref=e161]
+            - paragraph [ref=e162]: Available for internships, freelance work, and collaborative product building.
+            - link "Start a conversation" [ref=e163] [cursor=pointer]:
+              - /url: "#contact"
+              - generic [ref=e164]: Start a conversation
+    - generic [ref=e166]:
+      - generic [ref=e167]:
+        - heading "Formation" [level=2] [ref=e168]
+        - paragraph [ref=e169]: Mon parcours éducatif et les domaines maîtrisés
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - img "Logo ESISA" [ref=e180]
+              - heading "Cycle Ingénieur en Informatique" [level=3] [ref=e181]
+            - paragraph [ref=e182]: ESISA Fes
+            - paragraph [ref=e183]:
+              - img [ref=e184]
+              - text: Fès, Maroc
+          - generic [ref=e186]: En cours
+        - generic [ref=e187]:
+          - img [ref=e188]
+          - generic [ref=e190]: 2025/2026 – Présent
+        - paragraph [ref=e191]: Formation en informatique couvrant l'algorithmique, la programmation, les systèmes, la logique et les bases du développement logiciel.
+        - generic [ref=e192]:
+          - paragraph [ref=e193]: "Domaines d'etude :"
+          - generic [ref=e194]:
+            - generic [ref=e195]:
+              - generic [ref=e196]: ✓
+              - generic [ref=e197]: Algorithmique et structures de données
+            - generic [ref=e198]:
+              - generic [ref=e199]: ✓
+              - generic [ref=e200]: Programmation orientée objet
+            - generic [ref=e201]:
+              - generic [ref=e202]: ✓
+              - generic [ref=e203]: Systèmes d'exploitation et réseaux
+            - generic [ref=e204]:
+              - generic [ref=e205]: ✓
+              - generic [ref=e206]: Développement d'applications web
+        - generic [ref=e207]:
+          - paragraph [ref=e208]: "Key Skills Developed:"
+          - generic [ref=e209]:
+            - generic [ref=e210]:
+              - generic [ref=e211]: •
+              - generic [ref=e212]: Algorithms and data structures
+            - generic [ref=e213]:
+              - generic [ref=e214]: •
+              - generic [ref=e215]: Software architecture
+            - generic [ref=e216]:
+              - generic [ref=e217]: •
+              - generic [ref=e218]: System design
+            - generic [ref=e219]:
+              - generic [ref=e220]: •
+              - generic [ref=e221]: Programming best practices
+    - generic [ref=e223]:
+      - generic [ref=e224]:
+        - heading "Expérience" [level=2] [ref=e225]
+        - paragraph [ref=e226]: Impact-oriented contributions and practical engineering experience
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - generic [ref=e233]:
+            - generic [ref=e234]:
+              - img [ref=e235]
+              - generic [ref=e237]:
+                - heading "Full-Stack Developer (Junior)" [level=3] [ref=e238]
+                - generic [ref=e239]:
+                  - generic [ref=e240]: Actuellement
+                  - generic [ref=e241]: Hands-on Product Building
+            - paragraph [ref=e242]: Personal & Academic Projects (ESISA)
+          - generic [ref=e243]:
+            - generic [ref=e244]:
+              - img [ref=e245]
+              - generic [ref=e247]: 2025/2026 – Présent
+            - generic [ref=e248]:
+              - img [ref=e249]
+              - generic [ref=e251]: Fès, Maroc
+        - generic [ref=e252]:
+          - paragraph [ref=e253]: "Key achievements:"
+          - list [ref=e254]:
+            - listitem [ref=e255]:
+              - generic [ref=e258]: Developed responsive web applications using React, Next.js, and Node.js patterns.
+            - listitem [ref=e259]:
+              - generic [ref=e262]: Improved UI consistency by building reusable component blocks for faster iteration.
+            - listitem [ref=e263]:
+              - generic [ref=e266]: Optimized API and form flows to reduce friction and improve user task completion.
+            - listitem [ref=e267]:
+              - generic [ref=e270]: Shipped and maintained demo deployments with iterative UX and performance enhancements.
+    - generic [ref=e272]:
+      - generic [ref=e273]:
+        - heading "Projects" [level=2] [ref=e274]
+        - paragraph [ref=e275]: Selected work with clear business value, implementation quality, and production-ready execution
+      - generic [ref=e278]:
+        - button "All" [pressed] [ref=e279] [cursor=pointer]
+        - button "Web Apps" [ref=e280] [cursor=pointer]
+        - button "Tools" [ref=e281] [cursor=pointer]
+      - generic [ref=e282]:
+        - button "Previous project" [ref=e284] [cursor=pointer]:
+          - img [ref=e285]
+        - button "Next project" [ref=e288] [cursor=pointer]:
+          - img [ref=e289]
+        - generic [ref=e291]:
+          - 'button "Select project: Parfume Store" [ref=e292] [cursor=pointer]':
+            - generic [ref=e296]:
+              - generic [ref=e297]:
+                - img "Parfume Store preview" [ref=e298]
+                - generic [ref=e300]: 01 / 04
+                - generic [ref=e301]: Web Apps
+              - generic [ref=e302]:
+                - heading "Parfume Store" [level=3] [ref=e303]
+                - paragraph [ref=e304]: Premium full-stack e-commerce experience with modern UI, multilingual flows, and polished performance.
+                - generic [ref=e305]:
+                  - generic [ref=e306]: React
+                  - generic [ref=e307]: Next.js
+                  - generic [ref=e308]: Tailwind
+                  - generic [ref=e309]: TypeScript
+              - generic [ref=e310]:
+                - generic [ref=e311]: Click to inspect project
+                - generic [ref=e312]: Active Focus
+          - 'button "Select project: Student Management System" [ref=e313] [cursor=pointer]':
+            - generic [ref=e317]:
+              - generic [ref=e318]:
+                - img "Student Management System preview" [ref=e319]
+                - generic [ref=e321]: 02 / 04
+                - generic [ref=e322]: Web Apps
+              - generic [ref=e323]:
+                - heading "Student Management System" [level=3] [ref=e324]
+                - paragraph [ref=e325]: CRUD-focused platform for student operations with practical authentication and clean dashboard UX.
+                - generic [ref=e326]:
+                  - generic [ref=e327]: React
+                  - generic [ref=e328]: Node.js
+                  - generic [ref=e329]: MongoDB
+                  - generic [ref=e330]: JavaScript
+              - generic [ref=e331]:
+                - generic [ref=e332]: Click to inspect project
+                - generic [ref=e333]: Active Focus
+          - 'button "Select project: Security Headers Verifier" [ref=e334] [cursor=pointer]':
+            - generic [ref=e338]:
+              - generic [ref=e339]:
+                - img "Security Headers Verifier preview" [ref=e340]
+                - generic [ref=e342]: 03 / 04
+                - generic [ref=e343]: Tools
+              - generic [ref=e344]:
+                - heading "Security Headers Verifier" [level=3] [ref=e345]
+                - paragraph [ref=e346]: Developer utility to validate modern HTTP security headers and improve deployment hardening.
+                - generic [ref=e347]:
+                  - generic [ref=e348]: Next.js
+                  - generic [ref=e349]: Node.js
+                  - generic [ref=e350]: Security Headers
+                  - generic [ref=e351]: Vercel
+              - generic [ref=e352]:
+                - generic [ref=e353]: Click to inspect project
+                - generic [ref=e354]: Active Focus
+          - 'button "Select project: Maison Élégance" [ref=e355] [cursor=pointer]':
+            - generic [ref=e359]:
+              - generic [ref=e360]:
+                - img "Maison Élégance preview" [ref=e361]
+                - generic [ref=e363]: 04 / 04
+                - generic [ref=e364]: Web Apps
+              - generic [ref=e365]:
+                - heading "Maison Élégance" [level=3] [ref=e366]
+                - paragraph [ref=e367]: Restaurant platform with menu interaction, reservations, and conversion-focused responsive design.
+                - generic [ref=e368]:
+                  - generic [ref=e369]: HTML
+                  - generic [ref=e370]: CSS
+                  - generic [ref=e371]: JavaScript
+                  - generic [ref=e372]: Responsive UI
+              - generic [ref=e373]:
+                - generic [ref=e374]: Click to inspect project
+                - generic [ref=e375]: Active Focus
+      - generic [ref=e378]:
+        - generic [ref=e379]:
+          - generic [ref=e380]:
+            - heading "Student Management System" [level=3] [ref=e381]
+            - paragraph [ref=e382]: Portfolio Project / Web Apps
+          - generic [ref=e383]:
+            - generic [ref=e384]: Web Apps
+            - generic [ref=e385]: 02 / 04
+        - generic [ref=e386]:
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - paragraph [ref=e389]: Project Summary
+              - paragraph [ref=e390]: A management interface designed to organize student records, streamline admin tasks, and keep data operations simple, reliable, and fast.
+            - generic [ref=e391]:
+              - paragraph [ref=e392]: Business Value
+              - paragraph [ref=e393]: Reduces manual admin friction for educational workflows and enables clearer data visibility for student operations.
+            - generic [ref=e394]:
+              - paragraph [ref=e395]: Implementation Notes
+              - paragraph [ref=e396]: Focused on robust CRUD interactions, reusable UI blocks, and dashboard clarity for practical educational administration use cases.
+          - generic [ref=e397]:
+            - generic [ref=e398]:
+              - paragraph [ref=e399]: Key Features
+              - list [ref=e400]:
+                - listitem [ref=e401]:
+                  - generic [ref=e402]: •
+                  - generic [ref=e403]: Student records creation, updates, and lookup workflows
+                - listitem [ref=e404]:
+                  - generic [ref=e405]: •
+                  - generic [ref=e406]: Dashboard-style admin interface and clear data sections
+                - listitem [ref=e407]:
+                  - generic [ref=e408]: •
+                  - generic [ref=e409]: Validation and structured form interaction patterns
+            - generic [ref=e410]:
+              - paragraph [ref=e411]: Technologies
+              - generic [ref=e412]:
+                - generic [ref=e413]: React
+                - generic [ref=e414]: Node.js
+                - generic [ref=e415]: MongoDB
+                - generic [ref=e416]: JavaScript
+        - generic [ref=e417]:
+          - link "Open GitHub" [ref=e418] [cursor=pointer]:
+            - /url: https://github.com/tchiboub-dot
+            - img [ref=e419]
+            - text: Open GitHub
+          - link "View Live Demo" [ref=e421] [cursor=pointer]:
+            - /url: https://student-management5.vercel.app/
+            - img [ref=e422]
+            - text: View Live Demo
+    - generic [ref=e425]:
+      - generic [ref=e426]:
+        - heading "🚀 Announcements / Currently Building" [level=2] [ref=e427]
+        - paragraph [ref=e428]: What I am actively building before public release
+      - generic [ref=e431]:
+        - button "Cloud Platform En cours de développement Cloud Sandbox Platform A browser-based sandbox platform designed for testing virtual Android and Windows environments with a modern SaaS interface, interactive monitoring, and secure session workflows." [ref=e432] [cursor=pointer]:
+          - generic [ref=e434]:
+            - generic [ref=e435]:
+              - generic [ref=e436]: Cloud Platform
+              - generic [ref=e437]: En cours de développement
+            - heading "Cloud Sandbox Platform" [level=3] [ref=e438]
+            - paragraph [ref=e439]: A browser-based sandbox platform designed for testing virtual Android and Windows environments with a modern SaaS interface, interactive monitoring, and secure session workflows.
+        - button "Security Tooling In Development Security Headers Verifier Pro An expanded security analysis tool focused on deeper HTTP header diagnostics, guided remediation insights, and production hardening checks for modern web deployments." [ref=e440] [cursor=pointer]:
+          - generic [ref=e442]:
+            - generic [ref=e443]:
+              - generic [ref=e444]: Security Tooling
+              - generic [ref=e445]: In Development
+            - heading "Security Headers Verifier Pro" [level=3] [ref=e446]
+            - paragraph [ref=e447]: An expanded security analysis tool focused on deeper HTTP header diagnostics, guided remediation insights, and production hardening checks for modern web deployments.
+        - button "E-Commerce Coming Soon Parfume Store Evolution The next release of Parfume Store focused on stronger conversion UX, smarter catalog discovery, and improved performance for multilingual shopping journeys." [ref=e448] [cursor=pointer]:
+          - generic [ref=e450]:
+            - generic [ref=e451]:
+              - generic [ref=e452]: E-Commerce
+              - generic [ref=e453]: Coming Soon
+            - heading "Parfume Store Evolution" [level=3] [ref=e454]
+            - paragraph [ref=e455]: The next release of Parfume Store focused on stronger conversion UX, smarter catalog discovery, and improved performance for multilingual shopping journeys.
+    - generic [ref=e457]:
+      - generic [ref=e458]:
+        - heading "Certifications" [level=2] [ref=e459]
+        - paragraph [ref=e460]: Verified learning credentials that reinforce technical reliability and continuous growth
+      - generic [ref=e463]:
+        - button "Previous certificate" [ref=e465] [cursor=pointer]:
+          - img [ref=e466]
+        - button "Next certificate" [ref=e469] [cursor=pointer]:
+          - img [ref=e470]
+        - generic [ref=e472]:
+          - 'button "Select certificate: AI Business Certificate" [ref=e473] [cursor=pointer]':
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - img "AI Business Certificate preview" [ref=e480]
+                - generic [ref=e482]: 01 / 05
+              - generic [ref=e483]:
+                - heading "AI Business Certificate" [level=3] [ref=e484]
+                - paragraph [ref=e485]: HP LIFE / HP Foundation
+                - generic [ref=e486]: "2026"
+          - 'button "Select certificate: Prompt Engineering Certificate" [ref=e487] [cursor=pointer]':
+            - generic [ref=e491]:
+              - generic [ref=e492]:
+                - img "Prompt Engineering Certificate preview" [ref=e494]
+                - generic [ref=e496]: 02 / 05
+              - generic [ref=e497]:
+                - heading "Prompt Engineering Certificate" [level=3] [ref=e498]
+                - paragraph [ref=e499]: Simplilearn SkillUp
+                - generic [ref=e500]: "2026"
+          - 'button "Select certificate: Cybersecurity Fundamentals" [ref=e501] [cursor=pointer]':
+            - generic [ref=e505]:
+              - generic [ref=e506]:
+                - img "Cybersecurity Fundamentals preview" [ref=e508]
+                - generic [ref=e510]: 03 / 05
+              - generic [ref=e511]:
+                - heading "Cybersecurity Fundamentals" [level=3] [ref=e512]
+                - paragraph [ref=e513]: HP LIFE / HP Foundation
+                - generic [ref=e514]: "2026"
+          - 'button "Select certificate: C Programming Certificate" [ref=e515] [cursor=pointer]':
+            - generic [ref=e519]:
+              - generic [ref=e520]:
+                - img "C Programming Certificate preview" [ref=e522]
+                - generic [ref=e524]: 04 / 05
+              - generic [ref=e525]:
+                - heading "C Programming Certificate" [level=3] [ref=e526]
+                - paragraph [ref=e527]: Simplilearn SkillUp
+                - generic [ref=e528]: "2026"
+          - 'button "Select certificate: Agile Project Management" [ref=e529] [cursor=pointer]':
+            - generic [ref=e533]:
+              - generic [ref=e534]:
+                - img "Agile Project Management preview" [ref=e536]
+                - generic [ref=e538]: 05 / 05
+              - generic [ref=e539]:
+                - heading "Agile Project Management" [level=3] [ref=e540]
+                - paragraph [ref=e541]: HP LIFE / HP Foundation
+                - generic [ref=e542]: "2026"
+      - generic [ref=e544]:
+        - generic [ref=e545]:
+          - generic [ref=e546]:
+            - heading "AI Business Certificate" [level=3] [ref=e547]
+            - paragraph [ref=e548]: HP LIFE / HP Foundation
+          - generic [ref=e549]:
+            - generic [ref=e550]: "2026"
+            - generic [ref=e551]: 01 / 05
+        - generic [ref=e552]:
+          - generic [ref=e553]:
+            - paragraph [ref=e554]: Credential Summary
+            - paragraph [ref=e555]: Credential focused on practical AI applications in business workflows and decision-making contexts.
+          - generic [ref=e556]:
+            - paragraph [ref=e557]: Verification
+            - paragraph [ref=e558]: Credential verified through HP LIFE completion records.
+        - generic [ref=e559]:
+          - paragraph [ref=e560]: Skills Gained
+          - generic [ref=e561]:
+            - generic [ref=e562]: AI Business Use Cases
+            - generic [ref=e563]: Decision Workflows
+            - generic [ref=e564]: Digital Strategy
+        - link "Open Certificate Image" [ref=e566] [cursor=pointer]:
+          - /url: /certificates/certificate-ai-business.jpg
+          - img [ref=e567]
+          - text: Open Certificate Image
+    - generic [ref=e570]:
+      - generic [ref=e571]:
+        - heading "Skills / Competences" [level=2] [ref=e572]
+        - paragraph [ref=e573]: Organized capabilities across frontend, backend, tools, and AI-cloud technologies
+      - generic [ref=e575]:
+        - generic [ref=e577]:
+          - heading "Frontend" [level=3] [ref=e578]
+          - generic [ref=e579]:
+            - generic [ref=e581]:
+              - generic [ref=e582]: HTML
+              - generic [ref=e583]: 92%
+            - generic [ref=e587]:
+              - generic [ref=e588]: CSS
+              - generic [ref=e589]: 88%
+            - generic [ref=e593]:
+              - generic [ref=e594]: JavaScript
+              - generic [ref=e595]: 84%
+            - generic [ref=e599]:
+              - generic [ref=e600]: React
+              - generic [ref=e601]: 80%
+            - generic [ref=e605]:
+              - generic [ref=e606]: Next.js
+              - generic [ref=e607]: 78%
+        - generic [ref=e611]:
+          - heading "Backend" [level=3] [ref=e612]
+          - generic [ref=e613]:
+            - generic [ref=e615]:
+              - generic [ref=e616]: Node.js
+              - generic [ref=e617]: 76%
+            - generic [ref=e621]:
+              - generic [ref=e622]: Express
+              - generic [ref=e623]: 72%
+            - generic [ref=e627]:
+              - generic [ref=e628]: Python
+              - generic [ref=e629]: 74%
+            - generic [ref=e633]:
+              - generic [ref=e634]: MongoDB
+              - generic [ref=e635]: 70%
+            - generic [ref=e639]:
+              - generic [ref=e640]: PostgreSQL
+              - generic [ref=e641]: 66%
+        - generic [ref=e645]:
+          - heading "Tools" [level=3] [ref=e646]
+          - generic [ref=e647]:
+            - generic [ref=e649]:
+              - generic [ref=e650]: Git
+              - generic [ref=e651]: 86%
+            - generic [ref=e655]:
+              - generic [ref=e656]: Docker
+              - generic [ref=e657]: 64%
+            - generic [ref=e661]:
+              - generic [ref=e662]: Vercel
+              - generic [ref=e663]: 82%
+            - generic [ref=e667]:
+              - generic [ref=e668]: Figma
+              - generic [ref=e669]: 69%
+        - generic [ref=e673]:
+          - heading "AI / Cloud" [level=3] [ref=e674]
+          - generic [ref=e675]:
+            - generic [ref=e677]:
+              - generic [ref=e678]: OpenAI API
+              - generic [ref=e679]: 72%
+            - generic [ref=e683]:
+              - generic [ref=e684]: Cloud Deployment
+              - generic [ref=e685]: 74%
+            - generic [ref=e689]:
+              - generic [ref=e690]: WebRTC
+              - generic [ref=e691]: 60%
+    - generic [ref=e695]:
+      - generic [ref=e696]:
+        - heading "Technologies" [level=2] [ref=e697]
+        - paragraph [ref=e698]: Core technologies I use to design, build, deploy, and scale modern products
+      - generic [ref=e701]:
+        - generic [ref=e703]:
+          - img [ref=e704]
+          - paragraph [ref=e706]: React
+        - generic [ref=e708]:
+          - img [ref=e709]
+          - paragraph [ref=e711]: Node.js
+        - generic [ref=e713]:
+          - img [ref=e714]
+          - paragraph [ref=e716]: Docker
+        - generic [ref=e718]:
+          - img [ref=e719]
+          - paragraph [ref=e721]: Python
+        - generic [ref=e723]:
+          - img [ref=e724]
+          - paragraph [ref=e726]: Git
+        - generic [ref=e728]:
+          - img [ref=e729]
+          - paragraph [ref=e731]: AWS
+    - generic [ref=e733]:
+      - generic [ref=e734]:
+        - heading "Stats" [level=2] [ref=e735]
+        - paragraph [ref=e736]: A quick snapshot of progress, consistency, and hands-on engineering output
+      - generic [ref=e739]:
+        - generic [ref=e741]:
+          - generic [ref=e742]: "5"
+          - paragraph [ref=e743]: Projects Built
+        - generic [ref=e745]:
+          - generic [ref=e746]: "5"
+          - paragraph [ref=e747]: Certifications Earned
+        - generic [ref=e749]:
+          - generic [ref=e750]: "1"
+          - paragraph [ref=e751]: Year Coding Experience
+    - generic [ref=e753]:
+      - generic [ref=e754]:
+        - heading "GitHub Activity" [level=2] [ref=e755]
+        - paragraph [ref=e756]: Latest repositories, contribution graph preview, and profile access
+      - generic [ref=e759]:
+        - generic [ref=e761]:
+          - heading "Latest Repositories" [level=3] [ref=e762]
+          - generic [ref=e763]:
+            - link "hunter-forest Repository details available on GitHub." [ref=e764] [cursor=pointer]:
+              - /url: https://github.com/tchiboub-dot/hunter-forest
+              - paragraph [ref=e765]: hunter-forest
+              - paragraph [ref=e766]: Repository details available on GitHub.
+            - link "portfolio Repository details available on GitHub." [ref=e767] [cursor=pointer]:
+              - /url: https://github.com/tchiboub-dot/portfolio
+              - paragraph [ref=e768]: portfolio
+              - paragraph [ref=e769]: Repository details available on GitHub.
+            - link "sandbox Repository details available on GitHub." [ref=e770] [cursor=pointer]:
+              - /url: https://github.com/tchiboub-dot/sandbox
+              - paragraph [ref=e771]: sandbox
+              - paragraph [ref=e772]: Repository details available on GitHub.
+            - link "parfume Repository details available on GitHub." [ref=e773] [cursor=pointer]:
+              - /url: https://github.com/tchiboub-dot/parfume
+              - paragraph [ref=e774]: parfume
+              - paragraph [ref=e775]: Repository details available on GitHub.
+        - generic [ref=e777]:
+          - heading "Contribution Graph Preview" [level=3] [ref=e778]
+          - img "GitHub contribution graph" [ref=e780]
+          - link "Visit GitHub Profile" [ref=e781] [cursor=pointer]:
+            - /url: https://github.com/tchiboub-dot
+            - img [ref=e782]
+            - text: Visit GitHub Profile
+    - generic [ref=e785]:
+      - generic [ref=e786]:
+        - heading "Contact" [level=2] [ref=e787]
+        - paragraph [ref=e788]: Open to internships, collaboration, and product-focused freelance opportunities
+      - generic [ref=e791]:
+        - generic [ref=e793]:
+          - heading "Let's connect" [level=3] [ref=e794]
+          - paragraph [ref=e795]: Reach out for internships, collaboration opportunities, or to discuss how I can contribute to your next product.
+          - generic [ref=e796]:
+            - link "Email" [ref=e797] [cursor=pointer]:
+              - /url: mailto:taha.adnane.chiboub@gmail.com
+              - img [ref=e798]
+            - link "LinkedIn" [ref=e800] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a
+              - img [ref=e801]
+            - link "GitHub" [ref=e803] [cursor=pointer]:
+              - /url: https://github.com/tchiboub-dot
+              - img [ref=e804]
+            - link "Download CV" [ref=e806] [cursor=pointer]:
+              - /url: /cv-taha-adnane-chiboub.pdf
+              - img [ref=e807]
+          - paragraph [ref=e809]: "Response time: usually within 24 hours."
+        - generic [ref=e811]:
+          - heading "Professional contact form" [level=3] [ref=e812]
+          - alert [ref=e813]:
+            - paragraph [ref=e814]: Your message has been sent successfully.
+            - paragraph [ref=e815]: Thank you for reaching out. I will get back to you soon.
+          - generic [ref=e816]:
+            - generic [ref=e817]:
+              - generic [ref=e818]: Full Name *
+              - textbox "Full Name *" [ref=e819]:
+                - /placeholder: Your full name
+            - generic [ref=e820]:
+              - generic [ref=e821]: Email *
+              - textbox "Email *" [ref=e822]:
+                - /placeholder: you@example.com
+            - generic [ref=e823]:
+              - generic [ref=e824]: Subject
+              - textbox "Subject" [ref=e825]:
+                - /placeholder: Subject of your message
+            - generic [ref=e826]:
+              - generic [ref=e827]: Message *
+              - textbox "Message *" [ref=e828]:
+                - /placeholder: Write your message...
+            - button "Send Message" [ref=e829] [cursor=pointer]:
+              - generic [ref=e830]:
+                - img [ref=e831]
+                - text: Send Message
+    - generic [ref=e833]:
+      - generic [ref=e835]:
+        - generic [ref=e836]:
+          - generic [ref=e837]:
+            - heading "Taha Adnane Chiboub" [level=3] [ref=e838]
+            - paragraph [ref=e839]: Software Engineering Student & AI Enthusiast
+            - paragraph [ref=e840]: Available for internships, collaborations, and exciting projects.
+          - generic [ref=e841]:
+            - heading "Professional Links" [level=4] [ref=e842]
+            - generic [ref=e843]:
+              - link "GitHub" [ref=e844] [cursor=pointer]:
+                - /url: https://github.com/tchiboub-dot
+                - img [ref=e845]
+                - text: GitHub
+              - link "LinkedIn" [ref=e847] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a
+                - img [ref=e848]
+                - text: LinkedIn
+              - link "Email" [ref=e850] [cursor=pointer]:
+                - /url: mailto:taha.adnane.chiboub@gmail.com
+                - img [ref=e851]
+                - text: Email
+        - paragraph [ref=e854]: © 2026 Taha Adnane Chiboub — Crafted with modern web technologies.
+      - button "Back to top" [ref=e855] [cursor=pointer]:
+        - img [ref=e856]
+  - button "Open AI assistant" [ref=e858] [cursor=pointer]:
+    - img [ref=e860]
+  - alert [ref=e863]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | const base = 'https://portfolio-flame-two-94.vercel.app';
+  4  | 
+  5  | test('buyer flow desktop and mobile', async ({ page, browserName }) => {
+  6  |   await page.goto(base, { waitUntil: 'domcontentloaded' });
+  7  |   await expect(page).toHaveTitle(/Taha|Portfolio|Chiboub/i);
+  8  | 
+  9  |   const projectBtn = page.getByRole('link', { name: /View My Projects/i });
+  10 |   await expect(projectBtn).toBeVisible();
+  11 |   await projectBtn.click();
+  12 |   await page.waitForTimeout(600);
+  13 |   await expect(page.locator('#projects')).toBeVisible();
+  14 | 
+  15 |   const nextProject = page.getByRole('button', { name: /Next project/i });
+  16 |   await expect(nextProject).toBeVisible();
+  17 |   await nextProject.click();
+  18 | 
+  19 |   const liveDemo = page.getByRole('link', { name: /View Live Demo/i }).first();
+  20 |   await expect(liveDemo).toBeVisible();
+  21 | 
+  22 |   const contactAnchor = page.getByRole('link', { name: /Contact/i }).first();
+  23 |   await contactAnchor.click();
+  24 |   await page.waitForTimeout(600);
+  25 |   await expect(page.locator('#contact')).toBeVisible();
+  26 | 
+  27 |   const name = page.locator('#name');
+  28 |   const email = page.locator('#email');
+  29 |   const message = page.locator('#message');
+  30 |   await name.fill('Buyer Test');
+  31 |   await email.fill('buyer@example.com');
+  32 |   await message.fill('I am interested in working with you on a product collaboration.');
+  33 |   await page.getByRole('button', { name: /Send Message/i }).click();
+  34 | 
+> 35 |   await expect(page.getByText(/successfully|sent successfully|Thank you/i)).toBeVisible({ timeout: 10000 });
+     |                                                                             ^ Error: expect(locator).toBeVisible() failed
+  36 | });
+  37 | 
+```
