@@ -74,9 +74,10 @@ const STATUS_STYLES = {
   'Coming Soon': 'bg-blue-500/20 text-blue-100 border-blue-400/40',
 }
 
-export default function Announcements() {
+export default function Announcements({ initialAnnouncements }) {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const items = (initialAnnouncements && initialAnnouncements.length > 0) ? initialAnnouncements : ITEMS
 
   const openDetails = (project) => {
     setSelectedProject(project)
@@ -119,7 +120,7 @@ export default function Announcements() {
         />
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 mt-10 sm:mt-12">
-          {ITEMS.map((item) => (
+          {items.map((item) => (
             <button
               key={item.title}
               type="button"

@@ -32,3 +32,17 @@ yarn-error.log*
 # Typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Database local storage & private backups
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+backups/
+
+# Playwright and temporary test artifacts
+/test-results/
+.tmp-crawl-check.js
+buyer-flow.spec.mjs
+buyer-qa.js
+

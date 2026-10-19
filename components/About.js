@@ -4,25 +4,22 @@ import { FaUser, FaLanguage, FaLaptopCode } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Button from './ui/Button'
-import { usePortfolioContent } from './PortfolioContentProvider'
 
-export default function About() {
-  const content = usePortfolioContent()
-  const fallbackAboutData = {
-    title: 'About Me',
-    subtitle: 'Computer science engineering student focused on impactful products, scalable architecture, and polished user experience',
-    introduction: 'I am a computer science engineering student passionate about building modern digital products.',
-    description: 'I enjoy turning ideas into production-ready web experiences by combining strong frontend execution with practical backend fundamentals.',
-    interests: [
+export default function About({ initialData }) {
+  const aboutData = {
+    title: initialData?.aboutTitle || 'About Me',
+    subtitle: initialData?.aboutSubtitle || 'Computer science engineering student focused on impactful products, scalable architecture, and polished user experience',
+    introduction: initialData?.aboutIntroduction || 'I am a computer science engineering student passionate about building modern digital products.',
+    description: initialData?.aboutDescription || 'I enjoy turning ideas into production-ready web experiences by combining strong frontend execution with practical backend fundamentals.',
+    interests: (initialData?.interests && initialData.interests.length > 0) ? initialData.interests : [
       'Full-stack web development',
       'Cloud architecture',
       'User-focused design',
       'AI-powered applications',
     ],
-    languages: ['Arabe (Natif)', 'Français (Courant)', 'Anglais (Intermédiaire)'],
-    availability: 'Available for internships, freelance work, and collaborative product building.',
+    languages: (initialData?.languages && initialData.languages.length > 0) ? initialData.languages : ['Arabe (Natif)', 'Français (Courant)', 'Anglais (Intermédiaire)'],
+    availability: initialData?.availability || 'Available for internships, freelance work, and collaborative product building.',
   }
-  const aboutData = content?.about ? { ...fallbackAboutData, ...content.about } : fallbackAboutData
 
   return (
     <section id="about" className="section py-24 md:py-32 bg-bg">

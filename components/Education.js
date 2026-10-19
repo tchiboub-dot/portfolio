@@ -4,11 +4,9 @@ import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 import Badge from './ui/Badge'
-import { usePortfolioContent } from './PortfolioContentProvider'
 
-export default function Education() {
-  const content = usePortfolioContent()
-  const fallbackEducationData = [
+export default function Education({ initialEducation }) {
+  const defaultEducation = [
     {
       degree: 'Cycle Ingénieur en Informatique',
       institution: 'ESISA Fes',
@@ -31,7 +29,7 @@ export default function Education() {
     },
   ]
 
-  const educationData = content?.education?.length ? content.education : fallbackEducationData
+  const educationData = (initialEducation && initialEducation.length > 0) ? initialEducation : defaultEducation
 
   return (
     <section id="education" className="section py-24 md:py-32 bg-bg">

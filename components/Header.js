@@ -7,6 +7,7 @@ import {
   FaCode, FaHammer, FaStar, FaMicrochip,
   FaChartBar, FaGithub, FaEnvelope,
 } from 'react-icons/fa'
+import AdminModal from './admin/AdminModal'
 
 /**
  * ELITE HEADER/NAVIGATION COMPONENT
@@ -17,25 +18,10 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
   const hiddenRef = useRef(false)
-  const logoClickRef = useRef({ count: 0, firstClickAt: 0 })
-
-  const handleLogoClick = (event) => {
-    const now = Date.now()
-    const clicks = logoClickRef.current
-    if (!clicks.firstClickAt || now - clicks.firstClickAt > 2500) {
-      clicks.firstClickAt = now
-      clicks.count = 0
-    }
-
-    clicks.count += 1
-    if (clicks.count === 5) {
-      event.preventDefault()
-      clicks.count = 0
-      clicks.firstClickAt = 0
-      window.dispatchEvent(new CustomEvent('portfolio:admin-login'))
-    }
-  }
+  const logoClicksRef = useRef(0)
+  const logoTimerRef = useRef(null)
 
   const navLinks = [
     { name: 'Home',       href: '#home',          Icon: FaHome },
@@ -141,6 +127,25 @@ export default function Header() {
       setIsHeaderHidden(false)
     }
   }, [isOpen])
+
+  const handleLogoClick = (e) => {
+    logoClicksRef.current += 1
+
+    if (logoTimerRef.current) {
+      clearTimeout(logoTimerRef.current)
+    }
+
+    if (logoClicksRef.current >= 5) {
+      e.preventDefault()
+      logoClicksRef.current = 0
+      setIsAdminModalOpen(true)
+      return
+    }
+
+    logoTimerRef.current = setTimeout(() => {
+      logoClicksRef.current = 0
+    }, 2500)
+  }
 
   const toggleTheme = () => {
     const nextIsDark = !isDark
@@ -264,49 +269,12 @@ export default function Header() {
           </div>
         </div>
       )}
-      {/* Mobile Menu (unchanged) */}
-      {isOpen && (
-        <div className="md:hidden navbar-mobile-panel pointer-events-auto">
-          <div className="container-custom py-5 space-y-4">
-            {/* Theme Toggle - Mobile */}
-            <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)' }}>
-              <span className="text-sm font-medium" style={{ color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)' }}>Thème</span>
-              <button
-                onClick={toggleTheme}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-300"
-                style={{
-                  borderColor: isDark ? 'rgba(96, 165, 250, 0.3)' : 'rgba(59, 130, 246, 0.3)',
-                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
-                  color: isDark ? 'rgb(143, 211, 255)' : 'rgb(37, 99, 235)',
-                }}
-                aria-label="Toggle theme"
-              >
-                {isDark ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />}
-              </button>
-            </div>
 
-            {/* Mobile Navigation */}
-            <ul className="flex flex-col space-y-2">
-              {navLinks.map(({ name, href, Icon }) => (
-                <li key={name}>
-                  <a
-                    href={href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 rounded-lg px-2 py-2.5 font-medium text-sm uppercase tracking-wide"
-                    style={{
-                      color: isDark ? '#EAF0FF' : '#0B1220',
-                      transition: 'color 240ms ease',
-                    }}
-                  >
-                    <Icon className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
-                    {name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
+      {/* Secret Entry Admin Modal (triggered by 5 rapid clicks on logo) */}
+      <AdminModal
+        isOpen={isAdminModalOpen}
+        onClose={() => setIsAdminModalOpen(false)}
+      />
     </>
   )
 }

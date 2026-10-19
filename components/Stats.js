@@ -47,12 +47,14 @@ function AnimatedCount({ target, suffix = '' }) {
   return <span ref={ref}>{count}{suffix}</span>
 }
 
-export default function Stats() {
-  const stats = [
+export default function Stats({ initialStats }) {
+  const defaultStats = [
     { value: 5, suffix: '', label: 'Projects Built' },
     { value: 5, suffix: '', label: 'Certifications Earned' },
     { value: 3, suffix: '', label: 'Year Coding Experience' },
   ]
+
+  const stats = (initialStats && initialStats.length > 0) ? initialStats : defaultStats
 
   return (
     <section id="stats" className="section py-24 md:py-32 bg-bg">

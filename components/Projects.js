@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
-import { usePortfolioContent } from './PortfolioContentProvider'
 
 const FILTERS = ['All', 'Web Apps', 'Tools']
 
@@ -92,8 +91,7 @@ const PROJECTS_DATA = [
   },
 ]
 
-export default function Projects() {
-  const content = usePortfolioContent()
+export default function Projects({ initialProjects }) {
   const [activeFilter, setActiveFilter] = useState('All')
   const [activeProjectTitle, setActiveProjectTitle] = useState('Parfume Store')
   const [panelHighlighted, setPanelHighlighted] = useState(false)
@@ -101,11 +99,12 @@ export default function Projects() {
   const detailsRef = useRef(null)
   const touchStartXRef = useRef(null)
 
-  const projectsData = content?.projects?.length ? content.projects : PROJECTS_DATA
+  const sourceProjects = (initialProjects && initialProjects.length > 0) ? initialProjects : PROJECTS_DATA
+
   const displayedProjects = useMemo(() => {
-    if (activeFilter === 'All') return projectsData
-    return projectsData.filter((project) => project.category === activeFilter)
-  }, [activeFilter, projectsData])
+    if (activeFilter === 'All') return sourceProjects
+    return sourceProjects.filter((project) => project.category === activeFilter)
+  }, [activeFilter, sourceProjects])
 
   useEffect(() => {
     if (!displayedProjects.some((project) => project.title === activeProjectTitle)) {

@@ -3,8 +3,13 @@
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 
-export default function Footer() {
+export default function Footer({ initialData }) {
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const name = initialData?.name || 'Taha Adnane Chiboub'
+  const title = initialData?.title || 'Software Engineering Student & AI Enthusiast'
+  const github = initialData?.github || 'https://github.com/tchiboub-dot'
+  const linkedin = initialData?.linkedin || 'https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a'
+  const email = initialData?.email || 'taha.adnane.chiboub@gmail.com'
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 300)
@@ -25,12 +30,12 @@ export default function Footer() {
           <div className="flex flex-col justify-center">
             {/* Name */}
             <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-              Taha Adnane Chiboub
+              {name}
             </h3>
             
             {/* Professional subtitle */}
             <p className="text-sm sm:text-base text-cyan-300/85 font-medium mb-4 tracking-wide">
-              Software Engineering Student & AI Enthusiast
+              {title}
             </p>
             
             {/* Availability message */}
@@ -46,7 +51,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-3 md:justify-end">
               {/* GitHub Button */}
               <a
-                href="https://github.com/tchiboub-dot"
+                href={github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-blue-400/40 text-blue-100/90 backdrop-blur-sm bg-blue-500/5 hover:bg-blue-500/15 hover:border-blue-400/70 transition-all duration-200 hover:scale-[1.05] hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"
@@ -57,7 +62,7 @@ export default function Footer() {
 
               {/* LinkedIn Button */}
               <a
-                href="https://www.linkedin.com/in/taha-adnane-chiboub-1a5ab939a"
+                href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-blue-400/40 text-blue-100/90 backdrop-blur-sm bg-blue-500/5 hover:bg-blue-500/15 hover:border-blue-400/70 transition-all duration-200 hover:scale-[1.05] hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"
@@ -68,7 +73,7 @@ export default function Footer() {
 
               {/* Email Button */}
               <a
-                href="mailto:taha.adnane.chiboub@gmail.com"
+                href={`mailto:${email}`}
                 className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-blue-400/40 text-blue-100/90 backdrop-blur-sm bg-blue-500/5 hover:bg-blue-500/15 hover:border-blue-400/70 transition-all duration-200 hover:scale-[1.05] hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"
               >
                 <FaEnvelope className="w-4 h-4 group-hover:text-cyan-300 transition-colors duration-200" />

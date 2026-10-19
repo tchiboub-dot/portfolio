@@ -3790,3 +3790,58 @@ select:focus-visible {
     font-size: 0.82rem;
   }
 }
+
+/* ============================================
+   ADVANCED ANIMATION & POLISH SYSTEM
+   ============================================ */
+
+/* Interactive hover cards with subtle depth */
+.interactive-card {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+  will-change: transform, box-shadow;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -12px rgba(56, 189, 248, 0.15), 0 0 20px -2px rgba(129, 140, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+/* Polished micro-interactions for buttons */
+.button-pulse {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button-pulse:active {
+  transform: scale(0.98);
+}
+
+/* Smooth fade-in-up keyframe */
+@keyframes fadeInUpSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-entrance {
+  animation: fadeInUpSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility: WCAG Reduced Motion Protection */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

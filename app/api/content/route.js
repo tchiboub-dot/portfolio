@@ -1,13 +1,17 @@
 import { NextResponse } from 'next/server'
-import { getPortfolioContent } from '@/lib/content/repository'
+import { getPublicPortfolioContent } from '@/lib/db/cms'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    const content = await getPortfolioContent()
-    return NextResponse.json({ ok: true, content }, { headers: { 'Cache-Control': 'no-store' } })
-  } catch {
-    return NextResponse.json({ ok: false, error: 'Content is temporarily unavailable.' }, { status: 503 })
+    const data = await getPublicPortfolioContent()
+    return NextResponse.json({ success: true, data }, { status: 200 })
+  } catch (err) {
+    console.error('Error fetching public portfolio content:', err)
+    return NextResponse.json(
+      { success: false, message: 'Erreur de chargement du contenu' },
+      { status: 500 }
+    )
   }
 }

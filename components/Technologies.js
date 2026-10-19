@@ -4,8 +4,17 @@ import { FaReact, FaNodeJs, FaDocker, FaPython, FaGitAlt, FaAws } from 'react-ic
 import SectionTitle from './ui/SectionTitle'
 import Card from './ui/Card'
 
-export default function Technologies() {
-  const technologies = [
+const ICON_MAP = {
+  FaReact,
+  FaNodeJs,
+  FaDocker,
+  FaPython,
+  FaGitAlt,
+  FaAws,
+}
+
+export default function Technologies({ initialTechnologies }) {
+  const defaultTechnologies = [
     { name: 'React', icon: FaReact, color: 'text-cyan-400' },
     { name: 'Node.js', icon: FaNodeJs, color: 'text-green-400' },
     { name: 'Docker', icon: FaDocker, color: 'text-blue-400' },
@@ -13,6 +22,14 @@ export default function Technologies() {
     { name: 'Git', icon: FaGitAlt, color: 'text-orange-400' },
     { name: 'AWS', icon: FaAws, color: 'text-amber-200' },
   ]
+
+  const technologies = (initialTechnologies && initialTechnologies.length > 0)
+    ? initialTechnologies.map((t) => ({
+        name: t.name,
+        icon: (typeof t.icon === 'function') ? t.icon : (ICON_MAP[t.iconName] || FaReact),
+        color: t.color || 'text-cyan-400',
+      }))
+    : defaultTechnologies
 
   return (
     <section id="technologies" className="section py-24 md:py-32 bg-bg">
