@@ -19,8 +19,8 @@ function getClientIP(request) {
 export async function POST(request) {
   const ip = getClientIP(request)
 
-  // 1. Anti-bruteforce rate limiting
-  const rateLimitStatus = checkLoginRateLimit(ip)
+  // 1. Anti-bruteforce rate limiting (distribué et persistant)
+  const rateLimitStatus = await checkLoginRateLimit(ip)
   if (!rateLimitStatus.allowed) {
     return NextResponse.json(
       {
@@ -45,7 +45,7 @@ export async function POST(request) {
   const { email, password } = body || {}
 
   if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
-    recordFailedLogin(ip)
+    await recordFailedLogin(ip)
     return NextResponse.json(
       { success: false, message: 'Identifiants invalides' },
       { status: 401 }
@@ -59,7 +59,7 @@ export async function POST(request) {
   const isPasswordValid = await verifyAdminPassword(password)
 
   if (!isEmailValid || !isPasswordValid) {
-    recordFailedLogin(ip)
+    await recordFailedLogin(ip)
     // Message d'erreur générique : ne révèle pas si c'est l'email ou le mot de passe
     return NextResponse.json(
       { success: false, message: 'Identifiants invalides' },
@@ -68,26 +68,28 @@ export async function POST(request) {
   }
 
   // Identifiants corrects : réinitialiser le compteur d'échecs
-  resetLoginAttempts(ip)
+  await resetLoginAttempts(ip)
 
   // 5. Générer le code de vérification OTP et envoyer l'email de sécurité
   try {
     const otpData = await createOtpChallenge(email.trim().toLowerCase())
 
-    return NextResponse.json(
-      {
-        success: true,
-        requireOtp: true,
-        challengeId: otpData.challengeId,
-        emailMasked: otpData.emailMasked,
-        expiresInSeconds: otpData.expiresInSeconds,
-        debugCode: otpData.debugCode,
-        message: `Code de vérification envoyé à ${otpData.emailMasked}`,
-      },
-      { status: 200 }
-    )
+    const responsePayload = {
+      success: true,
+      requireOtp: true,
+      challengeId: otpData.challengeId,
+      emailMasked: otpData.emailMasked,
+      expiresInSeconds: otpData.expiresInSeconds,
+      message: `Code de vérification envoyé à ${otpData.emailMasked}`,
+    }
+
+    if (otpData.debugCode) {
+      responsePayload.debugCode = otpData.debugCode
+    }
+
+    return NextResponse.json(responsePayload, { status: 200 })
   } catch (err) {
-    console.error('Erreur génération OTP:', err)
+    console.error('Erreur génération OTP:', err.message)
     return NextResponse.json(
       { success: false, message: 'Erreur lors de l\'envoi du code de vérification' },
       { status: 500 }

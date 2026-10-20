@@ -25,8 +25,8 @@ export async function POST(request) {
     )
   }
 
-  // Vérification sécurisée du code OTP
-  const result = verifyOtpChallenge(challengeId, otp)
+  // Vérification sécurisée du code OTP (persistant en DB)
+  const result = await verifyOtpChallenge(challengeId, otp)
 
   if (!result.valid) {
     return NextResponse.json(
