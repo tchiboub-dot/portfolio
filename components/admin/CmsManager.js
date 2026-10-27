@@ -392,6 +392,28 @@ export default function CmsManager() {
         </button>
       </div>
 
+
+      {/* Toast Notification Fixe Flottante pour visibilité garantie */}
+      {feedback.message && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 max-w-md p-4 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold backdrop-blur-md border animate-fade-in ${
+            feedback.type === 'success'
+              ? 'bg-slate-900/95 border-emerald-500/60 text-emerald-300 shadow-emerald-950/50'
+              : 'bg-slate-900/95 border-red-500/60 text-red-300 shadow-red-950/50'
+          }`}
+        >
+          {feedback.type === 'success' ? (
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400">
+              <FaCheck className="w-3.5 h-3.5" />
+            </div>
+          ) : (
+            <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 text-red-400">
+              <FaTimes className="w-3.5 h-3.5" />
+            </div>
+          )}
+          <span className="flex-1">{feedback.message}</span>
+        </div>
+      )}
       {/* Global feedback alert */}
       {feedback.message && (
         <div

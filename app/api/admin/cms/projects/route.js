@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { verifyAdminSession } from '@/lib/auth/admin'
 import { saveProject } from '@/lib/db/cms'
+
+export const dynamic = 'force-dynamic'
 
 export async function POST(request) {
   const auth = verifyAdminSession(request)
@@ -15,8 +18,15 @@ export async function POST(request) {
     }
 
     const result = await saveProject(body, auth.session.email || 'admin')
+    try {
+      revalidatePath('/', 'layout')
+    } catch {}
     return NextResponse.json({ success: true, id: result.id, message: 'Projet enregistré' })
   } catch (err) {
     return NextResponse.json({ success: false, message: err.message }, { status: 500 })
   }
+}
+
+export async function PUT(request) {
+  return POST(request)
 }
